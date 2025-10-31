@@ -1,0 +1,51 @@
+services:
+  postgres-api-service:
+    container_name: postgres_api_container
+    build:
+      context: ./jobyte-api/postgres
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=jobyte_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_api_volume:/var/lib/postgresql/data
+
+  postgres-keycloak-service:
+    container_name: postgres_keycloak_container
+    build:
+      context: ./jobyte-api/postgres
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=keycloak_db
+      - POSTGRES_USER=keycloak_user
+      - POSTGRES_PASSWORD=keycloak_pass
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_keycloak_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak_user -d keycloak_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  keycloak-service:
+    container_name: keycloak_container
+    build:
+      context: ./jobyte-api/keycloak
+      dockerfile: Dockerfile
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres-keycloak-service:
+        condition: service_healthy
+
+volumes:
+  postgres_api_volume:
+  postgres_keycloak_volume:

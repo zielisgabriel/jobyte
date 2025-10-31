@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+/* (prefers-color-scheme: dark) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* input[type="text"] {
+  &:focus {
+    outline-style: groove;
+    outline-color: color-mix(in srgb, var(--foreground) 20%, transparent);
+    outline-width: 2px;
+  }
+} */
+
+input[type="text"] {
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type="password"] {
+  &:focus {
+    outline: none;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
