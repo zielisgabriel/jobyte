@@ -12,6 +12,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Separator } from "radix-ui";
+import { Input } from "./ui/Input";
 
 const enterpriseLoginFormSchema = z.object({
 	email: z.string().regex(EMAIL_REGEX, "Email inválido"),
@@ -79,55 +80,31 @@ export function EnterpriseLoginForm() {
 				)}
 
 				<div className="flex flex-col gap-2">
-					<div
-						className={twMerge(
-							clsx(
-								"flex w-full rounded-full border-1 border-background",
-								errors.email && "border-red-500"
-							)
-						)}
-					>
-						<input
-							type="text"
-							{...register("email")}
-							placeholder="Digite seu e-mail"
-							disabled={isPending}
-							className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-						/>
-					</div>
-					{errors.email && (
-						<p className="text-xs text-red-500 ml-2">{errors.email.message}</p>
-					)}
+					<Input
+						placeholder="E-mail"
+						{...register("email")}
+						disabled={isPending}
+						className={twMerge(clsx(
+							errors.email && "border-red-500"
+						))}
+					/>
 
-					<div className="flex flex-col">
-						<div
-							className={twMerge(
-								clsx(
-									"flex w-full rounded-full border-1 border-background",
-									errors.password && "border-red-500"
-								)
-							)}
-						>
-							<input
-								type={isPasswordVisible ? "text" : "password"}
-								{...register("password")}
-								placeholder="Digite sua senha"
-								disabled={isPending}
-								className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-							/>
-							<Button
-								onClick={() => setIsPasswordVisible((v) => !v)}
-								variant={"ghost"}
-								type="button"
-								disabled={isPending}
-							>
-								{isPasswordVisible ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
-							</Button>
-						</div>
-						{errors.password && (
-							<p className="text-xs text-red-500 ml-2">{errors.password.message}</p>
-						)}
-					</div>
+					<Input
+						placeholder="Senha"
+						type={isPasswordVisible ? "text" : "password"}
+						{...register("password")}
+						disabled={isPending}
+						className={twMerge(clsx(
+							errors.password && "border-red-500"
+						))}
+					/>
+					<button
+						type="button"
+						className="text-background text-start text-[12px] hover:underline font-bold opacity-60 cursor-pointer"
+						onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+					>
+						{isPasswordVisible ? "Ocultar" : "Mostrar"} senha
+					</button>
 				</div>
 
 				<Button type="submit" className="w-full mt-4" variant={"color_invert"} disabled={isPending}>

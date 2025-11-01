@@ -12,6 +12,7 @@ import { Separator } from "radix-ui";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useRouter } from "next/navigation";
+import { Input } from "./ui/Input";
 
 const enterpriseRegisterFormSchema = z.object({
   companyName: z.string()
@@ -79,7 +80,6 @@ export function EnterpriseRegisterForm() {
   const cnpjInputWatch = watch("cnpj");
 
   async function onSubmit(data: EnterpriseRegisterFormType) {
-    console.log("Submitting data:", data);
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -128,97 +128,70 @@ export function EnterpriseRegisterForm() {
         )}
         
         <div className="flex flex-col gap-2">
-          <div className={twMerge(clsx(
-            "flex w-full rounded-full border-1 border-background", 
-            (errors.companyName) && "border-red-500"
-          ))}>
-            <input
-              type="text"
-              {...register("companyName")}
-              placeholder="Nome da empresa"
-              disabled={isPending}
-              className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-            />
-          </div>
+          <Input
+            placeholder="Digite o nome da empresa"
+            {...register("companyName")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              (errors.companyName) && "border-red-500"
+            ))}
+          />
 
-          <div className={twMerge(clsx(
-            "flex w-full rounded-full border-1 border-background", 
-            (errors.cnpj) && "border-red-500"
-          ))}>
-            <input
-              type="text"
-              {...register("cnpj")}
-              placeholder="CNPJ"
-              maxLength={18}
-              value={cnpjFormatted}
-              disabled={isPending}
-              className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-            />
-          </div>
+          <Input
+            placeholder="CNPJ"
+            {...register("cnpj")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              errors.cnpj && "border-red-500"
+            ))}
+            value={cnpjFormatted}
+          />
 
-          <div className={twMerge(clsx(
-            "flex w-full rounded-full border-1 border-background", 
-            (errors.address) && "border-red-500"
-          ))}>
-            <input
-              type="text"
-              {...register("address")}
-              placeholder="Endereço"
-              maxLength={18}
-              disabled={isPending}
-              className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-            />
-          </div>
+          <Input
+            placeholder="Endereço"
+            {...register("address")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              errors.address && "border-red-500"
+            ))}
+          />
 
-          <div className={twMerge(clsx(
-            "flex w-full rounded-full border-1 border-background", 
-            (errors.email) && "border-red-500"
-          ))}>
-            <input
-              type="text"
-              {...register("email")}
-              placeholder="Digite seu e-mail"
-              disabled={isPending}
-              className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-            />
-          </div>
+          <Input
+            placeholder="E-mail"
+            {...register("email")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              errors.email && "border-red-500"
+            ))}
+          />
 
-          <div className={twMerge(clsx(
-            "flex w-full rounded-full border-1 border-background", 
-            (errors.phone) && "border-red-500"
-          ))}>
-            <input
-              type="text"
-              {...register("phone")}
-              placeholder="Telefone"
-              maxLength={18}
-              disabled={isPending}
-              className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-            />
-          </div>
+          <Input
+            placeholder="Telefone"
+            {...register("phone")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              errors.phone && "border-red-500"
+            ))}
+          />
+
+          <Input
+            placeholder="Senha"
+            type={isPasswordVisible ? "text" : "password"}
+            {...register("password")}
+            disabled={isPending}
+            className={twMerge(clsx(
+              errors.password && "border-red-500"
+            ))}
+          />
+          <button
+            type="button"
+            className="text-background text-start text-[12px] hover:underline font-bold opacity-60 cursor-pointer"
+            onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+          >
+            {isPasswordVisible ? "Ocultar" : "Mostrar"} senha
+          </button>
 
           <div className="flex flex-col">
-            <div className={twMerge(clsx(
-              "flex w-full rounded-full border-1 border-background", 
-              (errors.password) && "border-red-500"
-            ))}>
-              <input
-                type={isPasswordVisible ? "text" : "password"}
-                {...register("password")}
-                placeholder="Digite sua senha"
-                disabled={isPending}
-                className="w-full p-2 placeholder:text-background/80 text-background disabled:opacity-50"
-              />
-              <Button
-                onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                variant={"ghost"}
-                type="button"
-                disabled={isPending}
-              >
-                {isPasswordVisible ? <EyeIcon size={16} /> : <EyeOffIcon size={16} />}
-              </Button>
-            </div>
-
             <div className="my-2">
               {passwordValidation.map((validation, index) => (
                 <p key={index} className={clsx(
