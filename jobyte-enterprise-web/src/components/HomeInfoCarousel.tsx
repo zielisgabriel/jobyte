@@ -37,8 +37,8 @@ export function HomeInfoCarousel() {
     >
       <div className="flex ml-[calc(1rem*-1)]">
         {SLIDES.map((slide, index) => (
-          <div key={index} className="grow-0 shrink-0 basis-[50%] min-w-0 pl-[1rem]">
-            <div className="flex gap-4 border px-4 rounded-xl h-30 items-center">
+          <div key={index} className="grow-0 shrink-0 basis-[80%] sm:basis-[420px] min-w-0 pl-[1rem]">
+            <div className="flex gap-4 border px-4 rounded-xl md:h-30 h-40 items-center">
               <div className="text-background bg-foreground p-2 rounded-full">
                 {slide.icon}
               </div>
