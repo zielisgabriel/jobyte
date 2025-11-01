@@ -14,8 +14,14 @@ export default function LoginPage() {
   return (
     <main className={twMerge(clsx("grid grid-cols-[1fr_1fr] h-screen", isMobile && "flex"))}>
       <div className={twMerge(clsx("flex flex-col justify-center items-center bg-background", isMobile && "hidden"))}>
-        <h1 className="font-bold text-5xl text-foreground">Jobyte.</h1>
-        <h2 className="font-semibold text-xl text-foreground/80 mt-2">Empresas</h2>
+        <span className="flex items-center">
+          <h1 className="font-black text-5xl">
+            Jobyte.
+          </h1>
+          <p className="text-xl font-semibold">
+            nterprise
+          </p>
+        </span>
       </div>
       <div className="relative w-full p-2 bg-foreground">
         <Link
