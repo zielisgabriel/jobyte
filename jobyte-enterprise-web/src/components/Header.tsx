@@ -21,14 +21,18 @@ export function Header() {
   return (
     <header className={twMerge(clsx("mx-auto px-4 border-b border-foreground h-[8vh]"))}>
       <main className="flex justify-between items-center max-w-7xl mx-auto h-full">
-        <span className="flex items-center">
-          <h1 className="font-black text-2xl">
-            Jobyte.
-          </h1>
-          <p className="text-md font-semibold">
-            nterprise
-          </p>
-        </span>
+        <Link
+          href={"/"}
+        >
+          <span className="flex items-center">
+            <h1 className="font-black text-2xl">
+              Jobyte.
+            </h1>
+            <p className="text-md font-semibold">
+              nterprise
+            </p>
+          </span>
+        </Link>
         {isMobile ? (
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild className="focus:outline-0">
@@ -93,6 +97,18 @@ export function Header() {
                 </Button>
               </Link>
             </li>
+            {pathname !== "/dashboard" && (
+              <li>
+                <Link
+                  href={"/dashboard"}
+                  className="flex"
+                >
+                  <Button variant={"outline"}>
+                    Dashboard
+                  </Button>
+                </Link>
+              </li>
+            )}
             <Separator.Root className="w-px bg-foreground my-2 mx-2" />
             <li>
               <Link
