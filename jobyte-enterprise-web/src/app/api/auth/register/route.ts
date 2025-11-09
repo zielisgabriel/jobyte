@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   }: EnterpriseRegisterFormType = await req.json();
 
   try {
-    const response = await fetch("http://localhost:8000/api/auth/register", {
+    const response = await fetch("http://localhost:8000/api/auth/enterprise/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

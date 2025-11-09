@@ -17,6 +17,7 @@ public class CandidateProfileController {
 
   @GetMapping("/me")
   public CandidateProfile getCandidateProfile(JwtAuthenticationToken authentication) {
-    return this.candidateProfileService.getProfile(authentication.getName());
+    String keycloakId = authentication.getName();
+    return this.candidateProfileService.getProfile(keycloakId);
   }
 }

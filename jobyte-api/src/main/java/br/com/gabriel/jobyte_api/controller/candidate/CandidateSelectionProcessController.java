@@ -13,12 +13,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/candidate/selection-process")
+@RequestMapping("/api/candidate/selectionProcess")
 public class CandidateSelectionProcessController {
   private final CandidateSelectionProcessService candidateSelectionService;
 
   @PostMapping("/apply/{vacancyId}")
   public void applyToSelectionProcess(@PathVariable UUID vacancyId, JwtAuthenticationToken authentication) {
-    this.candidateSelectionService.applyToSelectionProcess(vacancyId, authentication);
+    String keycloakId = authentication.getName();
+    this.candidateSelectionService.applyToSelectionProcess(vacancyId, keycloakId);
   }
 }

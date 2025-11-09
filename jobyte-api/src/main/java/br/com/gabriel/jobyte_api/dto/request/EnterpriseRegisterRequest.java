@@ -8,5 +8,6 @@ public record EnterpriseRegisterRequest(
   String cnpj,
   @Size(min = 5, max = 100) String address,
   @Email String email,
-  @Size(min = 8, max = 20) String password
+  @Size(min = 8, max = 20) String password,
+  String phone
 ) {}

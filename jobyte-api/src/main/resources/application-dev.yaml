@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/jobyte_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/jobyte-realm
+
+keycloak:
+  auth-server-url: http://localhost:8080
+  realm: jobyte-realm
+  admin-client:
+    client-id: jobyte-api
+    client-secret: 395666KnbWTgS1rJeQvKPeKyS7O8nsIc
+    grant-type: client_credentials
+
+app:
+  cors:
+    allowed-origins: http://localhost:3000,http://localhost:3001

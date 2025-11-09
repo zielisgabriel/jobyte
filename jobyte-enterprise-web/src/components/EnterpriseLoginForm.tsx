@@ -1,18 +1,18 @@
 "use client"
 
-import { useState, useTransition } from "react";
+import { useContext, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "@/environments/regexEnv";
 import { Button } from "./ui/Button";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Separator } from "radix-ui";
 import { Input } from "./ui/Input";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const enterpriseLoginFormSchema = z.object({
 	email: z.string().regex(EMAIL_REGEX, "Email inválido"),
@@ -25,6 +25,7 @@ export function EnterpriseLoginForm() {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isPending, startTransition] = useTransition();
 	const [errorMessage, setErrorMessage] = useState("");
+	const {login} = useContext(AuthContext);
 	const {
 		handleSubmit,
 		register,
@@ -34,32 +35,9 @@ export function EnterpriseLoginForm() {
 		defaultValues: { email: "", password: "" },
 	});
 
-	const router = useRouter();
-
 	async function onSubmit({email, password}: EnterpriseLoginFormType) {
 		startTransition(async () => {
-			try {
-				const response = await fetch("/api/auth/login", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						email,
-						password
-					})
-				});
-
-				if (!response.ok) {
-					setErrorMessage("Falha ao autenticar. Verifique suas credenciais.");
-					return;
-				}
-				
-				router.push("/");
-			} catch (error: any) {
-				console.error("Erro no login:", error);
-				setErrorMessage("Erro inesperado. Tente novamente.");
-			}
+			await login(email, password, setErrorMessage);
 		})
 	}
 
@@ -116,7 +94,7 @@ export function EnterpriseLoginForm() {
 				<div className="flex gap-1 justify-center">
 					<h1 className="text-background/80 text-sm">Não tem uma conta?</h1>
 					<Link
-						href={"/enterprise/register"}
+						href={"/register"}
 						title="Criar conta"
 						className="text-sm font-semibold hover:underline text-background"
 					>

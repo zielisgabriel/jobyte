@@ -21,6 +21,7 @@ export function Input({
   return (
     <input
       className={inputVariables({className, variant})}
+      autoComplete="off"
       {...props}
     />
   );

@@ -80,27 +80,29 @@ export function EnterpriseRegisterForm() {
   const cnpjInputWatch = watch("cnpj");
 
   async function onSubmit(data: EnterpriseRegisterFormType) {
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
+    startTransition(async () => {
+      try {
+        const response = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Registration failed:", errorData);
-        setErrorMessage("Cadastro falhou. Verifique os dados e tente novamente.");
-        return;
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Registration failed:", errorData);
+          setErrorMessage("Cadastro falhou. Verifique os dados e tente novamente.");
+          return;
+        }
+
+        router.push("/login");
+      } catch (error: any) {
+        setErrorMessage("Erro inesperado. Tente novamente.");
+        console.error("Erro no cadastro:", error);
       }
-
-      router.push("/enterprise/login");
-    } catch (error: any) {
-      setErrorMessage("Erro inesperado. Tente novamente.");
-      console.error("Erro no cadastro:", error);
-    }
+    })
   }
 
   const cnpjFormatted = cnpjInputWatch
@@ -223,7 +225,7 @@ export function EnterpriseRegisterForm() {
         <div className="flex gap-1 justify-center">
           <h1 className="text-background/80 text-sm">Já tem uma conta?</h1>
           <Link
-            href={"/enterprise/login"}
+            href={"/login"}
             title="Entrar"
             className="text-sm font-semibold hover:underline text-background"
           >

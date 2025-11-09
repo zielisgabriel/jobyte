@@ -3,18 +3,22 @@
 import Link from "next/link";
 import { Button } from "./ui/Button";
 import { usePathname } from "next/navigation";
-import { pagesWithoutHeader } from "@/environments/pagesWithoutHeader";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { useMobile } from "@/hooks/useMobile";
 import { DropdownMenu, Separator } from "radix-ui";
-import { MenuIcon } from "lucide-react";
+import { Building2Icon, MenuIcon } from "lucide-react";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
+import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
+import { DropdownMenuItem, DropdownMenuRoot, DropdownMenuTrigger, MenuSeparator } from "./ui/Dropdown";
 
 export function Header() {
   const pathname = usePathname();
   const {isMobile} = useMobile();
+  const {profile} = useContext(AuthContext);
 
-  if (pagesWithoutHeader.some(path => pathname.startsWith(path))) {
+  if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
     return null;
   }
 
@@ -22,7 +26,7 @@ export function Header() {
     <header className={twMerge(clsx("mx-auto px-4 border-b border-foreground h-[8vh]"))}>
       <main className="flex justify-between items-center max-w-7xl mx-auto h-full">
         <Link
-          href={"/"}
+          href={"/home"}
         >
           <span className="flex items-center">
             <h1 className="font-black text-2xl">
@@ -34,57 +38,88 @@ export function Header() {
           </span>
         </Link>
         {isMobile ? (
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild className="focus:outline-0">
+          <DropdownMenuRoot>
+            <DropdownMenuTrigger asChild>
               <Button variant={"ghost"}>
                 <MenuIcon />
               </Button>
-            </DropdownMenu.Trigger>
+            </DropdownMenuTrigger>
 
             <DropdownMenu.Portal>
               <DropdownMenu.Content
                 className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
                 sideOffset={5}
               >
-                <DropdownMenu.Item asChild className="hover:outline-0">
+                <DropdownMenuItem asChild>
                   <Link
                     href={"/"}
                     className="flex w-full"
                   >
                     <Button variant={"ghost"} className="w-full">
-                      Candidato
+                      Área do candidato
                     </Button>
                   </Link>
-                </DropdownMenu.Item>
+                </DropdownMenuItem>
 
-                <Separator.Root className="w-full bg-foreground h-px my-0.5" />
+                <MenuSeparator />
 
-                <DropdownMenu.Item asChild className="hover:outline-0">
-                  <Link
-                    href={"/enterprise/register"}
-                    className="flex w-full"
-                  >
-                    <Button variant={"ghost"} className="w-full">
-                      Cadastrar
-                    </Button>
-                  </Link>
-                </DropdownMenu.Item>
+                {!profile ? (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href={"/register"}
+                        className="flex w-full"
+                      >
+                        <Button variant={"ghost"} className="w-full">
+                          Cadastrar
+                        </Button>
+                      </Link>
+                    </DropdownMenuItem>
 
-                <Separator.Root className="w-full bg-foreground h-px my-0.5" />
+                    <MenuSeparator />
 
-                <DropdownMenu.Item asChild className="hover:outline-0">
-                  <Link
-                    href={"/enterprise/login"}
-                    className="flex w-full"
-                  >
-                    <Button variant={"default"} className="w-full">
-                      Entrar
-                    </Button>
-                  </Link>
-                </DropdownMenu.Item>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href={"/login"}
+                        className="flex w-full"
+                      >
+                        <Button variant={"default"} className="w-full">
+                          Entrar
+                        </Button>
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenuRoot>
+                      <DropdownMenuTrigger asChild>
+                        <Button className="w-full flex justify-between">
+                          <p>Zielis</p>
+                          <Building2Icon size={18} />
+                        </Button>
+                      </DropdownMenuTrigger>
+
+                      <DropdownMenu.Content
+                        className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
+                        sideOffset={5}
+                      >
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href={"/settings"}
+                            className="flex w-full"
+                          >
+                            <Button variant={"ghost"} className="w-full">
+                              Configurações
+                            </Button>
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenu.Content>
+                    </DropdownMenuRoot>
+                  </>
+                )}
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
-          </DropdownMenu.Root>
+          </DropdownMenuRoot>
         ) : (
           <ul className="flex gap-1 justify-end">
             <li>
@@ -93,11 +128,11 @@ export function Header() {
                 className="flex"
               >
                 <Button variant={"ghost"}>
-                  Candidato
+                  Área do candidato
                 </Button>
               </Link>
             </li>
-            {pathname !== "/dashboard" && (
+            {pathname !== "/dashboard" && profile && (
               <li>
                 <Link
                   href={"/dashboard"}
@@ -109,29 +144,39 @@ export function Header() {
                 </Link>
               </li>
             )}
-            <Separator.Root className="w-px bg-foreground my-2 mx-2" />
-            <li>
-              <Link
-                href={"/enterprise/register"}
-                title="Cadastrar"
-                className="flex"
-              >
-                <Button variant={"outline"}>
-                  Cadastrar
+            {!profile ? (
+              <>
+                <li>
+                  <Link
+                    href={"/register"}
+                    title="Cadastrar"
+                    className="flex"
+                  >
+                    <Button variant={"outline"}>
+                      Cadastrar
+                    </Button>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={"/login"}
+                    title="Entrar"
+                    className="flex"
+                  >
+                    <Button variant={"default"}>
+                      Entrar
+                    </Button>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Button>
+                  <p>Zielis</p>
+                  <Building2Icon size={18} />
                 </Button>
-              </Link>
-            </li>
-            <li>
-              <Link
-                href={"/enterprise/login"}
-                title="Entrar"
-                className="flex"
-              >
-                <Button variant={"default"}>
-                  Entrar
-                </Button>
-              </Link>
-            </li>
+              </li>
+            )}
           </ul>
         )}
       </main>

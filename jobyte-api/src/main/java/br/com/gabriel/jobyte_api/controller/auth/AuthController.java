@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gabriel.jobyte_api.dto.request.CandidateRegisterRequest;
 import br.com.gabriel.jobyte_api.dto.request.EnterpriseRegisterRequest;
 import br.com.gabriel.jobyte_api.service.KeycloakRegistrationService;
 import jakarta.validation.Valid;
@@ -21,9 +22,14 @@ public class AuthController {
   private final KeycloakRegistrationService registrationService;
 
   @ResponseStatus(code = HttpStatus.CREATED)
-  @PostMapping("/register")
+  @PostMapping("/enterprise/register")
   public void registerEnterprise(@Valid @RequestBody EnterpriseRegisterRequest enterpriseRegisterRequest) {
-    log.info("Registering enterprise user with email: {}", enterpriseRegisterRequest.email());
     this.registrationService.createEnterpriseUser(enterpriseRegisterRequest);
+  }
+
+  @ResponseStatus(code = HttpStatus.CREATED)
+  @PostMapping("/candidate/register")
+  public void registerCandidate(@Valid @RequestBody CandidateRegisterRequest candidateRegisterRequest) {
+    this.registrationService.createCandidateUser(candidateRegisterRequest);
   }
 }

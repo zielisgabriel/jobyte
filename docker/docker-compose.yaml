@@ -42,9 +42,10 @@ services:
       - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
     ports:
       - "8080:8080"
-    depends_on:
-      postgres-keycloak-service:
-        condition: service_healthy
+    restart: always
+    depends_on: [
+      postgres-keycloak-service
+    ]
 
 volumes:
   postgres_api_volume:
