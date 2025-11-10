@@ -26,7 +26,7 @@ export function Header() {
     <header className={twMerge(clsx("mx-auto px-4 border-b border-foreground h-[8vh]"))}>
       <main className="flex justify-between items-center max-w-7xl mx-auto h-full">
         <Link
-          href={"/home"}
+          href={"/"}
         >
           <span className="flex items-center">
             <h1 className="font-black text-2xl">

@@ -1,6 +1,6 @@
 package br.com.gabriel.jobyte_api.controller.candidate;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.gabriel.jobyte_api.entity.Vacancy;
+import br.com.gabriel.jobyte_api.dto.response.VacanciesResponse;
 import br.com.gabriel.jobyte_api.service.candidate.CandidateVacancyService;
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ public class CandidateVacancyController {
   
   @GetMapping("/list")
   @ResponseStatus(code = HttpStatus.OK)
-  public List<Vacancy> getVacanciesCandidate(@RequestParam int page) {
+  public VacanciesResponse getVacanciesCandidate(@RequestParam Optional<Integer> page) {
     return this.candidateVacancyService.getVacancies(page);
   }
 }
