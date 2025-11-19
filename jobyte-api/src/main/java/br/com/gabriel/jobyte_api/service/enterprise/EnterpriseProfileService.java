@@ -14,7 +14,13 @@ public class EnterpriseProfileService {
   private final EnterpriseRepository enterpriseRepository;
 
   public EnterpriseProfile getProfile(String keycloakId) {
-    return this.enterpriseRepository.findByKeycloakUserId(keycloakId)
-      .orElseThrow(() -> new RuntimeException("Enterprise profile not found"));
+    EnterpriseProfile enterpriseProfile = this.enterpriseRepository.findByKeycloakUserId(keycloakId)
+      .orElseGet(() -> {
+        EnterpriseProfile defaultProfile = new EnterpriseProfile();
+        defaultProfile.setCompanyName("Unknown");
+        return defaultProfile;
+      });
+
+    return enterpriseProfile;
   }
 }

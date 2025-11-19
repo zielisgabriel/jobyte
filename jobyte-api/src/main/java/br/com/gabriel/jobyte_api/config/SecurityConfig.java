@@ -21,9 +21,10 @@ public class SecurityConfig {
       .formLogin(form -> form.disable())
       .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/api/auth/**").permitAll()
+        .requestMatchers("/api/public/**").permitAll()
         .requestMatchers("/api/enterprise/**").hasRole("ENTERPRISE")
         .requestMatchers("/api/candidate/**").hasRole("CANDIDATE")
-        .requestMatchers("/api/auth/**").permitAll()
         .anyRequest().authenticated())
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(this.jwtAuthenticationConverter())));
     

@@ -12,7 +12,6 @@ export async function apiProxy(req: NextRequest, apiPath: string): Promise<Respo
   let accessToken = cookies.get("access_token")?.value;
   const refreshTokenCookie = cookies.get("refresh_token")?.value;
 
-  // Buffer do body para reutilizar no retry
   let bufferedBody: string | undefined = undefined;
   if (req.method !== "GET" && req.method !== "HEAD") {
     try {
@@ -23,17 +22,32 @@ export async function apiProxy(req: NextRequest, apiPath: string): Promise<Respo
   }
 
   console.log("BFF: Chamando API com access_token:", accessToken ? "presente" : "ausente");
+  console.log("BFF: URL completa:", `${process.env.PUBLIC_API_URL}/${apiPath}`);
+  console.log("BFF: Método:", req.method);
 
-  const apiResponse = await fetch(`${process.env.PUBLIC_API_URL}/${apiPath}`, {
-    method: req.method,
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: bufferedBody,
-  });
+  let apiResponse: Response;
+  try {
+    apiResponse = await fetch(`${process.env.PUBLIC_API_URL}/${apiPath}`, {
+      method: req.method,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      body: bufferedBody,
+    });
+  } catch (fetchErr: any) {
+    console.error("BFF: Erro de rede ao chamar backend:", fetchErr?.message, fetchErr);
+    return NextResponse.json({ message: "Network error to backend", detail: fetchErr?.message }, { status: 502 });
+  }
 
-  if (apiResponse.status === 401 && refreshTokenCookie) {
+  console.log("BFF: Status da resposta:", apiResponse.status);
+
+  if (apiResponse.status === 401) {
+    if (!refreshTokenCookie) {
+      console.log("BFF: Sem refresh token, retornando 401");
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     console.log("BFF: Access token expirado, tentando renovar...");
 
     try {
@@ -89,15 +103,23 @@ export async function apiProxy(req: NextRequest, apiPath: string): Promise<Respo
     }
   }
 
+  // Ler o corpo apenas uma vez
+  const contentType = apiResponse.headers.get("Content-Type") || "";
+  
   try {
-    const data = await apiResponse.json();
-    return NextResponse.json(data, { status: apiResponse.status });
-  } catch (_) {
-    const text = await apiResponse.text();
-    return new NextResponse(text, {
-      status: apiResponse.status,
-      headers: { "Content-Type": apiResponse.headers.get("Content-Type") || "text/plain" }
-    });
+    if (contentType.includes("application/json")) {
+      const data = await apiResponse.json();
+      return NextResponse.json(data, { status: apiResponse.status });
+    } else {
+      const text = await apiResponse.text();
+      return new NextResponse(text, {
+        status: apiResponse.status,
+        headers: { "Content-Type": contentType || "text/plain" }
+      });
+    }
+  } catch (error) {
+    console.error("BFF: Erro ao processar resposta:", error);
+    return NextResponse.json({ message: "Error processing response" }, { status: 502 });
   }
 }
 

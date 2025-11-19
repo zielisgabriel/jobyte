@@ -17,7 +17,7 @@ export default function RootLayout({
     <AuthProvider>
       <html lang="pt-BR">
         <body
-          className={`${poppins.className} antialiased`}
+          className={`${poppins.className} antialiased h-screen`}
         >
           <Header />
           {children}

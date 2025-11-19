@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gabriel.jobyte_api.dto.request.CandidateRegisterRequest;
 import br.com.gabriel.jobyte_api.dto.request.EnterpriseRegisterRequest;
-import br.com.gabriel.jobyte_api.service.KeycloakRegistrationService;
+import br.com.gabriel.jobyte_api.service.auth.KeycloakRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

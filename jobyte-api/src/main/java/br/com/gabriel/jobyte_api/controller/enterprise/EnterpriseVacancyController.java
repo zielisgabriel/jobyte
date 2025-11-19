@@ -1,8 +1,10 @@
 package br.com.gabriel.jobyte_api.controller.enterprise;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,28 +22,35 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/enterprise/vacancies")
+@RequestMapping("/api/enterprise/vacancy")
 public class EnterpriseVacancyController {
   private final EnterpriseVacancyService enterpriseVacancyService;
 
   @PostMapping("/create")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public void createVacancy(CreateVacancyRequest request, JwtAuthenticationToken authentication) {
-    String keycloakId = authentication.getName();
-    this.enterpriseVacancyService.createVacancy(request, keycloakId);
+  public Vacancy createVacancy(
+    @RequestBody CreateVacancyRequest createVacancyRequest,
+    JwtAuthenticationToken authentication
+  ) {
+    String keycloakUserId = authentication.getToken().getSubject();
+
+    return this.enterpriseVacancyService.createVacancy(createVacancyRequest, keycloakUserId);
   }
 
   @GetMapping("/list")
-  @ResponseStatus(code = HttpStatus.OK)
-  public List<Vacancy> getVacancies(@RequestParam int page, JwtAuthenticationToken authentication) {
-    String keycloakId = authentication.getName();
-    return this.enterpriseVacancyService.getVacancies(page, keycloakId);
+  public List<Vacancy> listVacancies(
+    @RequestParam Optional<String> page,
+    JwtAuthenticationToken authentication
+  ) {
+    String keycloakUserId = authentication.getToken().getSubject();
+
+    return this.enterpriseVacancyService.listVacancies(page, keycloakUserId);
   }
 
   @GetMapping("/{id}")
-  @ResponseStatus(code = HttpStatus.OK)
-  public Vacancy getVacancy(@PathVariable UUID id, JwtAuthenticationToken authentication) {
-    String keycloakId = authentication.getName();
-    return this.enterpriseVacancyService.getVacancy(id, keycloakId);
+  public Vacancy fetchVacancyById(@PathVariable UUID id, JwtAuthenticationToken authentication) {
+    String keycloakUserId = authentication.getToken().getSubject();
+
+    return this.enterpriseVacancyService.fetchVacancyById(id, keycloakUserId);
   }
 }

@@ -1,12 +1,12 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { Profile } from "@/utils/types/Profile";
+import { Enterprise } from "@/types/Enterprise";
 import { usePathname, useRouter } from "next/navigation";
 import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
 
 interface AuthContextType {
-  profile: Profile | null;
+  profile: Enterprise | null;
   logout: () => Promise<void>;
   login: (email: string, password: string, setErrorMessage: (message: string) => void) => Promise<void>;
 }
@@ -14,7 +14,7 @@ interface AuthContextType {
 export const AuthContext = createContext({} as AuthContextType);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<Enterprise | null>(null);
   const {push} = useRouter();
   const pathname = usePathname();
 
@@ -79,6 +79,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
       return;
     }
+
+    if (pathname === "/home") {
+      return;
+    }
+
     fetchProfile();
   }, [pathname]);
 

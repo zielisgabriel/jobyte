@@ -25,7 +25,7 @@ public class CandidateProfile {
   @Column(name = "full_name", nullable = false)
   private String fullName;
 
-  @Column(name = "cpf", nullable = false)
+  @Column(name = "cpf", nullable = true)
   private String cpf;
 
   @Column(name = "phone", nullable = true)

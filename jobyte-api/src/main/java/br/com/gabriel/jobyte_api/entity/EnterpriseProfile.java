@@ -24,10 +24,10 @@ public class EnterpriseProfile {
   @Column(name = "company_name", nullable = false)
   private String companyName;
 
-  @Column(name = "cnpj", nullable = false)
+  @Column(name = "cnpj", nullable = true)
   private String cnpj;
 
-  @Column(name = "address", nullable = false)
+  @Column(name = "address", nullable = true)
   private String address;
 
   @Column(name = "phone", nullable = true)

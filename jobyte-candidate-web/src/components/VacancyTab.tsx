@@ -15,47 +15,18 @@ import { useSearchParams } from "next/navigation";
 export function VacancyTab() {
   const [vacancies, setVacancies] = useState<VacanciesResponse | null>(null);
   const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
-  const {isMobile} = useMobile();
   const params = useSearchParams();
-  const page = params.get("page") || undefined;
-
-  function normalizeList(list: Vacancy[]): Vacancy[] {
-    return list.map((v: Vacancy) => {
-      if (!v.enterprise) {
-        const companyName = v.company || "Empresa";
-        v.enterprise = {
-          id: "mock-enterprise",
-          companyName,
-          cnpj: "",
-          address: "",
-          phone: "",
-          createdAt: new Date().toISOString(),
-        };
-      }
-      return v;
-    });
-  }
+  const pageParam = params.get("page");
 
   async function fetchVacancies() {
-    try {
-      const response = await fetch(`/api/vacancies/list${page ? `?page=${page}` : ""}`);
-      if (!response.ok) {
-        console.warn("API de vagas retornou", response.status, "- usando mocks");
-        setVacancies({ vacancies: normalizeList([]), total: 0 });
-        return;
-      }
-      const data: VacanciesResponse = await response.json();
-      data.vacancies = normalizeList(data.vacancies);
-      setVacancies(data);
-    } catch (error) {
-      console.error("Erro ao buscar vagas:", error);
-      setVacancies({ vacancies: normalizeList([]), total: 0 });
-    }
+    const response = await fetch (`/api/candidate/vacancy/list${pageParam ? `?page=${pageParam}` : ""}`);
+    const data: VacanciesResponse = await response.json();
+    setVacancies(data);
   };
 
   useEffect(() => {
     fetchVacancies();
-  }, [page]);
+  }, [pageParam]);
 
   if (!vacancies) {
     return <div>Carregando vagas...</div>;
@@ -74,9 +45,8 @@ export function VacancyTab() {
         ))}
       >
         <ScrollArea.Viewport className="w-full h-full">
-          <ul className="w-full">
+          <ul>
             {vacancies?.vacancies.map((vacancy) => {
-              const enterpriseName = vacancy.enterprise?.companyName || vacancy.company || "Empresa";
               return (
                 <li
                   key={vacancy.id}
@@ -89,7 +59,7 @@ export function VacancyTab() {
                   >
                     <h3 className="text-lg font-semibold">{vacancy.title}</h3>
                     <p className="text-[12px] opacity-70 text-left">
-                      {enterpriseName} - {vacancy.location || "Local não informado"}
+                      {vacancy.enterprise?.companyName}
                     </p>
                   </Button>
                 </li>
@@ -121,7 +91,7 @@ export function VacancyTab() {
                     {selectedVacancy.title}
                     </h1>
                     <h2 className="text-xl">
-                    {(selectedVacancy.enterprise?.companyName || selectedVacancy.company || "Empresa")} - {selectedVacancy.location || "Local não informado"}
+                    {(selectedVacancy.enterprise?.companyName || "Empresa")}
                     </h2>
                     <p className="mt-4">
                     {selectedVacancy.description}

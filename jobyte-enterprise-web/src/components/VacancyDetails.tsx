@@ -1,56 +1,58 @@
 "use client";
 
 import { Vacancy } from "@/types/Vacancy";
-import { notFound } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "./ui/Button";
+import { ArrowLeftIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export function VacancyDetails({id}: {id: string}) {
-  const [vacancy, setVacancy] = useState<Vacancy | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
+interface VacancyDetailsProps {
+  id: string;
+}
 
-  async function fetchVacancyDetails(id: string) {
-    try {
-      setIsLoading(true);
-      const response = await fetch(`/api/vacancies/${id}`);
-      
-      if (!response.ok) {
-        setError(true);
-        return;
-      }
-      
-      const data = await response.json();
-      setVacancy(data);
-    } catch (err) {
-      console.error("Erro ao buscar vaga:", err);
-      setError(true);
-    } finally {
-      setIsLoading(false);
-    }
+export function VacancyDetails({ id }: VacancyDetailsProps) {
+  const [vacancyDetails, setVacancyDetails] = useState<Vacancy | null>(null);
+  const router = useRouter();
+
+  async function fetchVacancyDetailsById(id: string) {
+    const response = await fetch(`/api/enterprise/vacancy/${id}`);
+    const data = await response.json();
+    setVacancyDetails(data);
   }
 
   useEffect(() => {
-    fetchVacancyDetails(id);
+    fetchVacancyDetailsById(id);
   }, [id]);
 
-  if (error) {
-    notFound();
-  }
-
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-
   return (
-    <div>
-      <h1>Vacancy Information</h1>
-      <p>Details for vacancy ID: {id}</p>
-      {vacancy && (
-        <div>
-          <h2>{vacancy.title}</h2>
-          <p>{vacancy.description}</p>
-        </div>
-      )}
+    <div className="mb-2 space-y-2">
+      <Button
+        onClick={() => router.back()}
+      >
+        <ArrowLeftIcon />
+        Voltar
+      </Button>
+
+      <h1 className="font-bold text-3xl">
+        {vacancyDetails?.title}
+      </h1>
+
+      <h2 className="opacity-60">
+        {vacancyDetails?.enterprise?.companyName}
+      </h2>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Descrição da Vaga</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ScrollArea className="h-60">
+            {vacancyDetails?.description}
+          </ScrollArea>
+        </CardContent>
+      </Card>
     </div>
   );
 }

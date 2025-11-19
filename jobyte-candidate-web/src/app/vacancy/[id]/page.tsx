@@ -4,7 +4,7 @@ export default async function VacancyPage({ params }: { params: Promise<{ id: st
   const { id } = await params;
 
   return (
-    <main>
+    <main className="h-[92vh] px-2 py-4">
       <VacancyInfo
         vacancyId={id}
       />

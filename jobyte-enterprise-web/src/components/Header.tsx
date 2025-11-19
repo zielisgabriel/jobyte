@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { useMobile } from "@/hooks/useMobile";
 import { DropdownMenu, Separator } from "radix-ui";
-import { Building2Icon, MenuIcon } from "lucide-react";
+import { Building2Icon, LogOutIcon, MenuIcon } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
@@ -16,7 +16,7 @@ import { DropdownMenuItem, DropdownMenuRoot, DropdownMenuTrigger, MenuSeparator 
 export function Header() {
   const pathname = usePathname();
   const {isMobile} = useMobile();
-  const {profile} = useContext(AuthContext);
+  const {profile, logout} = useContext(AuthContext);
 
   if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
     return null;
@@ -94,7 +94,7 @@ export function Header() {
                     <DropdownMenuRoot>
                       <DropdownMenuTrigger asChild>
                         <Button className="w-full flex justify-between">
-                          <p>Zielis</p>
+                          <p>{profile?.companyName}</p>
                           <Building2Icon size={18} />
                         </Button>
                       </DropdownMenuTrigger>
@@ -122,16 +122,6 @@ export function Header() {
           </DropdownMenuRoot>
         ) : (
           <ul className="flex gap-1 justify-end">
-            <li>
-              <Link
-                href={"/"}
-                className="flex"
-              >
-                <Button variant={"ghost"}>
-                  Área do candidato
-                </Button>
-              </Link>
-            </li>
             {pathname !== "/dashboard" && profile && (
               <li>
                 <Link
@@ -171,10 +161,41 @@ export function Header() {
               </>
             ) : (
               <li>
-                <Button>
-                  <p>Zielis</p>
-                  <Building2Icon size={18} />
-                </Button>
+                <DropdownMenuRoot>
+                  <DropdownMenuTrigger asChild>
+                    <Button>
+                      <p>{profile?.companyName}</p>
+                      <Building2Icon size={18} />
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenu.Content
+                    className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
+                    sideOffset={5}
+                  >
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href={"/settings"}
+                        className="flex w-full"
+                      >
+                        <Button variant={"ghost"} className="w-full">
+                          Configurações
+                        </Button>
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem asChild>
+                      <Button
+                        variant={"color_invert"}
+                        className="bg-red-500 hover:bg-red-600 w-full flex items-center justify-center gap-2"
+                        onClick={async () => await logout()}
+                      >
+                        <LogOutIcon size={16} />
+                        Sair
+                      </Button>
+                    </DropdownMenuItem>
+                  </DropdownMenu.Content>
+                </DropdownMenuRoot>
               </li>
             )}
           </ul>

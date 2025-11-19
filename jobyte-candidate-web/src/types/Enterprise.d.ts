@@ -5,5 +5,6 @@ export interface Enterprise {
   address: string;
   phone: string;
   createdAt: string;
-  updatedAt?: string; // optional timestamp
+  updatedAt?: string;
+  keycloakUserId: string;
 }

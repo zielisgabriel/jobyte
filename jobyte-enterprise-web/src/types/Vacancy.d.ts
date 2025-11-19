@@ -1,7 +1,12 @@
+import { Enterprise } from "./Enterprise";
+import { VacancyStatus } from "./VacancyStatus";
+
 export interface Vacancy {
   id: string;
   title: string;
-  company: string;
-  location: string;
   description: string;
+  createdAt: string;
+  updatedAt: string;
+  enterprise: Enterprise;
+  status: VacancyStatus;
 }

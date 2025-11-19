@@ -18,6 +18,6 @@ public class EnterpriseProfileController {
   @GetMapping("/me")
   public EnterpriseProfile getProfile(JwtAuthenticationToken authentication) {
     String keycloakId = authentication.getName();
-    return enterpriseProfileService.getProfile(keycloakId);
+    return this.enterpriseProfileService.getProfile(keycloakId);
   }
 }
