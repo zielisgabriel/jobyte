@@ -1,27 +1,4 @@
 services:
-  api-service:
-    container_name: api_container
-    build:
-      context: ../jobyte-api
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-      - DATABASE_URL=jdbc:postgresql://postgres-api-service:5432/jobyte_db
-      - DATABASE_USERNAME=admin
-      - DATABASE_PASSWORD=admin
-      - KEYCLOAK_ISSUER_URI=http://keycloak-service:8080/realms/jobyte-realm
-      - KEYCLOAK_URI=http://keycloak-service:8080
-      - KEYCLOAK_REALM=jobyte-realm
-      - KEYCLOAK_ADMIN_CLIENT_ID=admin-cli
-      - KEYCLOAK_ADMIN_CLIENT_SECRET=395666KnbWTgS1rJeQvKPeKyS7O8nsIc
-    depends_on:
-      postgres-api-service:
-        condition: service_healthy
-      keycloak-service:
-        condition: service_started
-
   postgres-api-service:
     container_name: postgres_api_container
     build:
@@ -35,11 +12,6 @@ services:
       - "5432:5432"
     volumes:
       - postgres_api_volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U keycloak_user -d keycloak_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   postgres-keycloak-service:
     container_name: postgres_keycloak_container
@@ -71,9 +43,9 @@ services:
     ports:
       - "8080:8080"
     restart: always
-    depends_on:
-      postgres-keycloak-service:
-        condition: service_healthy
+    depends_on: [
+      postgres-keycloak-service
+    ]
 
 volumes:
   postgres_api_volume:
