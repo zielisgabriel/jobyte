@@ -2,10 +2,21 @@
 from flask import Flask, jsonify, abort, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
+from dotenv import load_dotenv, dotenv_values
 import pandas as pd
 
+load_dotenv()
+
+env = dotenv_values(".env")
+
+POSTGRES_USER = env.get("POSTGRES_USER")
+POSTGRES_PASSWORD = env.get("POSTGRES_PASSWORD")
+POSTGRES_DB = env.get("POSTGRES_DB")
+POSTGRES_HOST = env.get("POSTGRES_HOST", "localhost")
+POSTGRES_PORT = env.get("POSTGRES_PORT", "5432")
+
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://admin:admin@localhost:5432/jobyte_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
