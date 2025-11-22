@@ -4,6 +4,9 @@ import { Vacancy } from "@/types/Vacancy";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
+import { Button } from "./ui/Button";
+import { ArrowLeftIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface VacancyDetailsProps {
   id: string;
@@ -11,6 +14,7 @@ interface VacancyDetailsProps {
 
 export function VacancyDetails({ id }: VacancyDetailsProps) {
   const [vacancyDetails, setVacancyDetails] = useState<Vacancy | null>(null);
+  const router = useRouter();
 
   async function fetchVacancyDetailsById(id: string) {
     const response = await fetch(`/api/enterprise/vacancy/${id}`);
@@ -24,6 +28,13 @@ export function VacancyDetails({ id }: VacancyDetailsProps) {
 
   return (
     <div className="mb-2 space-y-2">
+      <Button
+        onClick={() => router.back()}
+      >
+        <ArrowLeftIcon />
+        Voltar
+      </Button>
+
       <h1 className="font-bold text-3xl">
         {vacancyDetails?.title}
       </h1>
