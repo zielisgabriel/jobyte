@@ -25,8 +25,6 @@ export function VacancyMetricsComp({ id }: VacancyMetricsProps) {
   const [chartColors, setChartColors] = useState<ChartConfig>({});
 
   function generateDynamicColors(platformNames: string[]) {
-    // Palette of CSS variables that are guaranteed to exist in globals.css
-    // If you add more --chart-N variables, extend this array accordingly.
     const palette = ["--chart-1", "--chart-2", "--chart-3", "--chart-4"];
     const colors: ChartConfig = {};
 
@@ -60,7 +58,7 @@ export function VacancyMetricsComp({ id }: VacancyMetricsProps) {
   }, [id]);
 
   return (
-    <div className="lg:grid lg:grid-cols-[1fr_400px] gap-2">
+    <div className="lg:grid lg:grid-cols-[1fr_400px] flex flex-col gap-2">
       <Card>
         <CardHeader>
           <CardTitle>Número de candidaturas nos últimos 30 dias</CardTitle>

@@ -1,51 +1,18 @@
-"use client";
-
 import { ChartAreaIcon, PlusIcon } from "lucide-react";
 import { VacancyList } from "@/components/VacancyList";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
-import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
-import { AuthContext } from "@/contexts/AuthContext";
+import { DashboardMetricsGlobal } from "@/components/DashboardMetricsGlobal";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const chartConfig: ChartConfig = {
-  quantity: {
-    label: "Quantidade",
-    color: "var(--chart-1)",
-  },
-};
+interface DashboardSearchParams {
+  page?: string;
+}
 
-export default function Dashboard() {
-  const [selectionProcessMetrics, setSelectionProcessMetrics] = useState<SelectionProcessMetrics | null>(null);
-  const {profile} = useContext(AuthContext);
+export default async function Dashboard({ searchParams }: { searchParams: Promise<DashboardSearchParams> }) {
+  const { page } = await searchParams;
 
-  async function fetchSelectionProcessMetrics(enterpriseId?: string) {
-    if (!enterpriseId) return;
-    const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`);
-    console.log(response);
-
-    const data = await response.json();
-    setSelectionProcessMetrics(data);
-  }
-
-  useEffect(() => {
-    fetchSelectionProcessMetrics(profile?.id);
-  }, [profile]);
-  
   return (
     <main>
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
@@ -57,89 +24,32 @@ export default function Dashboard() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Minhas Vagas</h2>
-            <Button asChild>
-              <Link href="/dashboard/vacancy/create">
-                <PlusIcon className="h-4 w-4 mr-2" />
-                Nova Vaga
-              </Link>
-            </Button>
+            <Link href="/dashboard/vacancy/create">
+              <Button
+                variant={"outline"}
+              >
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  Nova Vaga
+              </Button>
+            </Link>
           </div>
           
-          <VacancyList />
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+                <Skeleton className="w-full h-[250px] rounded-xl" />
+                <Skeleton className="w-full h-[250px] rounded-xl" />
+                <Skeleton className="w-full h-[250px] rounded-xl" />
+              </div>
+            }
+          >
+            <VacancyList
+              page={page}
+            />
+          </Suspense>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-2xl font-bold">Métricas globais</h2>
-          <div className="lg:grid lg:grid-cols-[1fr_500px] lg:grid-rows-1 flex flex-col gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  Número de candidaturas nos últimos 30 dias
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ChartContainer config={chartConfig}>
-                  <LineChart
-                    accessibilityLayer
-                    data={selectionProcessMetrics?.last_n_days || []}
-                    margin={{
-                      left: 12,
-                      right: 12,
-                    }}
-                  >
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                      dataKey="day"
-                      tickLine={false}
-                      axisLine={false}
-                      tickMargin={8}
-                      // tickFormatter={(value) => value.slice(0, 3)}
-                    />
-                    <ChartTooltip
-                      cursor={false}
-                      content={<ChartTooltipContent hideLabel />}
-                    />
-                    <Line
-                      dataKey="quantity"
-                      type="linear"
-                      stroke="var(--color-quantity)"
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Resumo</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-col gap-2 font-semibold text-xl">
-                  <p>
-                    Total de candidaturas: {selectionProcessMetrics?.summary.total_selection_processes}
-                  </p>
-
-                  <p>
-                    Total de candidatos distintos: {selectionProcessMetrics?.summary.total_unique_candidates}
-                  </p>
-
-                  <p>
-                    Total de vagas distintas: {selectionProcessMetrics?.summary.total_unique_vacancies}
-                  </p>
-
-                  <p>
-                    Média de candidaturas por vaga: {selectionProcessMetrics?.summary.avg_per_vacancy.toFixed(2)}
-                  </p>
-                </div>
-              </CardContent>
-              <CardFooter className="mt-auto">
-                Últimos 30 dias
-              </CardFooter>
-            </Card>
-          </div>
-        </section>
+        <DashboardMetricsGlobal />
       </div>
     </main>
   );
