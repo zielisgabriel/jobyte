@@ -12,21 +12,33 @@ export async function apiProxy(req: NextRequest, apiPath: string) {
   const responseApi = await fetchApi(req, apiPath, accessTokenCookie);
 
   if (responseApi.status === 401 && refreshTokenCookie) {
-    const response = await refreshToken(refreshTokenCookie);
-    const setCookiesRefreshTokenResponse = response.headers.getSetCookie();
-    const newAccessToken = extractCookieValue(setCookiesRefreshTokenResponse, "access_token");
+    const refreshResponse = await refreshToken(refreshTokenCookie);
+    
+    if (!refreshResponse.ok) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const setCookies = refreshResponse.headers.getSetCookie?.() || [];
+    const newAccessToken = extractCookieValue(setCookies, "access_token");
+    
     if (!newAccessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     const retryResponse = await fetchApi(req, apiPath, newAccessToken);
-    const finalResponse = NextResponse.json(retryResponse.body, { status: retryResponse.status });
-    retryResponse.headers.forEach((value, key) => {
-      finalResponse.headers.set(key, value);
-    });
+    const retryData = await retryResponse.json().catch(() => ({}));
+    
+    const finalResponse = NextResponse.json(retryData, { status: retryResponse.status });
+    
+    for (const cookie of setCookies) {
+      finalResponse.headers.append("Set-Cookie", cookie);
+    }
+    
     return finalResponse;
   }
 
-  return responseApi;
+  const data = await responseApi.json().catch(() => ({}));
+  return NextResponse.json(data, { status: responseApi.status });
 }
 
 async function fetchApi(req: NextRequest, apiPath: string, accessToken?: string) {

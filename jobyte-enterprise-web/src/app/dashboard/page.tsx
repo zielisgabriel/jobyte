@@ -26,7 +26,6 @@ export default function Dashboard() {
           
           <VacancyList />
         </section>
-
         <DashboardGlobalMetrics />
       </div>
     </main>

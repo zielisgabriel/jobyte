@@ -6,11 +6,14 @@ import { Button } from "./ui/Button";
 import { Vacancy } from "@/types/Vacancy";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
-export function VacancyList() {
-  const [page, setPage] = useState(0);
+interface VacancyListProps {
+  page?: string
+}
+
+export function VacancyList({ page }: VacancyListProps) {
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
 
-  async function fetchVacancies(page: number) {
+  async function fetchVacancies(page?: string) {
     const response = await fetch(`/api/enterprise/vacancy/list?page=${page}`);
     const data = await response.json();
     setVacancies(data);
