@@ -3,7 +3,6 @@
 import useEmblaCarousel from "embla-carousel-react";
 import AutoPlay from "embla-carousel-autoplay";
 import { ClockIcon, RouteIcon, ScrollText, StarIcon } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 
 const SLIDES = [
   {
@@ -39,17 +38,15 @@ export function HomeInfoCarousel() {
       <div className="flex ml-[calc(1rem*-1)]">
         {SLIDES.map((slide, index) => (
           <div key={index} className="grow-0 shrink-0 basis-[80%] sm:basis-[420px] min-w-0 pl-[1rem]">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-4">
-                  {slide.icon}
-                  {slide.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {slide.description}
-              </CardContent>
-            </Card>
+            <div className="flex gap-4 border px-4 rounded-xl md:h-30 h-40 items-center">
+              <div className="text-background bg-foreground p-2 rounded-full">
+                {slide.icon}
+              </div>
+              <div className="flex flex-col gap-1">
+                <h1 className="text-xl font-bold">{slide.title}</h1>
+                <p className="text-sm">{slide.description}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
