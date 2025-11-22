@@ -1,5 +1,5 @@
 import { HomeInfoCarousel } from "@/components/HomeInfoCarousel";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 export default function Home() {
