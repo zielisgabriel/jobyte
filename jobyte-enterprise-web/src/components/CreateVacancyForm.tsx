@@ -3,9 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "./ui/Input";
+import { Input } from "./ui/input";
 import { ArrowRightIcon } from "lucide-react";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
@@ -109,7 +109,6 @@ export function CreateVacancyForm() {
           {...register("title")}
           aria-invalid={!!formState.errors.title}
           placeholder="Desenvolvedor Frontend"
-          variant={"outline"}
         />
       </div>
 

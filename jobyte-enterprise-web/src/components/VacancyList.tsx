@@ -1,30 +1,24 @@
-"use client"
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { Vacancy } from "@/types/Vacancy";
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { getVacanciesService } from "@/services/getVacanciesService";
 
 interface VacancyListProps {
   page?: string
 }
 
-export function VacancyList({ page }: VacancyListProps) {
-  const [vacancies, setVacancies] = useState<Vacancy[]>([]);
+async function getVacancies(page?: string): Promise<Vacancy[]> {
+  const response = await getVacanciesService(page);
+  const vacancies: Vacancy[] = await response.json();
+  return vacancies;
+}
 
-  async function fetchVacancies(page?: string) {
-    const response = await fetch(`/api/enterprise/vacancy/list?page=${page}`);
-    const data = await response.json();
-    setVacancies(data);
-  }
-
-  useEffect(() => {
-    fetchVacancies(page);
-  }, [page]);
+export async function VacancyList({ page }: VacancyListProps) {
+  const vacancies = await getVacancies(page);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+    <>
       {vacancies.length > 0 ? (
         vacancies.map(vacancy => (
           <Card key={vacancy.id}>
@@ -50,7 +44,6 @@ export function VacancyList({ page }: VacancyListProps) {
           Nenhuma vaga encontrada
         </p>
       )}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
-    </div>
+    </>
   );
 }

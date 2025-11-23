@@ -1,10 +1,13 @@
 import { ChartAreaIcon, PlusIcon } from "lucide-react";
 import { VacancyList } from "@/components/VacancyList";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { DashboardGlobalMetrics } from "@/components/DashboardGlobalMetrics";
+import { Suspense } from "react";
 
-export default function Dashboard() {
+export default async function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
+
   return (
     <main>
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
@@ -24,7 +27,15 @@ export default function Dashboard() {
             </Button>
           </div>
           
-          <VacancyList />
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+            <Suspense
+              fallback={
+                <p>Carregando...</p>
+              }
+            >
+              <VacancyList page={page} />
+            </Suspense>
+          </div>
         </section>
         <DashboardGlobalMetrics />
       </div>

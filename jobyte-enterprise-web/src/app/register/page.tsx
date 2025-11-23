@@ -1,7 +1,7 @@
 "use client";
 
 import { EnterpriseRegisterForm } from "@/components/EnterpriseRegisterForm";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useMobile } from "@/hooks/useMobile";
 import clsx from "clsx";
 import { ArrowLeft } from "lucide-react";

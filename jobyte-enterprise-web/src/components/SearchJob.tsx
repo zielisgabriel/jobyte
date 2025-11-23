@@ -1,7 +1,7 @@
 "use client"
 
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { FileSearchIcon, MapPinIcon, SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Separator } from "radix-ui";

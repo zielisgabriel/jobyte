@@ -1,4 +1,4 @@
-import { cookies } from "next/headers"
+import { cookies } from "next/headers";
 import { refreshTokenService } from "./refreshTokenService";
 
 export async function getVacanciesService(page?: string) {

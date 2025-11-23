@@ -1,7 +1,7 @@
 "use client";
 
 import { CreateVacancyForm } from "@/components/CreateVacancyForm";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Separator } from "radix-ui";

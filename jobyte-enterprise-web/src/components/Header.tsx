@@ -1,17 +1,17 @@
 "use client"
 
 import Link from "next/link";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { useMobile } from "@/hooks/useMobile";
-import { DropdownMenu, Separator } from "radix-ui";
 import { Building2Icon, LogOutIcon, MenuIcon } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
-import { DropdownMenuItem, DropdownMenuRoot, DropdownMenuTrigger, MenuSeparator } from "./ui/Dropdown";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { Separator } from "./ui/separator";
 
 export function Header() {
   const pathname = usePathname();
@@ -23,7 +23,7 @@ export function Header() {
   }
 
   return (
-    <header className={twMerge(clsx("mx-auto px-4 border-b border-foreground h-[8vh]"))}>
+    <header className={twMerge(clsx("mx-auto px-4 border-b border-border h-[8vh]"))}>
       <main className="flex justify-between items-center max-w-7xl mx-auto h-full">
         <Link
           href={"/home"}
@@ -37,169 +37,51 @@ export function Header() {
             </p>
           </span>
         </Link>
-        {isMobile ? (
-          <DropdownMenuRoot>
-            <DropdownMenuTrigger asChild>
-              <Button variant={"ghost"}>
-                <MenuIcon />
-              </Button>
-            </DropdownMenuTrigger>
+        
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button>
+              <Building2Icon />
+              {profile?.companyName}
+            </Button>
+          </SheetTrigger>
+          <SheetContent
+            side={isMobile ? "top" : "right"}
+            className="pb-4"
+          >
+            <SheetHeader>
+              <SheetTitle>
+                Jobyte Enterprise
+              </SheetTitle>
+              <SheetDescription>
+                {profile?.companyName}
+              </SheetDescription>
+            </SheetHeader>
+            <div className="flex flex-col">
+              <Separator className="mb-4" />
+              <Link href="/profile">
+                <Button variant={"link"}>
+                  Meu perfil
+                </Button>
+              </Link>
+              
+              <Link href="/settings">
+                <Button variant={"link"}>
+                  Configurações
+                </Button>
+              </Link>
 
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content
-                className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
-                sideOffset={5}
+              <Button
+                variant={"link"}
+                className="justify-start text-red-400"
+                onClick={async () => await logout()}
               >
-                <DropdownMenuItem asChild>
-                  <Link
-                    href={"/"}
-                    className="flex w-full"
-                  >
-                    <Button variant={"ghost"} className="w-full">
-                      Área do candidato
-                    </Button>
-                  </Link>
-                </DropdownMenuItem>
-
-                <MenuSeparator />
-
-                {!profile ? (
-                  <>
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={"/register"}
-                        className="flex w-full"
-                      >
-                        <Button variant={"ghost"} className="w-full">
-                          Cadastrar
-                        </Button>
-                      </Link>
-                    </DropdownMenuItem>
-
-                    <MenuSeparator />
-
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={"/login"}
-                        className="flex w-full"
-                      >
-                        <Button variant={"default"} className="w-full">
-                          Entrar
-                        </Button>
-                      </Link>
-                    </DropdownMenuItem>
-                  </>
-                ) : (
-                  <>
-                    <DropdownMenuRoot>
-                      <DropdownMenuTrigger asChild>
-                        <Button className="w-full flex justify-between">
-                          <p>{profile?.companyName}</p>
-                          <Building2Icon size={18} />
-                        </Button>
-                      </DropdownMenuTrigger>
-
-                      <DropdownMenu.Content
-                        className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
-                        sideOffset={5}
-                      >
-                        <DropdownMenuItem asChild>
-                          <Link
-                            href={"/settings"}
-                            className="flex w-full"
-                          >
-                            <Button variant={"ghost"} className="w-full">
-                              Configurações
-                            </Button>
-                          </Link>
-                        </DropdownMenuItem>
-                      </DropdownMenu.Content>
-                    </DropdownMenuRoot>
-                  </>
-                )}
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenuRoot>
-        ) : (
-          <ul className="flex gap-1 justify-end">
-            {pathname !== "/dashboard" && profile && (
-              <li>
-                <Link
-                  href={"/dashboard"}
-                  className="flex"
-                >
-                  <Button variant={"outline"}>
-                    Dashboard
-                  </Button>
-                </Link>
-              </li>
-            )}
-            {!profile ? (
-              <>
-                <li>
-                  <Link
-                    href={"/register"}
-                    title="Cadastrar"
-                    className="flex"
-                  >
-                    <Button variant={"outline"}>
-                      Cadastrar
-                    </Button>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={"/login"}
-                    title="Entrar"
-                    className="flex"
-                  >
-                    <Button variant={"default"}>
-                      Entrar
-                    </Button>
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <li>
-                <DropdownMenuRoot>
-                  <DropdownMenuTrigger asChild>
-                    <Button>
-                      <p>{profile?.companyName}</p>
-                      <Building2Icon size={18} />
-                    </Button>
-                  </DropdownMenuTrigger>
-
-                  <DropdownMenu.Content
-                    className="bg-background border border-foreground rounded-md p-2 flex flex-col gap-1"
-                    sideOffset={5}
-                  >
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href={"/settings"}
-                        className="flex w-full"
-                      >
-                        <Button variant={"ghost"} className="w-full">
-                          Configurações
-                        </Button>
-                      </Link>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem asChild>
-                      <Button
-                        variant={"color_invert"}
-                        className="bg-red-500 hover:bg-red-600 w-full flex items-center justify-center gap-2"
-                        onClick={async () => await logout()}
-                      >
-                        <LogOutIcon size={16} />
-                        Sair
-                      </Button>
-                    </DropdownMenuItem>
-                  </DropdownMenu.Content>
-                </DropdownMenuRoot>
-              </li>
-            )}
-          </ul>
-        )}
+                <LogOutIcon />
+                Sair
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
       </main>
     </header>
   );

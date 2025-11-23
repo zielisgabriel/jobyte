@@ -1,7 +1,7 @@
 "use client"
 
 import { useForm } from "react-hook-form"
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import Link from "next/link";
 import z from "zod";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "@/environments/regexEnv";
@@ -12,7 +12,7 @@ import { Separator } from "radix-ui";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { useRouter } from "next/navigation";
-import { Input } from "./ui/Input";
+import { Input } from "./ui/input";
 
 const enterpriseRegisterFormSchema = z.object({
   companyName: z.string()

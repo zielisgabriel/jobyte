@@ -4,7 +4,7 @@ import { Vacancy } from "@/types/Vacancy";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 import { ArrowLeftIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 

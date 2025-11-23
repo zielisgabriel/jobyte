@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "./ui/label";
-import { Input } from "./ui/Input";
+import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/Button";
+import { Button } from "./ui/button";
 
 interface VacancyFormProps {
   vacancy: {

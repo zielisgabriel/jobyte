@@ -8,7 +8,7 @@ import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
 interface AuthContextType {
   profile: Enterprise | null;
   logout: () => Promise<void>;
-  login: (email: string, password: string, setErrorMessage: (message: string) => void) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
 }
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -18,7 +18,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const {push} = useRouter();
   const pathname = usePathname();
 
-  async function login(email: string, password: string, setErrorMessage: (message: string) => void) {
+  async function login(email: string, password: string) {
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -32,13 +32,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (!response.ok) {
-        setErrorMessage("Falha ao autenticar. Verifique suas credenciais.");
         return;
       }
       
       push("/dashboard");
     } catch (error: any) {
-      setErrorMessage("Erro inesperado. Tente novamente.");
       return;
     }
   }
