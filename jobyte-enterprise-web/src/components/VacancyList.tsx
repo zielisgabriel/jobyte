@@ -12,6 +12,7 @@ interface VacancyListProps {
 
 async function getVacancies(page?: string): Promise<Vacancy[]> {
   const response = await getVacanciesService(page);
+  console.log(response);
   const vacancies: Vacancy[] = await response.json();
   return vacancies;
 }

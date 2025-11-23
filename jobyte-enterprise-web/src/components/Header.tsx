@@ -38,56 +38,78 @@ export function Header() {
           </span>
         </Link>
         
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>
-              <Building2Icon />
-              {profile?.companyName}
-            </Button>
-          </SheetTrigger>
-          <SheetContent
-            side={isMobile ? "top" : "right"}
-            className="pb-4"
-          >
-            <SheetHeader>
-              <SheetTitle>
-                Jobyte Enterprise
-              </SheetTitle>
-              <SheetDescription>
-                {profile?.companyName}
-              </SheetDescription>
-            </SheetHeader>
-            <div className="flex flex-col">
-              <Separator className="mb-4" />
-              <Link href="/profile">
-                <Button variant={"link"}>
-                  Meu perfil
-                </Button>
-              </Link>
-
-              <Link href="/dashboard">
-                <Button variant={"link"}>
-                  Dashboard
-                </Button>
-              </Link>
-              
-              <Link href="/settings">
-                <Button variant={"link"}>
-                  Configurações
-                </Button>
-              </Link>
-
-              <Button
-                variant={"link"}
-                className="justify-start text-red-400"
-                onClick={async () => await logout()}
-              >
-                <LogOutIcon />
-                Sair
+        {profile ? (
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>
+                <Building2Icon />
+                {profile.companyName}
               </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
+            </SheetTrigger>
+            <SheetContent
+              side={isMobile ? "top" : "right"}
+              className="pb-4"
+            >
+              <SheetHeader>
+                <SheetTitle>
+                  Jobyte Enterprise
+                </SheetTitle>
+                <SheetDescription>
+                  {profile.companyName}
+                </SheetDescription>
+              </SheetHeader>
+              <div className="flex flex-col">
+                <Separator className="mb-4" />
+                <Link href="/profile">
+                  <Button variant={"link"}>
+                    Meu perfil
+                  </Button>
+                </Link>
+
+                <Link href="/dashboard">
+                  <Button variant={"link"}>
+                    Dashboard
+                  </Button>
+                </Link>
+                
+                <Link href="/settings">
+                  <Button variant={"link"}>
+                    Configurações
+                  </Button>
+                </Link>
+
+                <Button
+                  variant={"link"}
+                  className="justify-start text-red-400"
+                  onClick={async () => await logout()}
+                >
+                  <LogOutIcon />
+                  Sair
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        ) : (
+          <div className="space-x-2">
+            <Link
+              href={"/register"}
+            >
+              <Button
+                variant={"ghost"}
+              >
+                Cadastrar
+              </Button>
+            </Link>
+
+            <Link
+              href={"/login"}
+            >
+              <Button>
+                Entrar
+              </Button>
+            </Link>
+          </div>
+        )}
       </main>
     </header>
   );
