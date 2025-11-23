@@ -1,6 +1,6 @@
 import { BackNavButton } from "@/components/BackNavButton";
 import { CreateVacancyForm } from "@/components/CreateVacancyForm";
-import { Separator } from "radix-ui";
+import { Separator } from "@/components/ui/separator";
 
 export default function CreateVacancyPage() {
   return (
@@ -8,7 +8,7 @@ export default function CreateVacancyPage() {
       <div className="mt-12 w-xl mx-auto">
         <BackNavButton />
         <h1 className="font-bold text-3xl">Criar nova vaga</h1>
-        <Separator.Root className="my-4 bg-foreground w-full h-px" />
+        <Separator className="my-2" />
         <CreateVacancyForm />
       </div>
     </main>

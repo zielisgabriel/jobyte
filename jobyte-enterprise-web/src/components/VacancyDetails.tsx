@@ -1,35 +1,23 @@
-"use client";
-
 import { Vacancy } from "@/types/Vacancy";
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
-import { Button } from "./ui/button";
-import { ArrowLeftIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { BackNavButton } from "./BackNavButton";
+import { getVacancyDetailsByIdService } from "@/services/getVacancyDetailsByIdService";
 
 interface VacancyDetailsProps {
   id: string;
 }
 
-export function VacancyDetails({ id }: VacancyDetailsProps) {
-  const [vacancyDetails, setVacancyDetails] = useState<Vacancy | null>(null);
+async function getVacancyDetailsById(id: string): Promise<Vacancy> {
+  const response = await getVacancyDetailsByIdService(id);
+  const vacancyDetails: Vacancy = await response.json();
+  return vacancyDetails;
+}
 
-  async function fetchVacancyDetailsById(id: string) {
-    const response = await fetch(`/api/enterprise/vacancy/${id}`);
-    const data = await response.json();
-    setVacancyDetails(data);
-  }
-
-  useEffect(() => {
-    fetchVacancyDetailsById(id);
-  }, [id]);
+export async function VacancyDetails({ id }: VacancyDetailsProps) {
+  const vacancyDetails = await getVacancyDetailsById(id);
 
   return (
-    <div className="mb-2 space-y-2">
-      <BackNavButton />
-
+    <div className="space-y-2">
       <h1 className="font-bold text-3xl">
         {vacancyDetails?.title}
       </h1>
