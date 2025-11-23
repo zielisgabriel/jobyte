@@ -34,9 +34,9 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
             <Suspense
               fallback={
                 <>
-                  <Skeleton className="rounded-lg h-[250px] w-full" />
-                  <Skeleton className="rounded-lg h-[250px] w-full" />
-                  <Skeleton className="rounded-lg h-[250px] w-full" />
+                  <Skeleton className="rounded-lg h-[300px] w-full" />
+                  <Skeleton className="rounded-lg h-[300px] w-full" />
+                  <Skeleton className="rounded-lg h-[300px] w-full" />
                 </>
               }
             >
