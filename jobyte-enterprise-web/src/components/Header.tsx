@@ -64,6 +64,12 @@ export function Header() {
                   Meu perfil
                 </Button>
               </Link>
+
+              <Link href="/dashboard">
+                <Button variant={"link"}>
+                  Dashboard
+                </Button>
+              </Link>
               
               <Link href="/settings">
                 <Button variant={"link"}>

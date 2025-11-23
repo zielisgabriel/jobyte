@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { Vacancy } from "@/types/Vacancy";
+import { Textarea } from "./ui/textarea";
 
 const createVacancyFormSchema = z.object({
   title: z.string().trim().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -117,12 +118,12 @@ export function CreateVacancyForm() {
           <ArrowRightIcon size={16} />
           Descrição
         </label>
-        <textarea
+        <Textarea
           id="description"
           {...register("description")}
           aria-invalid={!!formState.errors.description}
           placeholder="Descrição detalhada da vaga..."
-          className="w-full p-2 border border-gray-300 rounded-xl resize-none h-32 placeholder:text-foreground/80 focus:outline-none focus:ring-2 focus:ring-foreground/50"
+          className="h-50"
         />
       </div>
 

@@ -1,7 +1,10 @@
 import { cookies } from "next/headers";
 import { refreshTokenService } from "./refreshTokenService";
+import { apiDelay } from "@/mock/apiDelay";
 
 export async function getVacanciesService(page?: string) {
+  await apiDelay(5000);
+
   const cookieStore = cookies();
   const accessTokenCookie = (await cookieStore).get("access_token")?.value;
   const refreshtokenCookie = (await cookieStore).get("refresh_token")?.value;

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { DashboardGlobalMetrics } from "@/components/DashboardGlobalMetrics";
 import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page } = await searchParams;
@@ -19,18 +20,24 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">Minhas Vagas</h2>
-            <Button asChild>
               <Link href="/dashboard/vacancy/create">
-                <PlusIcon className="h-4 w-4 mr-2" />
-                Nova Vaga
+                <Button
+                  variant={"outline"}
+                >
+                    <PlusIcon className="h-4 w-4 mr-2" />
+                    Nova Vaga
+                </Button>
               </Link>
-            </Button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
             <Suspense
               fallback={
-                <p>Carregando...</p>
+                <>
+                  <Skeleton className="rounded-lg h-[250px] w-full" />
+                  <Skeleton className="rounded-lg h-[250px] w-full" />
+                  <Skeleton className="rounded-lg h-[250px] w-full" />
+                </>
               }
             >
               <VacancyList page={page} />
