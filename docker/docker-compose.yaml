@@ -1,4 +1,18 @@
 services:
+  data-analysis-service:
+    container_name: data_analysis_container
+    build:
+      context: ../jobyte-data-analysis
+      dockerfile: Dockerfile
+    env_file:
+      - ../jobyte-data-analysis/.env
+    environment:
+      - POSTGRES_HOST=postgres-api-service
+    ports:
+      - "5000:5000"
+    networks:
+      - jobyte-network
+
   postgres-api-service:
     container_name: postgres_api_container
     build:
@@ -12,6 +26,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_api_volume:/var/lib/postgresql/data
+    networks:
+      - jobyte-network
 
   postgres-keycloak-service:
     container_name: postgres_keycloak_container
@@ -26,6 +42,8 @@ services:
       - "5433:5432"
     volumes:
       - postgres_keycloak_volume:/var/lib/postgresql/data
+    networks:
+      - jobyte-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U keycloak_user -d keycloak_db"]
       interval: 10s
@@ -43,9 +61,15 @@ services:
     ports:
       - "8080:8080"
     restart: always
-    depends_on: [
-      postgres-keycloak-service
-    ]
+    networks:
+      - jobyte-network
+    depends_on:
+      postgres-keycloak-service:
+        condition: service_healthy
+
+networks:
+  jobyte-network:
+    driver: bridge
 
 volumes:
   postgres_api_volume:

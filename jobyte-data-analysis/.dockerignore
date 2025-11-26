@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env*
+.venv/
+.vscode/
+.idea/
+.git/
+.gitignore
+Dockerfile
+.dockerignore

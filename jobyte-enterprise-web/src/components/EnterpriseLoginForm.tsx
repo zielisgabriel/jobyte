@@ -6,7 +6,6 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EMAIL_REGEX, PASSWORD_REGEX } from "@/environments/regexEnv";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";

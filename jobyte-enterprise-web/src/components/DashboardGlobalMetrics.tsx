@@ -21,7 +21,6 @@ export function DashboardGlobalMetrics() {
   async function fetchSelectionProcessMetrics(enterpriseId?: string) {
     if (!enterpriseId) return;
     const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`);
-    console.log(response);
 
     const data = await response.json();
     setSelectionProcessMetrics(data);

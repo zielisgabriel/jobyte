@@ -1,3 +1,5 @@
+import { fetchWithoutAuth } from "@/utils/fetchWithoutAuth";
+
 export async function getVacancyMetricsByIdService(id: string) {
-  return await fetch(`http://localhost:5000/api/metrics/vacancy/${id}`);
+  return await fetchWithoutAuth(`/api/metrics/vacancy/${id}`, "http://localhost:5000");
 }

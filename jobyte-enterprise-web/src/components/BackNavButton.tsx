@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ArrowLeftIcon } from "lucide-react"
 import { Button } from "./ui/button"
-import { cn } from "@/lib/utils" // ajuste se seu util estiver em outro caminho
+import { cn } from "@/lib/utils"
 import type { ComponentPropsWithoutRef } from "react"
 
 type ButtonBaseProps = ComponentPropsWithoutRef<typeof Button>
@@ -11,6 +11,7 @@ type ButtonBaseProps = ComponentPropsWithoutRef<typeof Button>
 interface BackNavButtonProps extends Omit<ButtonBaseProps, "onClick"> {
   onClick?: () => void
   children?: React.ReactNode
+  route?: string
 }
 
 export function BackNavButton({
@@ -18,6 +19,7 @@ export function BackNavButton({
   variant = "ghost",
   children = "Voltar",
   onClick,
+  route,
   ...rest
 }: BackNavButtonProps) {
   const router = useRouter()
@@ -26,7 +28,7 @@ export function BackNavButton({
     <Button
       variant={variant}
       className={cn("mb-2", className)}
-      onClick={onClick ?? (() => router.back())}
+      onClick={onClick ?? (() => route ? router.push(route) : router.back())}
       {...rest}
     >
       <ArrowLeftIcon className="mr-2 h-4 w-4" />

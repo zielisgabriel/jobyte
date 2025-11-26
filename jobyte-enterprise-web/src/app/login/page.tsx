@@ -8,6 +8,7 @@ import { twMerge } from "tailwind-merge";
 import { EnterpriseLoginForm } from "@/components/EnterpriseLoginForm";
 import { useRouter } from "next/navigation";
 import { CSSProperties } from "react";
+import { BackNavButton } from "@/components/BackNavButton";
 
 export default function LoginPage() {
   const {isMobile} = useMobile();
@@ -38,14 +39,9 @@ export default function LoginPage() {
           "--foreground": "var(--color-foreground)"
         } as CSSProperties }
       >
-        <Button
-          className="absolute left-1 top-1"
-          variant={"ghost"}
-          onClick={() => router.back()}
-        >
-          <ArrowLeft />
-          Voltar
-        </Button>
+        <BackNavButton
+          route="/home"
+        />
         
         <EnterpriseLoginForm />
       </div>

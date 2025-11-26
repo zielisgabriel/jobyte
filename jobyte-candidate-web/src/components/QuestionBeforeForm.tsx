@@ -72,8 +72,6 @@ export function QuestionBeforeForm({ vacancyId }: QuestionBeforeFormProps) {
       acquaintanceEmail: data.acquaintanceEmail || null
     };
 
-    console.log("Payload:", payload);
-
     const response = await fetch(`/api/candidate/selection-process/apply/${vacancyId}`, {
       method: "POST",
       headers: {
@@ -83,7 +81,7 @@ export function QuestionBeforeForm({ vacancyId }: QuestionBeforeFormProps) {
     });
 
     if (response.status !== 201) {
-      console.log(response);
+      console.error(response);
       return;
     }
 

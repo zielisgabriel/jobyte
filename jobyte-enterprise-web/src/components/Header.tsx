@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { useMobile } from "@/hooks/useMobile";
-import { Building2Icon, LogOutIcon, MenuIcon } from "lucide-react";
+import { Building2Icon, ChartAreaIcon, LogOutIcon, MenuIcon, SettingsIcon, UserRoundIcon } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
@@ -62,18 +62,21 @@ export function Header() {
                 <Separator className="mb-4" />
                 <Link href="/profile">
                   <Button variant={"link"}>
+                    <UserRoundIcon />
                     Meu perfil
                   </Button>
                 </Link>
 
                 <Link href="/dashboard">
                   <Button variant={"link"}>
+                    <ChartAreaIcon />
                     Dashboard
                   </Button>
                 </Link>
                 
                 <Link href="/settings">
                   <Button variant={"link"}>
+                    <SettingsIcon />
                     Configurações
                   </Button>
                 </Link>

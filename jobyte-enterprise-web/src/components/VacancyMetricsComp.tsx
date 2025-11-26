@@ -6,7 +6,6 @@ import { getVacancyMetricsByIdService } from "@/services/getVacancyMetricsByIdSe
 import { getQuestionBeforeMetricsByVacancyIdService } from "@/services/getQuestionBeforeMetricsByVacancyIdService";
 import { VacancyMetricsCharts } from "./VacancyMetricsCharts";
 import { VacancyLineChart } from "./VacancyLineChart";
-import { apiDelay } from "@/mock/apiDelay";
 
 interface VacancyMetricsProps {
   id: string;
@@ -28,7 +27,6 @@ async function getVacancyMetricsById(id: string): Promise<VacancyMetrics> {
 async function getQuestionBeforeMetricsByVacancyId(id: string): Promise<QuestionBeforeMetrics> {
   const response = await getQuestionBeforeMetricsByVacancyIdService(id);
   const questionBeforeMetrics = await response.json();
-  console.log("getQuestionBeforeMetricsByVacancyId: " + JSON.stringify(questionBeforeMetrics));
   return questionBeforeMetrics;
 }
 

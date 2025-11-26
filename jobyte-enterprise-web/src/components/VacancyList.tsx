@@ -12,7 +12,6 @@ interface VacancyListProps {
 
 async function getVacancies(page?: string): Promise<Vacancy[]> {
   const response = await getVacanciesService(page);
-  console.log(response);
   const vacancies: Vacancy[] = await response.json();
   return vacancies;
 }
@@ -21,7 +20,7 @@ export async function VacancyList({ page }: VacancyListProps) {
   const vacancies = await getVacancies(page);
 
   return (
-    <>
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
       {vacancies.length > 0 ? (
         vacancies.map(vacancy => (
           <Card key={vacancy.id}>
@@ -63,6 +62,6 @@ export async function VacancyList({ page }: VacancyListProps) {
           Nenhuma vaga encontrada
         </p>
       )}
-    </>
+    </div>
   );
 }

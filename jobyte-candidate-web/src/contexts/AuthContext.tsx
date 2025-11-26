@@ -68,9 +68,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      console.log("AuthContext: fetchProfile response status:", response.status);
-      console.log("Profile user:", await response.clone().json());
-
       if (response.ok) {
         const data = await response.json();
         setProfile(data);

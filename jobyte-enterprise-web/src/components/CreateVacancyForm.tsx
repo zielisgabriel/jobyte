@@ -36,9 +36,6 @@ export function CreateVacancyForm() {
   const router = useRouter();
 
   async function onSubmit(data: CreateVacancyFormData) {
-    console.log("Submitting vacancy:", data);
-    console.log("Enterprise ID:", profile?.id);
-
     if (!profile?.id) {
       console.error("Perfil não carregado ou enterpriseId ausente");
       return;
@@ -61,8 +58,6 @@ export function CreateVacancyForm() {
     } catch (error) {
       console.error("Erro ao ler resposta do servidor:", error);
     }
-
-    console.log(responseBody);
 
     if (!response.ok) {
       console.error(

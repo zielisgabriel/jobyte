@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from "react";
 import { Enterprise } from "@/types/Enterprise";
 import { usePathname, useRouter } from "next/navigation";
 import { AUTH_PATHS } from "@/environments/AUTH_PATHS";
+import { toast } from "sonner";
 
 interface AuthContextType {
   profile: Enterprise | null;
@@ -31,13 +32,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         })
       });
 
-      if (!response.ok) {
-        return;
-      }
+      if (response.status >= 500) throw Error("Servidor está fora do ar!");
+
+      if (!response.ok) throw Error("Houve um erro inesperado!");
       
       push("/dashboard");
     } catch (error: any) {
-      return;
+      toast.error(error.message);
     }
   }
 
@@ -47,7 +48,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         method: "POST"
       });
     } catch (error: any) {
-      console.error("Erro ao fazer logout:", error);
     } finally {
       setProfile(null);
       push("/login");
@@ -63,8 +63,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await logout();
       return;
     }
-
-    console.log("AuthContext: fetchProfile response status:", response.status);
 
     if (response.ok) {
       const data = await response.json();

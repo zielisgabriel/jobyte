@@ -6,6 +6,5 @@ export async function GET(req: NextRequest) {
   const page = searchParams.get('page');
 
   const queryString = page ? `?page=${page}` : '';
-  console.log("BFF: Requisição de lista de vagas, página:", page || "1");
   return await apiProxy(req, `api/candidate/vacancy/list${queryString}`);
 }

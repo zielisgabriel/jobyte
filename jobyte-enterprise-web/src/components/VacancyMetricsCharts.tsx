@@ -11,7 +11,7 @@ interface VacancyMetricsChartsProps {
 
 export function VacancyMetricsCharts({ questionBeforeMetrics }: VacancyMetricsChartsProps) {
   function buildChartColors(platformNames: string[]): ChartConfig {
-    const paletteVars = ["--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5", "--chart-6"];
+    const paletteVars = ["--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"];
     const config: ChartConfig = {};
     const unique = Array.from(new Set(platformNames)).sort((a, b) => a.localeCompare(b));
     

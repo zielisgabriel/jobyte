@@ -12,6 +12,8 @@ export async function fetchWithAuth(path: string, init?: RequestInit) {
       "Content-Type": "application/json",
       ...(accessTokenCookieValue ? { Authorization: `Bearer ${accessTokenCookieValue}` } : {})
     }
+  }).catch(() => {
+    throw Error("Servidor fora do ar!");
   });
 
   if (apiResponse.status !== 401) return apiResponse;

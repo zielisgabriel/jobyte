@@ -30,19 +30,17 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
               </Link>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-            <Suspense
-              fallback={
-                <>
-                  <Skeleton className="rounded-lg h-[300px] w-full" />
-                  <Skeleton className="rounded-lg h-[300px] w-full" />
-                  <Skeleton className="rounded-lg h-[300px] w-full" />
-                </>
-              }
-            >
-              <VacancyList page={page} />
-            </Suspense>
-          </div>
+          <Suspense
+            fallback={
+              <>
+                <Skeleton className="rounded-lg h-[300px] w-full" />
+                <Skeleton className="rounded-lg h-[300px] w-full" />
+                <Skeleton className="rounded-lg h-[300px] w-full" />
+              </>
+            }
+          >
+            <VacancyList page={page} />
+          </Suspense>
         </section>
         <DashboardGlobalMetrics />
       </div>
