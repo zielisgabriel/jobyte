@@ -9,14 +9,12 @@ import {
 } from "lucide-react";
 import { VacancyList } from "@/components/VacancyList";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { DashboardMetricsSection } from "@/components/DashboardMetricsSection";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// Quick stats cards data
 const QUICK_STATS = [
   {
     title: "Vagas Ativas",
@@ -53,9 +51,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
   return (
     <main className="min-h-screen">
-      {/* Header Section */}
       <section className="relative border-b bg-gradient-to-b from-card/80 to-background">
-        {/* Background decorations */}
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-3xl" />
         
@@ -78,10 +74,6 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
             </div>
             
             <div className="flex items-center gap-3">
-              <Badge variant="outline" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5">
-                <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                Sistema operacional
-              </Badge>
               <Link href="/dashboard/vacancy/create">
                 <Button className="gap-2">
                   <PlusIcon className="h-4 w-4" />
@@ -94,7 +86,6 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-        {/* Quick Stats */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {QUICK_STATS.map((stat, index) => (
             <Card key={index} className="group hover:shadow-md transition-all duration-300 hover:border-primary/20">
@@ -120,7 +111,6 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           ))}
         </section>
 
-        {/* Vacancies Section */}
         <section className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
@@ -166,10 +156,8 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </Suspense>
         </section>
 
-        {/* Global Metrics Section */}
         <DashboardMetricsSection />
 
-        {/* Quick Actions */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card className="group hover:shadow-md transition-all duration-300 hover:border-primary/20 cursor-pointer">
             <Link href="/dashboard/vacancy/create">
