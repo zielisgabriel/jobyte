@@ -124,11 +124,11 @@ export async function VacancyList({ page }: VacancyListProps) {
               </div>
             </CardContent>
             
-            <CardFooter className="pt-0 border-t bg-muted/30">
+            <CardFooter className="border-t bg-muted/30">
               <Link href={`/dashboard/vacancy/metrics/${vacancy.id}`} className="w-full">
                 <Button 
-                  variant="ghost" 
-                  className="w-full justify-between group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
+                  variant="link" 
+                  className="w-full h-full justify-between transition-colors"
                 >
                   Ver métricas da vaga
                   <ChevronRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
