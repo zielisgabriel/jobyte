@@ -213,8 +213,7 @@ export function EnterpriseRegisterForm() {
 
         <Button
           type="submit"
-          className="w-full"
-          variant={"color_invert"}
+          className="w-full bg-background text-foreground hover:bg-background/90"
           disabled={isPending}
         >
           {isPending ? "Cadastrando..." : "Cadastrar"}
