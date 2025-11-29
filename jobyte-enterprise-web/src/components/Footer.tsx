@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { LinkedinIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
+import {
+  LinkedinIcon,
+  InstagramIcon,
+  TwitterIcon,
+  YoutubeIcon,
+} from "lucide-react";
 
 const FOOTER_LINKS = {
   produto: [
@@ -31,13 +36,13 @@ export function Footer() {
     <footer className="border-t bg-card/30">
       <div className="max-w-7xl mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <Link href="/home" className="inline-block">
               <h3 className="font-black text-2xl">Jobyte.</h3>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              A plataforma de recrutamento inteligente para empresas que buscam os melhores talentos.
+              A plataforma de recrutamento inteligente para empresas que buscam
+              os melhores talentos.
             </p>
             <div className="flex gap-3">
               {SOCIAL_LINKS.map((social) => (
@@ -53,7 +58,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Produto */}
           <div className="space-y-4">
             <h4 className="font-semibold">Produto</h4>
             <ul className="space-y-3">
@@ -70,7 +74,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Empresa */}
           <div className="space-y-4">
             <h4 className="font-semibold">Empresa</h4>
             <ul className="space-y-3">
@@ -87,7 +90,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
           <div className="space-y-4">
             <h4 className="font-semibold">Legal</h4>
             <ul className="space-y-3">
@@ -105,14 +107,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom */}
         <div className="border-t mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Jobyte. Todos os direitos reservados.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Feito com ❤️ no Brasil
-          </p>
+          <p className="text-xs text-muted-foreground">Feito com ❤️ no Brasil</p>
         </div>
       </div>
     </footer>
