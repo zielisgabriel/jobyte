@@ -11,7 +11,7 @@ import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Separator } from "radix-ui";
 import { Input } from "./ui/input";
-import { AuthContext } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const enterpriseLoginFormSchema = z.object({
 	email: z.string().regex(EMAIL_REGEX, "Email inválido"),
@@ -23,7 +23,6 @@ type EnterpriseLoginFormType = z.infer<typeof enterpriseLoginFormSchema>;
 export function EnterpriseLoginForm() {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [isPending, startTransition] = useTransition();
-	const {login} = useContext(AuthContext);
 	const {
 		handleSubmit,
 		register,
@@ -32,11 +31,20 @@ export function EnterpriseLoginForm() {
 		resolver: zodResolver(enterpriseLoginFormSchema),
 		defaultValues: { email: "", password: "" },
 	});
+	const { refresh } = useRouter();
 
 	async function onSubmit({email, password}: EnterpriseLoginFormType) {
 		startTransition(async () => {
-			await login(email, password);
-		})
+			await fetch("/api/auth/login", {
+				body: JSON.stringify({
+					email,
+					password
+				}),
+				method: "POST"
+			});
+
+			refresh();
+		});
 	}
 
 	return (

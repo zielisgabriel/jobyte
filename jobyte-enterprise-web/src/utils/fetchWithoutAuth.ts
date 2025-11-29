@@ -1,5 +1,17 @@
-export async function fetchWithoutAuth(path: string, host?: string, init?: RequestInit) {
-  console.log("fetchWithoutAuth: path: " + path);
+import { apiDelay } from "@/mock/apiDelay";
+
+interface FetchWithoutAuthProps {
+  path: string,
+  host?: string,
+  init?: RequestInit
+}
+
+export async function fetchWithoutAuth({
+  path,
+  host,
+  init
+}: FetchWithoutAuthProps) {
+  await apiDelay(500);
 
   const apiResponse = await fetch(`${(host ?? process.env.PUBLIC_API_URL) + path}`, {
     ...init,

@@ -1,35 +1,59 @@
-import { NextRequest, NextResponse } from "next/server";
-import { AUTH_PATHS } from "./environments/AUTH_PATHS";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { PRIVATE_PATHS } from "./environments/PRIVATE_PATHS";
+import { AUTH_PATHS } from "./environments/AUTH_PATHS";
 
-export default function proxy(req: NextRequest) {
-  const pathname = req.nextUrl.pathname;
-  const accessToken = req.cookies.get("access_token")?.value;
-  const refreshToken = req.cookies.get("refresh_token")?.value;
-  
-  if (pathname.startsWith("/api/")) {
-    return NextResponse.next();
-  }
+function isAuthenticated(request: NextRequest): boolean {
+  const accessToken = request.cookies.get("access_token")?.value;
+  const refreshToken = request.cookies.get("refresh_token")?.value;
+  return Boolean(accessToken || refreshToken);
+}
+
+function matchesPath(pathname: string, paths: string[]): boolean {
+  return paths.some((path) => {
+    if (pathname === path) return true;
+    if (pathname.startsWith(`${path}/`)) return true;
+    return false;
+  });
+}
+
+export function proxy(request: NextRequest): NextResponse {
+  const { pathname } = request.nextUrl;
+
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/api") ||
+    pathname.includes(".")
+  ) return NextResponse.next();
 
   if (pathname === "/") {
-    return NextResponse.redirect(new URL("/home", req.url));
+    return NextResponse.redirect(new URL("/home", request.url));
   }
 
-  const isPrivatePath = PRIVATE_PATHS.some(path => pathname.endsWith(path))
-  if (isPrivatePath && !accessToken && !refreshToken) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  const authenticated = isAuthenticated(request);
+
+  if (matchesPath(pathname, PRIVATE_PATHS) && !authenticated) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  const isAuthPath = AUTH_PATHS.some(path => pathname.startsWith(path));
-  if (isAuthPath && (accessToken || refreshToken)) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  if (matchesPath(pathname, AUTH_PATHS) && authenticated) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();
 }
 
+export default proxy;
+
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico).*)"
+    /*
+     * Match all paths except:
+     * - _next/static (static files)
+     * - _next/image (image optimization)
+     * - favicon.ico, sitemap.xml, robots.txt
+     * - Static assets with extensions
+     */
+    "/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\..*).*)",
   ],
 };

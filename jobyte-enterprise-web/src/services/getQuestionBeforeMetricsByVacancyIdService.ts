@@ -1,5 +1,8 @@
 import { fetchWithoutAuth } from "@/utils/fetchWithoutAuth";
 
 export async function getQuestionBeforeMetricsByVacancyIdService(vacancyId: string) {
-  return await fetchWithoutAuth(`/api/metrics/questions-before/${vacancyId}`, "http://localhost:5000");
+  return await fetchWithoutAuth({
+    path: `/api/metrics/questions-before/${vacancyId}`,
+    host: "http://localhost:5000"
+  });
 }

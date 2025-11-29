@@ -1,9 +1,12 @@
+import { apiDelay } from "@/mock/apiDelay";
 import { cookies } from "next/headers";
 
 export async function fetchWithAuth(path: string, init?: RequestInit) {
   const cookieStore = cookies();
   const accessTokenCookieValue = (await cookieStore).get("access_token")?.value;
   const refreshTokenCookieValue = (await cookieStore).get("refresh_token")?.value;
+  
+  await apiDelay(500);
 
   const apiResponse = await fetch(`${process.env.PUBLIC_API_URL + path}`, {
     ...init,

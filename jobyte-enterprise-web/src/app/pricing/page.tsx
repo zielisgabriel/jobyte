@@ -178,7 +178,7 @@ export default function PricingPage() {
                   <CardHeader className="text-center pb-4">
                     <CardTitle className="text-2xl">{plan.name}</CardTitle>
                     <CardDescription className="min-h-[48px]">{plan.description}</CardDescription>
-                    <div className="pt-4">
+                    <div className="pt-4 space-x-1">
                       <span className="text-4xl font-bold">{plan.price}</span>
                       <span className="text-muted-foreground">{plan.period}</span>
                     </div>

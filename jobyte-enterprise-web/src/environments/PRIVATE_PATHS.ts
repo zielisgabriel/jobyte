@@ -1,4 +1,7 @@
 export const PRIVATE_PATHS = [
   "/dashboard",
-  "/settings"
+  "/settings",
+  "/profile",
+  "/vacancy/create",
+  "/vacancy/edit",
 ];

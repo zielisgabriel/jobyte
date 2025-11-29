@@ -1,23 +1,12 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { useMobile } from "@/hooks/useMobile";
-import clsx from "clsx";
-import { ArrowLeft } from "lucide-react";
-import { twMerge } from "tailwind-merge";
 import { EnterpriseLoginForm } from "@/components/EnterpriseLoginForm";
-import { useRouter } from "next/navigation";
 import { CSSProperties } from "react";
 import { BackNavButton } from "@/components/BackNavButton";
 
-export default function LoginPage() {
-  const {isMobile} = useMobile();
-  const router = useRouter();
-
+export default async function LoginPage() {
   return (
-    <main className={twMerge(clsx("grid grid-cols-[1fr_1fr] h-screen", isMobile && "flex"))}>
+    <main className={"md:grid md:grid-cols-[1fr_1fr] flex h-screen"}>
       <div
-        className={twMerge(clsx("flex flex-col justify-center items-center", isMobile && "hidden"))}
+        className={"md:flex flex-col justify-center items-center hidden"}
         style={{
           "--background": "var(--color-foreground)",
           "--foreground": "var(--color-background)"

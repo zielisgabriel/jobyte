@@ -1,11 +1,11 @@
-export async function POST(req: Request) {
-  const {email, password} = await req.json();
+import { loginService } from "@/services/loginService";
+import { LoginCredentialsRequest } from "@/types/LoginCredentialsRequest";
 
-  return await fetch(`${process.env.PUBLIC_API_URL}/api/auth/enterprise/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+export async function POST(req: Request) {
+  const {
+    email,
+    password
+  }: LoginCredentialsRequest = await req.json();
+
+  return await loginService({ email, password });
 }
