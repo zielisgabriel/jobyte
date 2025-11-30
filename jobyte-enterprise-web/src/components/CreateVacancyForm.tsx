@@ -13,11 +13,11 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { Vacancy } from "@/types/Vacancy";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
+import { useProfileStore } from "@/hooks/useProfileStore";
 
 const createVacancyFormSchema = z.object({
   title: z.string().trim().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -44,7 +44,7 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
         description: "",
       },
     });
-  const { profile } = useContext(AuthContext);
+  const { profile } = useProfileStore();
   const router = useRouter();
 
   const title = watch("title");

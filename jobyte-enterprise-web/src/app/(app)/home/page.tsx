@@ -123,7 +123,6 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Hero Visual */}
             <div className="hidden lg:block relative">
               <div className="relative bg-gradient-to-br from-card to-card/80 border rounded-2xl p-8 shadow-2xl">
                 <div className="absolute -top-4 -right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
@@ -174,7 +173,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Carousel */}
       <section className="py-16 border-y bg-card/30">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-10">
@@ -185,7 +183,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Benefits Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">

@@ -1,6 +1,5 @@
 "use client"
 
-import { AuthContext } from "@/contexts/AuthContext";
 import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
 import { useContext, useEffect, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
@@ -14,6 +13,7 @@ import {
   CalendarIcon
 } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
+import { useProfileStore } from "@/hooks/useProfileStore";
 
 const chartConfig: ChartConfig = {
   quantity: {
@@ -58,7 +58,7 @@ export const DashboardGlobalMetrics = forwardRef<DashboardGlobalMetricsRef>(func
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const { profile } = useContext(AuthContext);
+  const { profile } = useProfileStore();
 
   const fetchSelectionProcessMetrics = useCallback(async (enterpriseId?: string, isRefresh = false) => {
     if (!enterpriseId) {

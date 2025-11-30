@@ -1,7 +1,5 @@
 import { Poppins } from "next/font/google";
 import "@/css/globals.css";
-import { Header } from "@/components/Header";
-import { AuthProvider } from "@/contexts/AuthContext";
 import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
@@ -15,16 +13,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <html lang="pt-BR">
-        <body
-          className={`${poppins.className} antialiased dark`}
-        >
-          <Header />
-          {children}
-          <Toaster />
-        </body>
-      </html>
-    </AuthProvider>
+    <html lang="pt-BR">
+      <body
+        className={`${poppins.className} antialiased dark`}
+      >
+        {children}
+        <Toaster />
+      </body>
+    </html>
   );
 }

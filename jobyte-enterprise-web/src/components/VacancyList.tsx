@@ -13,6 +13,7 @@ import {
   InboxIcon
 } from "lucide-react";
 import dayjs from "dayjs";
+import { Separator } from "./ui/separator";
 
 interface VacancyListProps {
   page?: string
@@ -123,8 +124,10 @@ export async function VacancyList({ page }: VacancyListProps) {
                 </div>
               </div>
             </CardContent>
+
+            <Separator />
             
-            <CardFooter className="border-t bg-muted/30">
+            <CardFooter>
               <Link href={`/dashboard/vacancy/metrics/${vacancy.id}`} className="w-full">
                 <Button 
                   variant="link" 

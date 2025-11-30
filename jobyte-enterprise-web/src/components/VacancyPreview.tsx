@@ -1,7 +1,6 @@
 "use client";
 
 import { useContext } from "react";
-import { AuthContext } from "@/contexts/AuthContext";
 import {
   Building2Icon,
   EyeIcon,
@@ -12,6 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
+import { useProfileStore } from "@/hooks/useProfileStore";
 
 interface VacancyPreviewProps {
   title: string;
@@ -19,7 +19,7 @@ interface VacancyPreviewProps {
 }
 
 export function VacancyPreview({ title, description }: VacancyPreviewProps) {
-  const { profile } = useContext(AuthContext);
+  const { profile } = useProfileStore();
   const currentDate = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
