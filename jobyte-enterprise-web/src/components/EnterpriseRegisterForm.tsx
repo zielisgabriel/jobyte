@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -135,14 +135,18 @@ export function EnterpriseRegisterForm() {
             <p className="text-lg font-semibold text-muted-foreground">nterprise</p>
           </span>
         </div>
-        <h2 className="text-2xl font-bold text-foreground">Crie sua conta</h2>
-        <p className="text-muted-foreground mt-2">
-          Preencha os dados da sua empresa para começar
-        </p>
       </div>
 
       <Card className="border-0 shadow-xl">
-        <CardContent className="p-6 lg:p-8">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold">
+              Crie sua conta
+          </CardTitle>
+          <CardDescription>
+              Preencha os dados da sua empresa para começar
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           {errorMessage && (
             <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg flex items-center gap-2">
               <AlertCircleIcon className="h-5 w-5 shrink-0" />
@@ -306,20 +310,16 @@ export function EnterpriseRegisterForm() {
               </div>
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full h-12 text-base font-semibold gap-2 group"
-              disabled={isPending}
-            >
+            <Button type="submit" className="w-full gap-2" disabled={isPending}>
               {isPending ? (
                 <>
-                  <Loader2Icon className="h-5 w-5 animate-spin" />
+                  <Loader2Icon className="h-4 w-4 animate-spin" />
                   Criando conta...
                 </>
               ) : (
                 <>
+                  <ArrowRightIcon className="h-4 w-4" />
                   Criar Conta
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </>
               )}
             </Button>
