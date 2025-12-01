@@ -2,6 +2,8 @@ import { apiDelay } from "@/mock/apiDelay";
 import { cookies } from "next/headers";
 
 export async function fetchWithAuth(path: string, init?: RequestInit) {
+  console.log("OKKKKKKKKKKKKKKKKK")
+
   const cookieStore = cookies();
   const accessTokenCookieValue = (await cookieStore).get("access_token")?.value;
   const refreshTokenCookieValue = (await cookieStore).get("refresh_token")?.value;
