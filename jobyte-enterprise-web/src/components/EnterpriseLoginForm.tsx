@@ -69,11 +69,7 @@ export function EnterpriseLoginForm() {
 
   return (
     <div className="w-full max-w-md space-y-6">
-      {/* Mobile Logo */}
       <div className="flex flex-col items-center gap-2 lg:hidden">
-        <div className="h-14 w-14 rounded-2xl bg-primary flex items-center justify-center">
-          <Building2Icon className="h-7 w-7 text-primary-foreground" />
-        </div>
         <span className="flex items-center">
           <h1 className="font-black text-2xl">Jobyte.</h1>
           <p className="text-sm font-semibold text-muted-foreground">nterprise</p>
