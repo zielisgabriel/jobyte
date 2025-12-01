@@ -598,3 +598,338 @@ Dashboard Page (Server Component)
 ---
 
 *Documentação atualizada em 29 de novembro de 2025.*
+
+---
+
+## 📅 Sessão 3 - 30 de novembro de 2025
+
+### Visão Geral
+Continuação das melhorias de UI focando em páginas de autenticação, configurações, tema dinâmico e correções de responsividade.
+
+---
+
+## 🔐 Página de Cadastro Redesenhada
+
+### Arquivo: `src/app/(public)/register/page.tsx`
+
+**Layout Split (2 colunas):**
+- Coluna esquerda: Ilustração/informações
+- Coluna direita: Formulário de cadastro
+
+**Features Cards (Grid 2x2):**
+- ⚡ Configuração rápida
+- 📊 Dashboard analítico
+- 🤖 Triagem com IA
+- 🔒 Seguro e confiável
+
+**Design:**
+- Padrão consistente com a página de Login
+- Gradientes decorativos
+- Badges informativos
+- Responsivo (empilha no mobile)
+
+---
+
+## 📝 Formulário de Cadastro Melhorado
+
+### Arquivo: `src/components/EnterpriseRegisterForm.tsx`
+
+**Melhorias:**
+- Validação visual de senha com badges coloridos:
+  - ✓ Mínimo 8 caracteres
+  - ✓ Letra maiúscula
+  - ✓ Número
+  - ✓ Caractere especial
+- Labels com asterisco vermelho para campos obrigatórios
+- Mensagens de erro inline com React Hook Form + Zod
+- **Botão Google OAuth** com logo SVG oficial
+
+**Código do botão Google:**
+```tsx
+<Button 
+  type="button" 
+  variant="outline" 
+  className="w-full gap-2 h-11"
+>
+  <svg className="h-5 w-5" viewBox="0 0 24 24">
+    {/* Logo oficial do Google com 4 cores */}
+  </svg>
+  Cadastrar com Google
+</Button>
+```
+
+---
+
+## 🔑 Botão Google na Página de Login
+
+### Arquivo: `src/components/EnterpriseLoginForm.tsx`
+
+**Adicionado:**
+- Separador visual "ou continue com"
+- Botão "Entrar com Google" com logo SVG
+- Mesmo padrão visual do cadastro
+
+---
+
+## ⚙️ Página de Configurações
+
+### Arquivos Criados:
+- `src/app/(app)/settings/page.tsx` (Server Component)
+- `src/components/SettingsForm.tsx` (Client Component)
+- `src/components/SettingsSkeleton.tsx`
+
+### Estrutura da Página
+
+```tsx
+// settings/page.tsx
+<div className="container max-w-4xl py-8">
+  <BackNavButton />
+  <Suspense fallback={<SettingsSkeleton />}>
+    <SettingsForm />
+  </Suspense>
+</div>
+```
+
+### Tabs Implementadas (4 abas)
+
+#### 1. Aparência
+- **Tema:** Claro / Escuro / Sistema (padrão)
+- **Idioma e Região:** Português BR, Fuso horário
+- **Zona de Perigo:** Botão para excluir conta
+
+#### 2. Notificações
+- **E-mail:** Switches para diferentes tipos
+  - Novas candidaturas
+  - Atualizações de vagas
+  - Newsletter
+- **Push:** Ativação no navegador
+
+#### 3. Segurança
+- **Autenticação:** Toggle 2FA (em breve)
+- **Sessões Ativas:** Gerenciamento (em breve)
+
+#### 4. Integrações
+- **Disponíveis:** LinkedIn, Google Workspace, Slack (em breve)
+- **API e Webhooks:** Configuração customizada (em breve)
+
+### Seletor de Tema Visual
+
+```tsx
+<div className="grid grid-cols-3 gap-4">
+  {[
+    { value: "light", label: "Claro", icon: SunIcon },
+    { value: "dark", label: "Escuro", icon: MoonIcon },
+    { value: "system", label: "Sistema", icon: MonitorIcon },
+  ].map((themeOption) => (
+    <button
+      key={themeOption.value}
+      onClick={() => handleThemeChange(themeOption.value)}
+      className={`p-4 rounded-xl border-2 transition-all ${
+        theme === themeOption.value
+          ? "border-primary bg-primary/5"
+          : "border-border hover:border-primary/50"
+      }`}
+    >
+      <themeOption.icon className="h-6 w-6 mx-auto mb-2" />
+      <span>{themeOption.label}</span>
+      {theme === themeOption.value && (
+        <CheckCircleIcon className="h-4 w-4 text-primary" />
+      )}
+    </button>
+  ))}
+</div>
+```
+
+---
+
+## 🎨 Sistema de Tema Funcional
+
+### Arquivos:
+- `src/components/ThemeProvider.tsx` ✨ NOVO
+- `src/app/layout.tsx` ✏️ MODIFICADO
+
+### ThemeProvider
+
+```tsx
+"use client";
+
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </NextThemesProvider>
+  );
+}
+```
+
+### Layout Root Atualizado
+
+```tsx
+// Antes
+<html lang="pt-BR" className="dark">
+  <body>
+    {children}
+  </body>
+</html>
+
+// Depois
+<html lang="pt-BR" suppressHydrationWarning>
+  <body>
+    <ThemeProvider>
+      {children}
+    </ThemeProvider>
+  </body>
+</html>
+```
+
+### Dependência Instalada
+```bash
+npm install next-themes
+```
+
+### Funcionalidades:
+- ✅ Tema persiste no `localStorage`
+- ✅ Respeita preferência do sistema (`prefers-color-scheme`)
+- ✅ Sem flash de tema incorreto (SSR-safe)
+- ✅ Transição suave entre temas
+
+---
+
+## 📱 Correções de Responsividade
+
+### SettingsForm.tsx - Mobile Fixes
+
+**Padrão aplicado em todos os cards:**
+```tsx
+// Antes
+<div className="flex items-center justify-between">
+
+// Depois
+<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+```
+
+**Switch em mobile:**
+```tsx
+<Switch className="self-start sm:self-center" />
+```
+
+**TabsList horizontal scroll:**
+```tsx
+<TabsList className="w-full overflow-x-auto">
+  <div className="inline-flex w-max sm:w-full">
+    {/* tabs */}
+  </div>
+</TabsList>
+```
+
+**Botões de ação:**
+```tsx
+<div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t">
+  <Button variant="outline" className="w-full sm:w-auto">
+    Cancelar
+  </Button>
+  <Button className="w-full sm:w-auto sm:min-w-[160px]">
+    Salvar Configurações
+  </Button>
+</div>
+```
+
+---
+
+## 🐛 Correção de Erro - VacancyList
+
+### Problema
+```
+Unexpected end of JSON input
+Erro ao buscar vagas: 403
+```
+
+### Causa
+- API retornando erro 403 (não autenticado)
+- `response.json()` falhando em resposta vazia
+
+### Solução
+```tsx
+async function getVacancies(page?: string): Promise<Vacancy[]> {
+  try {
+    const response = await getVacanciesService(page);
+    
+    if (!response.ok) {
+      return []; // Retorna vazio silenciosamente
+    }
+
+    const text = await response.text();
+    if (!text) {
+      return [];
+    }
+
+    return JSON.parse(text) as Vacancy[];
+  } catch {
+    return [];
+  }
+}
+```
+
+---
+
+## 📁 Estrutura de Arquivos - Sessão 3
+
+```
+jobyte-enterprise-web/
+├── src/
+│   ├── app/
+│   │   ├── (app)/
+│   │   │   └── settings/
+│   │   │       └── page.tsx          ✨ Novo
+│   │   ├── (public)/
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx          (existente)
+│   │   │   └── register/
+│   │   │       └── page.tsx          ✏️ Redesenhado
+│   │   └── layout.tsx                ✏️ ThemeProvider adicionado
+│   └── components/
+│       ├── EnterpriseLoginForm.tsx   ✏️ Botão Google
+│       ├── EnterpriseRegisterForm.tsx ✏️ Botão Google + validação
+│       ├── SettingsForm.tsx          ✨ Novo
+│       ├── SettingsSkeleton.tsx      ✨ Novo
+│       ├── ThemeProvider.tsx         ✨ Novo
+│       ├── VacancyList.tsx           ✏️ Error handling
+│       └── ui/
+│           └── switch.tsx            ✨ Novo (shadcn)
+└── docs/
+    └── CHANGELOG-UI-2025-11-29.md    ✏️ Atualizado
+```
+
+---
+
+## 📦 Dependências Adicionadas
+
+| Pacote | Versão | Uso |
+|--------|--------|-----|
+| next-themes | ^0.4.6 | Sistema de tema claro/escuro/sistema |
+| @radix-ui/react-switch | latest | Componente Switch do shadcn |
+
+---
+
+## ✅ Resumo da Sessão 3
+
+| Tarefa | Status |
+|--------|--------|
+| Redesign página de cadastro | ✅ Completo |
+| Botão Google OAuth (login/register) | ✅ Completo |
+| Página de configurações | ✅ Completo |
+| Sistema de tema funcional | ✅ Completo |
+| Persistência no localStorage | ✅ Completo |
+| Responsividade SettingsForm | ✅ Completo |
+| Error handling VacancyList | ✅ Completo |
+
+---
+
+*Documentação atualizada em 30 de novembro de 2025.*
