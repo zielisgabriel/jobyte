@@ -1,0 +1,142 @@
+<#import "template.ftl" as layout>
+<@layout.registrationLayout displayMessage=!messagesPerField.existsError('username','password') displayInfo=realm.password && realm.registrationAllowed && !registrationDisabled??; section>
+    <#if section = "form">
+        <div class="login-card-header">
+            <h2 class="login-card-title">Bem-vindo de volta</h2>
+            <p class="login-card-description">Entre com suas credenciais para acessar sua conta</p>
+        </div>
+        
+        <#if messagesPerField.existsError('username','password')>
+            <div class="alert-error">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <span>${kcSanitize(messagesPerField.getFirstError('username','password'))?no_esc}</span>
+            </div>
+        </#if>
+        
+        <form id="kc-form-login" action="${url.loginAction}" method="post">
+            <div class="form-group">
+                <label for="username" class="form-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                    E-mail
+                </label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-input <#if messagesPerField.existsError('username','password')>error</#if>"
+                    placeholder="seu@email.com"
+                    value="${(login.username!'')}"
+                    autofocus
+                    autocomplete="username"
+                />
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    Senha
+                </label>
+                <div class="password-wrapper">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input <#if messagesPerField.existsError('username','password')>error</#if>"
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                    />
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <#if realm.resetPasswordAllowed>
+                <a href="${url.loginResetCredentialsUrl}" class="forgot-password-link">Esqueceu a senha?</a>
+            </#if>
+            
+            <button type="submit" class="btn-submit">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                    <polyline points="10 17 15 12 10 7"/>
+                    <line x1="15" y1="12" x2="3" y2="12"/>
+                </svg>
+                Entrar
+            </button>
+        </form>
+        
+        <#if realm.password && social.providers??>
+            <div class="divider">
+                <span>ou continue com</span>
+            </div>
+            
+            <#list social.providers as p>
+                <a href="${p.loginUrl}" class="btn-social">
+                    <#if p.alias == "google">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                    <#else>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                        </svg>
+                    </#if>
+                    Continuar com ${p.displayName}
+                </a>
+            </#list>
+        <#else>
+            <!-- Show Google button even without social provider configured -->
+            <div class="divider">
+                <span>ou continue com</span>
+            </div>
+            
+            <button type="button" class="btn-social" disabled style="opacity: 0.5; cursor: not-allowed;">
+                <svg viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continuar com Google
+            </button>
+        </#if>
+        
+        <#if realm.password && realm.registrationAllowed && !registrationDisabled??>
+            <div class="register-section">
+                <p>Ainda não tem uma conta?</p>
+                <a href="${url.registrationUrl}" class="btn-register">Criar conta gratuita</a>
+            </div>
+        </#if>
+        
+        <script>
+            function togglePassword() {
+                const passwordInput = document.getElementById('password');
+                const eyeIcon = document.getElementById('eye-icon');
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.innerHTML = '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+                }
+            }
+        </script>
+    </#if>
+</@layout.registrationLayout>
