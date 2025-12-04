@@ -42,7 +42,7 @@ export function EnterpriseLoginForm() {
     resolver: zodResolver(enterpriseLoginFormSchema),
     defaultValues: { email: "", password: "" },
   });
-  const { refresh } = useRouter();
+  const router = useRouter();
 
   async function onSubmit({ email, password }: EnterpriseLoginFormType) {
     setSubmitError(null);
@@ -60,7 +60,7 @@ export function EnterpriseLoginForm() {
           return;
         }
 
-        refresh();
+        router.push("/dashboard");
       } catch {
         setSubmitError("Erro ao fazer login. Tente novamente.");
       }
