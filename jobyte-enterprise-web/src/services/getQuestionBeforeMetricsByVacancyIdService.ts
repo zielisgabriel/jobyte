@@ -1,4 +1,4 @@
-import { fetchWithoutAuth } from "@/utils/fetchWithoutAuth";
+import { fetchWithoutAuth } from "@/middlewares/fetchWithoutAuth";
 
 export async function getQuestionBeforeMetricsByVacancyIdService(vacancyId: string) {
   return await fetchWithoutAuth({
