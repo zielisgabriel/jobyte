@@ -1,5 +1,5 @@
 import { LoginCredentialsRequest } from "@/types/LoginCredentialsRequest";
-import { fetchWithoutAuth } from "@/utils/fetchWithoutAuth";
+import { fetchWithoutAuth } from "@/middlewares/fetchWithoutAuth";
 
 export async function loginService({email, password}: LoginCredentialsRequest) {
   return await fetchWithoutAuth({
