@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { apiProxy } from "@/utils/apiProxy";
+import { apiProxy } from "@/middlewares/apiProxy";
 
 export async function GET(
   req: NextRequest,
