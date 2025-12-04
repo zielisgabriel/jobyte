@@ -1,12 +1,11 @@
+import { signOut } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function POST() {
   try {
-    const response = NextResponse.json({message: "Logout successful"}, {status: 200});
-    response.cookies.delete("refresh_token");
-    response.cookies.delete("access_token");
-    return response;
+    await signOut({ redirect: false });
+    return NextResponse.json({ message: "Logout successful" }, { status: 200 });
   } catch (error: any) {
-    return NextResponse.json({error: "Erro ao fazer logout"}, {status: 500});
+    return NextResponse.json({ error: "Erro ao fazer logout" }, { status: 500 });
   }
 }
