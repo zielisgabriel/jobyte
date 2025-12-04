@@ -5,16 +5,15 @@ import { Skeleton } from "./ui/skeleton";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "./ui/sheet";
 import { Building2Icon, ChartAreaIcon, LogOutIcon, MenuIcon, SettingsIcon, UserRoundIcon } from "lucide-react";
 import { Button } from "./ui/button";
-import { useMobile } from "@/hooks/useMobile";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { signIn, signOut } from "next-auth/react";
 
 export function AuthArea() {
   const {profile, loading, startLoading, setProfile} = useProfileStore();
-  const {isMobile} = useMobile();
   const pathname = usePathname();
 
   async function getProfileDetails() {
@@ -39,7 +38,7 @@ export function AuthArea() {
     if (!profile) {
       getProfileDetails();
     }
-  }, [pathname])
+  }, [pathname]);
 
   return (
     loading ? (
@@ -57,7 +56,7 @@ export function AuthArea() {
             </Button>
           </SheetTrigger>
           <SheetContent
-            side={isMobile ? "top" : "right"}
+            side={"right"}
             className="pb-4"
           >
             <SheetHeader>
@@ -98,6 +97,7 @@ export function AuthArea() {
                 <Button
                   variant="ghost"
                   className="w-full justify-start gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={() => signOut({ callbackUrl: "/home" })}
                 >
                   <LogOutIcon className="h-4 w-4" />
                   Sair
@@ -114,11 +114,12 @@ export function AuthArea() {
             </Button>
           </Link>
 
-          <Link href="/login">
-            <Button size="sm">
-              Entrar
-            </Button>
-          </Link>
+          <Button
+            size="sm"
+            onClick={async () => await signIn("keycloak")}
+          >
+            Entrar
+          </Button>
         </div>
       )
     )
