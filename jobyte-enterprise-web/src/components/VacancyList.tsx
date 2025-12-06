@@ -1,9 +1,9 @@
+"use client"
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { Vacancy } from "@/types/Vacancy";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import { getVacanciesService } from "@/services/getVacanciesService";
 import { 
   CalendarIcon, 
   ChevronRightIcon, 
@@ -14,15 +14,20 @@ import {
 } from "lucide-react";
 import dayjs from "dayjs";
 import { Separator } from "./ui/separator";
+import { useQuery } from "@tanstack/react-query";
+import { getVacanciesService } from "@/services/getVacanciesService";
+import { Vacancy } from "@/types/Vacancy";
+import { Spinner } from "./ui/spinner";
 
 interface VacancyListProps {
   page?: string
 }
 
-async function getVacancies(page?: string): Promise<Vacancy[]> {
-  const response = await getVacanciesService(page);
-  const vacancies: Vacancy[] = await response.json();
-  return vacancies;
+async function getVacancies(): Promise<Vacancy[]> {
+  const response = await getVacanciesService();
+  const data = await response.json();
+
+  return data;
 }
 
 function getStatusConfig(status: string) {
@@ -54,10 +59,19 @@ function getStatusConfig(status: string) {
   }
 }
 
-export async function VacancyList({ page }: VacancyListProps) {
-  const vacancies = await getVacancies(page);
+export function VacancyList({ page }: VacancyListProps) {
+  const {
+    data: vacancies,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ["vacancies"],
+    queryFn: () => getVacancies()
+  });
 
-  if (vacancies.length === 0) {
+  if (isLoading) return <Spinner />
+
+  if (!isError && vacancies?.length === 0) {
     return (
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -81,7 +95,7 @@ export async function VacancyList({ page }: VacancyListProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      {vacancies.map(vacancy => {
+      {vacancies?.map(vacancy => {
         const statusConfig = getStatusConfig(vacancy.status);
         
         return (
