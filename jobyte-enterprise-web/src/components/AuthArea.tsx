@@ -16,11 +16,11 @@ export function AuthArea() {
   const {profile, loading, startLoading, setProfile} = useProfileStore();
   const pathname = usePathname();
 
-  async function getProfileDetails() {
+  async function getProfileSimple() {
     try {
       startLoading();
 
-      const response = await fetch("/api/profile/me");
+      const response = await fetch("/api/profile/simple");
       if (!response.ok) {
         setProfile(null);
         return;
@@ -36,7 +36,7 @@ export function AuthArea() {
 
   useEffect(() => {
     if (!profile) {
-      getProfileDetails();
+      getProfileSimple();
     }
   }, [pathname]);
 
