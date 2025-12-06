@@ -1,6 +1,8 @@
 package br.com.gabriel.jobyte_api.shared.domain.exceptions;
 
-public class EntityNotFoundException extends RuntimeException {
+import jakarta.ws.rs.NotFoundException;
+
+public class EntityNotFoundException extends NotFoundException {
   public EntityNotFoundException(String message) {
     super(message);
   }
