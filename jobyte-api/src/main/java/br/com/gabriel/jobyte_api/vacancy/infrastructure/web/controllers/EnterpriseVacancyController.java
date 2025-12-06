@@ -29,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/enterprise/vacancy")
-@PreAuthorize("hasRole('ENTERPRISE')")
 @RequiredArgsConstructor
 public class EnterpriseVacancyController {
   private final CreateVacancyUseCase createVacancyUseCase;
