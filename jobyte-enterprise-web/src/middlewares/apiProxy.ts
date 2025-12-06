@@ -20,7 +20,7 @@ export async function apiProxy(req: NextRequest, apiPath: string) {
 }
 
 async function fetchApi(req: NextRequest, apiPath: string, accessToken?: string) {
-  const response = await fetch(`${process.env.PUBLIC_API_URL}/${apiPath}`, {
+  const response = await fetch(`${process.env.PUBLIC_API_URL + apiPath}`, {
     method: req.method,
     headers: {
       "Content-Type": "application/json",
