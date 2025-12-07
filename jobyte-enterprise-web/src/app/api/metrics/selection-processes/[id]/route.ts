@@ -6,8 +6,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     id: enterpriseId
   } = await params;
 
-  console.log("route.ts: enterpriseId:", enterpriseId);
-
   return await fetchWithoutAuth({
     path: `/api/metrics/selection-processes/${enterpriseId}`,
     host: "http://localhost:5000",
