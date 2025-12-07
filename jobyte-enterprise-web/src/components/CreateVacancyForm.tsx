@@ -12,12 +12,13 @@ import {
   AlertCircleIcon,
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Vacancy } from "@/types/Vacancy";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { useProfileStore } from "@/hooks/useProfileStore";
+import { revalidateTag } from "next/cache";
 
 const createVacancyFormSchema = z.object({
   title: z.string().trim().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -44,7 +45,7 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
         description: "",
       },
     });
-  const { profile } = useProfileStore();
+  const { profileSimple } = useProfileStore();
   const router = useRouter();
 
   const title = watch("title");
@@ -55,7 +56,7 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
   }, [title, description, onValuesChange]);
 
   async function onSubmit(data: CreateVacancyFormData) {
-    if (!profile?.id) {
+    if (!profileSimple?.id) {
       return;
     }
 
@@ -69,7 +70,7 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
       },
       body: JSON.stringify({
         ...data,
-        enterpriseId: profile.id,
+        enterpriseId: profileSimple.id,
       }),
     });
 
@@ -94,6 +95,7 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
     const createdVacancy: Vacancy = responseBody as Vacancy;
 
     reset();
+    revalidateTag("vacancies", "default");
     router.push(`/dashboard/vacancy/${createdVacancy.id}`);
   }
 
