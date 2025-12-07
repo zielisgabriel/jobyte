@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
@@ -10,24 +8,31 @@ import {
   EyeIcon, 
   UsersIcon,
   BriefcaseIcon,
-  InboxIcon
+  InboxIcon,
+  ChevronLeftIcon,
+  AlertTriangleIcon,
+  HomeIcon,
 } from "lucide-react";
 import dayjs from "dayjs";
 import { Separator } from "./ui/separator";
-import { useQuery } from "@tanstack/react-query";
 import { getVacanciesService } from "@/services/getVacanciesService";
-import { Vacancy } from "@/types/Vacancy";
-import { Spinner } from "./ui/spinner";
+import { VacanciesResponse } from "@/types/VacanciesResponse";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "./ui/pagination";
 
 interface VacancyListProps {
   page?: string
 }
 
-async function getVacancies(): Promise<Vacancy[]> {
-  const response = await getVacanciesService();
-  const data = await response.json();
+async function getVacancies(page?: string): Promise<VacanciesResponse> {
+  const response = await getVacanciesService({
+    page
+  });
 
-  return data;
+  if (!response.ok) {
+    throw new Error("Erro ao buscar vagas");
+  }
+
+  return response.json();
 }
 
 function getStatusConfig(status: string) {
@@ -59,19 +64,37 @@ function getStatusConfig(status: string) {
   }
 }
 
-export function VacancyList({ page }: VacancyListProps) {
+export async function VacancyList({ page }: VacancyListProps) {
   const {
-    data: vacancies,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: ["vacancies"],
-    queryFn: () => getVacancies()
-  });
+    vacancies,
+    totalElements,
+    totalPages,
+    currentPage
+  } = await getVacancies(page);
 
-  if (isLoading) return <Spinner />
-
-  if (!isError && vacancies?.length === 0) {
+  if (currentPage > totalPages) {
+    return (
+      <Card className="border-dashed">
+        <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="h-16 w-16 rounded-full bg-amber-500/10 flex items-center justify-center mb-4">
+            <AlertTriangleIcon className="h-8 w-8 text-amber-500" />
+          </div>
+          <h3 className="text-lg font-semibold mb-2">Página não encontrada</h3>
+          <p className="text-sm text-muted-foreground mb-6 max-w-sm">
+            A página que você está tentando acessar não existe. Volte para o início e tente novamente.
+          </p>
+          <Link href="/dashboard">
+            <Button>
+              <HomeIcon className="h-4 w-4 mr-2" />
+              Voltar para o início
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    );
+  }
+  
+  if (vacancies.length === 0) {
     return (
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -94,67 +117,104 @@ export function VacancyList({ page }: VacancyListProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-      {vacancies?.map(vacancy => {
-        const statusConfig = getStatusConfig(vacancy.status);
-        
-        return (
-          <Card 
-            key={vacancy.id} 
-            className="group hover:shadow-lg transition-all duration-300 hover:border-primary/20 flex flex-col"
-          >
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between gap-2">
-                <Badge 
-                  variant={statusConfig.variant}
-                  className={statusConfig.className}
-                >
-                  {statusConfig.label}
-                </Badge>
-                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                  <CalendarIcon className="h-3 w-3" />
-                  {dayjs(vacancy.createdAt).format("DD/MM/YYYY")}
-                </span>
-              </div>
-              <CardTitle className="font-bold text-xl line-clamp-2 mt-3 group-hover:text-primary transition-colors">
-                {vacancy.title}
-              </CardTitle>
-              <CardDescription className="line-clamp-3 text-sm leading-relaxed">
-                {vacancy.description}
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="pt-0 pb-4 flex-1">
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1.5">
-                  <UsersIcon className="h-4 w-4" />
-                  <span>--</span>
-                  <span className="text-xs">candidatos</span>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {vacancies.map(vacancy => {
+          const statusConfig = getStatusConfig(vacancy.status);
+          
+          return (
+            <Card 
+              key={vacancy.id} 
+              className="group hover:shadow-lg transition-all duration-300 hover:border-primary/20 flex flex-col"
+            >
+              <CardHeader className="pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <Badge 
+                    variant={statusConfig.variant}
+                    className={statusConfig.className}
+                  >
+                    {statusConfig.label}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground flex items-center gap-1">
+                    <CalendarIcon className="h-3 w-3" />
+                    {dayjs(vacancy.createdAt).format("DD/MM/YYYY")}
+                  </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <EyeIcon className="h-4 w-4" />
-                  <span>--</span>
-                  <span className="text-xs">visualizações</span>
+                <CardTitle className="font-bold text-xl line-clamp-2 mt-3 group-hover:text-primary transition-colors">
+                  {vacancy.title}
+                </CardTitle>
+                <CardDescription className="line-clamp-3 text-sm leading-relaxed">
+                  {vacancy.description}
+                </CardDescription>
+              </CardHeader>
+              
+              <CardContent className="pt-0 pb-4 flex-1">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1.5">
+                    <UsersIcon className="h-4 w-4" />
+                    <span>--</span>
+                    <span className="text-xs">candidatos</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <EyeIcon className="h-4 w-4" />
+                    <span>--</span>
+                    <span className="text-xs">visualizações</span>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
+              </CardContent>
 
-            <Separator />
-            
-            <CardFooter>
-              <Link href={`/dashboard/vacancy/metrics/${vacancy.id}`} className="w-full">
-                <Button 
-                  variant="link" 
-                  className="w-full h-full justify-between transition-colors"
+              <Separator />
+              
+              <CardFooter>
+                <Link href={`/dashboard/vacancy/metrics/${vacancy.id}`} className="w-full">
+                  <Button 
+                    variant="link" 
+                    className="w-full h-full justify-between transition-colors"
+                  >
+                    Ver métricas da vaga
+                    <ChevronRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          );
+        })}
+      </div>
+
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationLink href={`?page=${currentPage - 1}`}>
+              <ChevronLeftIcon />
+            </PaginationLink>
+          </PaginationItem>
+
+          <PaginationItem>
+            {Array.from({
+              length: totalPages < 5 ? totalPages : 5
+            }).map((_, i) => {
+              const pageNum = i + 1;
+              const isCurrent = pageNum === currentPage;
+
+              return (
+                <PaginationLink
+                  isActive={isCurrent}
+                  key={pageNum}
+                  href={`?page=${pageNum}`}
                 >
-                  Ver métricas da vaga
-                  <ChevronRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        );
-      })}
-    </div>
+                  {pageNum}
+                </PaginationLink>
+              );
+            })}
+          </PaginationItem>
+
+          <PaginationItem>
+            <PaginationLink href={`?page=${currentPage + 1}`}>
+              <ChevronRightIcon />
+            </PaginationLink>
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </>
   );
 }
