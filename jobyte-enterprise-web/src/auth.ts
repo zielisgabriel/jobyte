@@ -3,6 +3,7 @@ import Keycloak from "next-auth/providers/keycloak";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
+  // debug: true,
   providers: [
     Keycloak({
       checks: ["nonce"],
