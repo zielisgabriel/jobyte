@@ -18,7 +18,7 @@ public class ListEnterpriseVacanciesUseCase {
   private static final int PAGE_SIZE = 20;
 
   public VacancyListResponse execute(UUID enterpriseId, int page) {
-    List<Vacancy> vacancies = vacancyRepository.findByEnterpriseId(enterpriseId, page, PAGE_SIZE);
+    List<Vacancy> vacancies = vacancyRepository.findByEnterpriseId(enterpriseId, page - 1, PAGE_SIZE);
     long totalElements = vacancyRepository.countByEnterpriseId(enterpriseId);
     int totalPages = (int) Math.ceil((double) totalElements / PAGE_SIZE);
 
