@@ -1,8 +1,9 @@
 import { Enterprise } from "@/types/Enterprise";
+import { SimpleProfile } from "@/types/SimpleProfile";
 import { create } from "zustand";
 
 interface ProfileStore {
-  profile: Enterprise | undefined;
+  profileSimple: SimpleProfile | undefined;
   loading: boolean
   setProfile: (profile: Enterprise | null) => void;
   startLoading: () => void;
@@ -10,9 +11,9 @@ interface ProfileStore {
 }
 
 export const useProfileStore = create<ProfileStore>((set) => ({
-  profile: undefined,
+  profileSimple: undefined,
   loading: true,
-  setProfile: profile => set({ profile: profile ?? undefined, loading: false }),
-  startLoading: () => set({ loading: true, profile: undefined }),
-  clearProfile: () => set({ profile: undefined, loading: false }),
+  setProfile: profileSimple => set({ profileSimple: profileSimple ?? undefined, loading: false }),
+  startLoading: () => set({ loading: true, profileSimple: undefined }),
+  clearProfile: () => set({ profileSimple: undefined, loading: false }),
 }));
