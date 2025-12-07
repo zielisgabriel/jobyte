@@ -169,7 +169,7 @@ export default function Dashboard({ searchParams }: { searchParams: Promise<{ pa
               </h2>
             </div>
 
-            <p className="flex gap-1 text-sm text-foreground-muted">
+            <p className="flex items-center gap-1 text-sm text-foreground-muted">
               <ClockIcon size={14} />
               Atualização em tempo real
             </p>
