@@ -13,8 +13,8 @@ import { usePathname } from "next/navigation";
 import { signIn, signOut } from "next-auth/react";
 
 export function AuthArea() {
-  const {profile, loading, startLoading, setProfile} = useProfileStore();
-  const pathname = usePathname();
+  const {profileSimple, loading, startLoading, setProfile} = useProfileStore();
+  // const pathname = usePathname();
 
   async function getProfileSimple() {
     try {
@@ -35,10 +35,8 @@ export function AuthArea() {
   }
 
   useEffect(() => {
-    if (!profile) {
-      getProfileSimple();
-    }
-  }, [pathname]);
+    getProfileSimple();
+  }, []);
 
   return (
     loading ? (
@@ -46,12 +44,12 @@ export function AuthArea() {
         <Skeleton className="w-40 h-10 rounded-lg" />
       </div>
     ) : (
-      profile ? (
+      profileSimple ? (
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" className="gap-2">
               <Building2Icon className="h-4 w-4" />
-              <span className="hidden sm:inline">{profile.companyName}</span>
+              <span className="hidden sm:inline">{profileSimple.companyName}</span>
               <MenuIcon className="h-4 w-4 sm:hidden" />
             </Button>
           </SheetTrigger>
@@ -65,7 +63,7 @@ export function AuthArea() {
                 Jobyte Enterprise
               </SheetTitle>
               <SheetDescription>
-                {profile.companyName}
+                {profileSimple.companyName}
               </SheetDescription>
             </SheetHeader>
             <div className="flex flex-col mt-4">
