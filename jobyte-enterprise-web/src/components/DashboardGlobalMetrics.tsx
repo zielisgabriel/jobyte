@@ -60,7 +60,7 @@ export interface DashboardGlobalMetricsRef {
 }
 
 export function DashboardGlobalMetrics() {
-  const { profileSimple, loading: profileLoading } = useProfileStore();
+  const { profileSimple } = useProfileStore();
 
   async function getSelectionProcessMetrics(enterpriseId: string): Promise<SelectionProcessMetrics> {
     const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`);
@@ -70,14 +70,14 @@ export function DashboardGlobalMetrics() {
 
   const {
     data: selectionProcessMetrics,
-    isLoading
+    isFetching
   } = useQuery({
-    queryKey: ["selectionProcessMetrics", profileSimple?.id],
+    queryKey: ["selectionProcessMetrics"],
     queryFn: () => getSelectionProcessMetrics(profileSimple!.id),
-    enabled: !profileLoading && !!profileSimple?.id
+    refetchOnWindowFocus: false,
   });
 
-  if (profileLoading || isLoading) {
+  if (isFetching) {
     return (
       <div className="grid lg:grid-cols-[1fr_400px] gap-6">
         <Card>
