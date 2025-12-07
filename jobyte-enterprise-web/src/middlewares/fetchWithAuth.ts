@@ -1,10 +1,13 @@
-import { apiDelay } from "@/utils/apiDelay";
 import { auth } from "@/auth";
 
-export async function fetchWithAuth(path: string, init?: RequestInit) {
+interface FetchWithAuthProps {
+  path: string,
+  init?: RequestInit
+  tags?: string[]
+}
+
+export async function fetchWithAuth({ path, init }: FetchWithAuthProps) {
   const session = await auth();
-  
-  await apiDelay(500);
 
   if (!session?.accessToken) {
     throw Error("Usuário não autenticado");
