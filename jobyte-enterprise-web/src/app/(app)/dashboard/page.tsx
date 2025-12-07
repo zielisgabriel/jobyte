@@ -5,15 +5,16 @@ import {
   TrendingUpIcon, 
   UsersIcon,
   BarChart3Icon,
-  ArrowUpRightIcon
+  ArrowUpRightIcon,
+  ClockIcon
 } from "lucide-react";
 import { VacancyList } from "@/components/VacancyList";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { DashboardMetricsSection } from "@/components/DashboardMetricsSection";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DashboardGlobalMetrics } from "@/components/DashboardGlobalMetrics";
 
 const QUICK_STATS = [
   {
@@ -159,7 +160,23 @@ export default function Dashboard({ searchParams }: { searchParams: Promise<{ pa
           </Suspense>
         </section>
 
-        <DashboardMetricsSection />
+        <section className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                <TrendingUpIcon className="h-5 w-5 text-primary" />
+                Métricas Globais
+              </h2>
+            </div>
+
+            <p className="flex gap-1 text-sm text-foreground-muted">
+              <ClockIcon size={14} />
+              Atualização em tempo real
+            </p>
+          </div>
+          
+          <DashboardGlobalMetrics />
+        </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card className="group hover:shadow-md transition-all duration-300 hover:border-primary/20 cursor-pointer">
