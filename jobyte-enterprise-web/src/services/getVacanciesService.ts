@@ -1,7 +1,13 @@
 import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
 
-export async function getVacanciesService(page?: string) {
-  return await fetchWithAuth(`/api/enterprise/vacancy/list${page ? `?page=${page}` : ""}`, {
-    method: "GET"
+interface GetVacanciesServiceProps {
+  page?: string
+}
+
+export async function getVacanciesService({
+  page
+}: GetVacanciesServiceProps) {
+  return await fetchWithAuth({
+    path: `/api/enterprise/vacancy/list?page=${page ?? 1}`
   });
 }
