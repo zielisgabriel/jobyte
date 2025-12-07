@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 
 interface FetchWithAuthProps {
   path: string,
@@ -11,6 +11,11 @@ export async function fetchWithAuth({ path, init }: FetchWithAuthProps) {
 
   if (!session?.accessToken) {
     throw Error("Usuário não autenticado");
+  }
+
+  if (session.error === "RefreshAccessTokenError") {
+    await signOut({ redirectTo: "/login" });
+    throw Error("Sessão expirada. Faça login novamente.");
   }
 
   const apiResponse = await fetch(`${process.env.PUBLIC_API_URL + path}`, {
