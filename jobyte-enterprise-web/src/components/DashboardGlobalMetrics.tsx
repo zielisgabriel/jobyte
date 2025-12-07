@@ -1,7 +1,5 @@
 "use client"
 
-import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
-import { useContext, useEffect, useState, useCallback, useImperativeHandle, forwardRef } from "react";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
@@ -14,6 +12,8 @@ import {
 } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 import { useProfileStore } from "@/hooks/useProfileStore";
+import { useQuery } from "@tanstack/react-query";
+import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
 
 const chartConfig: ChartConfig = {
   quantity: {
@@ -30,7 +30,13 @@ interface MetricCardProps {
   iconBgClass?: string;
 }
 
-function MetricCard({ icon, label, value, description, iconBgClass = "bg-primary/10 text-primary" }: MetricCardProps) {
+function MetricCard({
+  icon,
+  label,
+  value,
+  description,
+  iconBgClass = "bg-primary/10 text-primary"
+}: MetricCardProps) {
   return (
     <div className="flex items-center gap-4 p-4 rounded-xl bg-muted/50 hover:bg-muted/80 transition-colors">
       <div className={`h-12 w-12 rounded-xl flex items-center justify-center ${iconBgClass}`}>
@@ -53,55 +59,25 @@ export interface DashboardGlobalMetricsRef {
   lastUpdated: Date | null;
 }
 
-export const DashboardGlobalMetrics = forwardRef<DashboardGlobalMetricsRef>(function DashboardGlobalMetrics(_, ref) {
-  const [selectionProcessMetrics, setSelectionProcessMetrics] = useState<SelectionProcessMetrics | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const { profile } = useProfileStore();
+export function DashboardGlobalMetrics() {
+  const { profileSimple, loading: profileLoading } = useProfileStore();
 
-  const fetchSelectionProcessMetrics = useCallback(async (enterpriseId?: string, isRefresh = false) => {
-    if (!enterpriseId) {
-      setIsLoading(false);
-      return;
-    }
-    
-    if (isRefresh) {
-      setIsRefreshing(true);
-    }
-    
-    try {
-      const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`, {
-        cache: "no-store",
-      });
-      const data = await response.json();
-      setSelectionProcessMetrics(data);
-      setLastUpdated(new Date());
-    } catch (error) {
-      console.error("Failed to fetch metrics:", error);
-    } finally {
-      setIsLoading(false);
-      setIsRefreshing(false);
-    }
-  }, []);
+  async function getSelectionProcessMetrics(enterpriseId: string): Promise<SelectionProcessMetrics> {
+    const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`);
+    const data = await response.json();
+    return data;
+  }
 
-  const handleRefresh = useCallback(async () => {
-    if (!isRefreshing && profile?.id) {
-      await fetchSelectionProcessMetrics(profile.id, true);
-    }
-  }, [isRefreshing, profile?.id, fetchSelectionProcessMetrics]);
+  const {
+    data: selectionProcessMetrics,
+    isLoading
+  } = useQuery({
+    queryKey: ["selectionProcessMetrics", profileSimple?.id],
+    queryFn: () => getSelectionProcessMetrics(profileSimple!.id),
+    enabled: !profileLoading && !!profileSimple?.id
+  });
 
-  useImperativeHandle(ref, () => ({
-    refresh: handleRefresh,
-    isRefreshing,
-    lastUpdated,
-  }), [handleRefresh, isRefreshing, lastUpdated]);
-
-  useEffect(() => {
-    fetchSelectionProcessMetrics(profile?.id);
-  }, [profile, fetchSelectionProcessMetrics]);
-
-  if (isLoading) {
+  if (profileLoading || isLoading) {
     return (
       <div className="grid lg:grid-cols-[1fr_400px] gap-6">
         <Card>
@@ -247,4 +223,4 @@ export const DashboardGlobalMetrics = forwardRef<DashboardGlobalMetricsRef>(func
       </Card>
     </div>
   );
-});
+};
