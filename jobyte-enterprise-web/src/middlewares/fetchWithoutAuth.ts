@@ -11,8 +11,6 @@ export async function fetchWithoutAuth({
   host,
   init
 }: FetchWithoutAuthProps) {
-  await apiDelay(500);
-
   const apiResponse = await fetch(`${(host ?? process.env.PUBLIC_API_URL) + path}`, {
     ...init,
     headers: {
