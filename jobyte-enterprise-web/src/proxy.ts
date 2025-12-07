@@ -20,10 +20,9 @@ export default auth((req) => {
   const isPrivatePath = PRIVATE_PATHS.some((path) => pathname.startsWith(path));
   const isAuthPage = AUTH_PATHS.some((path) => pathname === path);
 
-  if (!isAuthenticated && isPrivatePath) {
-    const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+    if (!isAuthenticated && isPrivatePath) {
+    const homeUrl = new URL("/home", req.url);
+    return NextResponse.redirect(homeUrl);
   }
 
   if (isAuthenticated && isAuthPage) {
