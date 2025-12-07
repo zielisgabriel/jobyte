@@ -46,9 +46,12 @@ const QUICK_STATS = [
   },
 ];
 
-export default async function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+async function VacancyListWrapper({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page } = await searchParams;
+  return <VacancyList page={page} />;
+}
 
+export default function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   return (
     <main className="min-h-screen">
       <section className="relative border-b bg-gradient-to-b from-card/80 to-background">
@@ -152,7 +155,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
               </div>
             }
           >
-            <VacancyList page={page} />
+            <VacancyListWrapper searchParams={searchParams} />
           </Suspense>
         </section>
 
