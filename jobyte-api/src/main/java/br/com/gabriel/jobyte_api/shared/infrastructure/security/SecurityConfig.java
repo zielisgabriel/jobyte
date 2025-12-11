@@ -34,8 +34,7 @@ public class SecurityConfig {
       .authorizeHttpRequests(auth -> auth
         .requestMatchers("/api/enterprise/**").hasRole("ENTERPRISE")
         .requestMatchers("/api/candidate/**").hasRole("CANDIDATE")
-        .requestMatchers("/api/public/**").permitAll()
-        .anyRequest().authenticated()
+        .anyRequest().permitAll()
       )
       .oauth2ResourceServer(oauth2 -> oauth2
         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
