@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.jwt.JwtDecoderInitializationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -64,16 +65,27 @@ public class GlobalExceptionHandler {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
   }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+  @ExceptionHandler(JwtDecoderInitializationException.class)
+  public ResponseEntity<ErrorResponse> handleJwtDecoderInitializationException(JwtDecoderInitializationException ex) {
     ErrorResponse error = new ErrorResponse(
-      HttpStatus.INTERNAL_SERVER_ERROR.value(),
-      "Internal Server Error",
-      "Ocorreu um erro interno no servidor",
+      HttpStatus.UNAUTHORIZED.value(),
+      "Unauthorized",
+      "Falha na validação do token JWT",
       LocalDateTime.now()
     );
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
   }
+
+  // @ExceptionHandler(Exception.class)
+  // public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+  //   ErrorResponse error = new ErrorResponse(
+  //     HttpStatus.INTERNAL_SERVER_ERROR.value(),
+  //     "Internal Server Error",
+  //     "Ocorreu um erro interno no servidor",
+  //     LocalDateTime.now()
+  //   );
+  //   return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+  // }
 
   public record ErrorResponse(
     int status,
