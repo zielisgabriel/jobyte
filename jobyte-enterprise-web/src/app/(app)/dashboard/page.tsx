@@ -15,6 +15,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DashboardGlobalMetrics } from "@/components/DashboardGlobalMetrics";
+import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
 
 const QUICK_STATS = [
   {
@@ -47,12 +48,20 @@ const QUICK_STATS = [
   },
 ];
 
+async function DashboardGlobalMetricsArea() {
+  const profileSimple = await getCurrentProfileSimple();
+
+  console.log("profileSimple: ", profileSimple)
+
+  return <DashboardGlobalMetrics profileSimple={profileSimple} />
+}
+
 async function VacancyListWrapper({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const { page } = await searchParams;
   return <VacancyList page={page} />;
 }
 
-export default function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   return (
     <main className="min-h-screen">
       <section className="relative border-b bg-gradient-to-b from-card/80 to-background">
@@ -174,8 +183,34 @@ export default function Dashboard({ searchParams }: { searchParams: Promise<{ pa
               Atualização em tempo real
             </p>
           </div>
-          
-          <DashboardGlobalMetrics />
+
+          <Suspense
+            fallback={
+              <div className="grid lg:grid-cols-[1fr_400px] gap-6">
+                <Card>
+                  <CardHeader>
+                    <Skeleton className="h-6 w-64" />
+                    <Skeleton className="h-4 w-48" />
+                  </CardHeader>
+                  <CardContent>
+                    <Skeleton className="h-[300px] w-full" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <Skeleton className="h-6 w-32" />
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-20 w-full" />
+                  </CardContent>
+                </Card>
+              </div>
+            }
+          >
+            <DashboardGlobalMetricsArea />
+          </Suspense>
         </section>
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
