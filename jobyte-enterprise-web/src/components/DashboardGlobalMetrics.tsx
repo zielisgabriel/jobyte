@@ -11,9 +11,9 @@ import {
   CalendarIcon
 } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
-import { useProfileStore } from "@/hooks/useProfileStore";
 import { useQuery } from "@tanstack/react-query";
 import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
+import { ProfileSimple } from "@/types/ProfileSimple";
 
 const chartConfig: ChartConfig = {
   quantity: {
@@ -59,9 +59,11 @@ export interface DashboardGlobalMetricsRef {
   lastUpdated: Date | null;
 }
 
-export function DashboardGlobalMetrics() {
-  const { profileSimple } = useProfileStore();
+interface DashboardGlobalMetricsProps {
+  profileSimple: ProfileSimple | null;
+}
 
+export function DashboardGlobalMetrics({ profileSimple }: DashboardGlobalMetricsProps) {
   async function getSelectionProcessMetrics(enterpriseId: string): Promise<SelectionProcessMetrics> {
     const response = await fetch(`/api/metrics/selection-processes/${enterpriseId}`);
     const data = await response.json();
