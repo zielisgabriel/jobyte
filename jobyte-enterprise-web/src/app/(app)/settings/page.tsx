@@ -2,17 +2,11 @@ import { BackNavButton } from "@/components/BackNavButton";
 import { SettingsForm } from "@/components/SettingsForm";
 import { SettingsSkeleton } from "@/components/SettingsSkeleton";
 import { getProfileDetailsService } from "@/services/getProfileDetailsService";
-import { Enterprise } from "@/types/Enterprise";
 import { Suspense } from "react";
 
-async function getProfileDetails(): Promise<Enterprise> {
-  const response = await getProfileDetailsService();
-  const profile = await response.json();
-  return profile;
-}
-
 async function SettingsContent() {
-  const profile = await getProfileDetails();
+  const profile = await getProfileDetailsService();
+  
   return <SettingsForm profile={profile} />;
 }
 
