@@ -19,15 +19,16 @@ import {
   UploadIcon
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Label } from "./ui/label";
-import { Enterprise } from "@/types/Enterprise";
+import { ProfileDetails } from "@/types/ProfileDetails";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { convertFromMbToBytes } from "@/utils/convert-from-mb-to-bytes";
 
 const profileEditFormSchema = z.object({
   companyName: z
@@ -52,7 +53,7 @@ const profileEditFormSchema = z.object({
 type ProfileEditFormData = z.infer<typeof profileEditFormSchema>;
 
 interface ProfileEditFormProps {
-  profile: Enterprise;
+  profile: ProfileDetails;
 }
 
 export function ProfileEditForm({ profile }: ProfileEditFormProps) {
@@ -83,7 +84,7 @@ export function ProfileEditForm({ profile }: ProfileEditFormProps) {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > convertFromMbToBytes(5)) {
       toast.error("A imagem deve ter no máximo 5MB.");
       return;
     }
@@ -148,6 +149,10 @@ export function ProfileEditForm({ profile }: ProfileEditFormProps) {
       setIsSubmitting(false);
     }
   }
+
+  useEffect(() => {
+    console.log(avatarPreview);
+  }, [avatarPreview]);
 
   function handleValidationError(errors: typeof formState.errors) {
     const first = Object.values(errors)[0];
