@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/auth";
+import { signIn } from "next-auth/react";
 
 interface FetchWithAuthProps {
   path: string,
@@ -14,8 +15,8 @@ export async function fetchWithAuth({ path, init }: FetchWithAuthProps) {
   }
 
   if (session.error === "RefreshAccessTokenError") {
-    await signOut({ redirectTo: "/login" });
-    throw Error("Sessão expirada. Faça login novamente.");
+    await signOut();
+    await signIn("keycloak");
   }
 
   const apiResponse = await fetch(`${process.env.PUBLIC_API_URL + path}`, {
@@ -28,6 +29,10 @@ export async function fetchWithAuth({ path, init }: FetchWithAuthProps) {
   }).catch(() => {
     throw Error("Servidor fora do ar!");
   });
+
+  if (!apiResponse.ok) {
+    throw new Error(`Error on fetch: ${apiResponse.status}`);
+  }
 
   return apiResponse;
 }
