@@ -1,10 +1,20 @@
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
-import { AuthArea } from "./AuthArea";
 import { Suspense } from "react";
+import { Skeleton } from "./ui/skeleton";
+import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
+import { ProfileSheet } from "./ProfileSheet";
+import { AuthArea } from "./AuthArea";
 
-export function Header() {
+async function ProfileArea() {
+  const profile = await getCurrentProfileSimple();
+
+  return profile ? <ProfileSheet profile={profile} /> : <AuthArea />;
+}
+
+export async function Header() {
+
   return (
     <header className={twMerge(clsx("sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60"))}>
       <main className="flex justify-between items-center max-w-7xl mx-auto h-16 px-4">
@@ -19,12 +29,12 @@ export function Header() {
         
         <Suspense
           fallback={
-            <p>
-              Carregando...
-            </p>
+            <div>
+              <Skeleton className="w-40 h-10 rounded-lg" />
+            </div>
           }
         >
-          <AuthArea />
+          <ProfileArea />
         </Suspense>
       </main>
     </header>
