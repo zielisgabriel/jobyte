@@ -1,4 +1,4 @@
-import { Enterprise } from "./Enterprise";
+import { Enterprise } from "./ProfileDetails";
 import { VacancyStatus } from "./VacancyStatus";
 
 export interface Vacancy {
