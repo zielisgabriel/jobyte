@@ -27,8 +27,6 @@ import {
   Building2Icon
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Enterprise } from "@/types/Enterprise";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -36,14 +34,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Switch } from "./ui/switch";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
+import { ProfileDetails } from "@/types/ProfileDetails";
 
 interface SettingsFormProps {
-  profile: Enterprise;
+  profile: ProfileDetails;
 }
 
 export function SettingsForm({ profile }: SettingsFormProps) {
   const router = useRouter();
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -474,7 +473,7 @@ export function SettingsForm({ profile }: SettingsFormProps) {
                   </div>
                 </div>
                 <Button 
-                  variant="outline" 
+                  variant="destructive" 
                   size="sm"
                   onClick={handleLogoutAllDevices}
                   className="shrink-0 w-full sm:w-auto"
