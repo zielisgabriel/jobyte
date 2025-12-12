@@ -16,7 +16,9 @@ public class EnterpriseProfileMapper {
       entity.getCompanyName(),
       entity.getCnpj(),
       entity.getAddress(),
-      entity.getPhone()
+      entity.getPhone(),
+      entity.getCreatedAt(),
+      entity.getUpdatedAt()
     );
   }
 
