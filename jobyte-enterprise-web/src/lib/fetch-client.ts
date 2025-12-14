@@ -9,19 +9,21 @@ import { UnauthorizedError } from "@/errors/unauthorized-error";
 interface FetchClientProps {
   path: string,
   isAuth: boolean,
-  init: RequestInit
+  init: RequestInit,
+  host?: string
 }
 
 export async function fetchClient({
   path,
   isAuth,
-  init
+  init,
+  host
 }: FetchClientProps) {
   const session = isAuth ? await auth() : null;
 
   const authHeader: HeadersInit | undefined = isAuth ? { "Authorization": `Bearer ${session?.accessToken}`} : undefined;
 
-  const response = await fetch(`${process.env.PUBLIC_API_URL + path}`, {
+  const response = await fetch(`${(host ?? process.env.PUBLIC_API_URL) + path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
