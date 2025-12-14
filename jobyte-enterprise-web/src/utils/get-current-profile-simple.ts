@@ -1,14 +1,14 @@
-import { getProfileSimpleService } from "@/services/getProfileSimpleService";
-import { ProfileSimple } from "@/types/ProfileSimple";
+import { getProfileSimpleService } from "@/services/get-profile-simple-service";
+import { redirect } from "next/navigation";
 
-export async function getCurrentProfileSimple(): Promise<ProfileSimple | null> {
-  try {
-    const data = await getProfileSimpleService({
-      path: "/api/enterprise/profile/simple",
-    });
+export async function getCurrentProfileSimple() {
+  const response = await getProfileSimpleService();
 
-    return data;
-  } catch (error: any) {
-    return null;
+  if (response.status === 404) {
+    redirect("/fill-profile")
+  }
+
+  if (response.ok) {
+    return await response.json();
   }
 }

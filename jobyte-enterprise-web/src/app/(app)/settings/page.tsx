@@ -1,7 +1,7 @@
 import { BackNavButton } from "@/components/BackNavButton";
 import { SettingsForm } from "@/components/SettingsForm";
 import { SettingsSkeleton } from "@/components/SettingsSkeleton";
-import { getProfileDetailsService } from "@/services/getProfileDetailsService";
+import { getProfileDetailsService } from "@/services/get-profile-details-service";
 import { Suspense } from "react";
 
 async function SettingsContent() {

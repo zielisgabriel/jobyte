@@ -1,7 +1,7 @@
 import { BackNavButton } from "@/components/BackNavButton";
 import { ProfileEditForm } from "@/components/ProfileEditForm";
 import { ProfileEditSkeleton } from "@/components/ProfileEditSkeleton";
-import { getProfileDetailsService } from "@/services/getProfileDetailsService";
+import { getProfileDetailsService } from "@/services/get-profile-details-service";
 import { Suspense } from "react";
 
 async function ProfileEditContent() {

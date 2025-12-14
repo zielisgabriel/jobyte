@@ -77,9 +77,7 @@ export default function ContactPage() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Simular envio
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(data);
     toast.success("Mensagem enviada com sucesso! Entraremos em contato em breve.");
     reset();
   };

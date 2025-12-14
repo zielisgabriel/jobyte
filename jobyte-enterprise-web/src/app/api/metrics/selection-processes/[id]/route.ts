@@ -12,5 +12,5 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     init: {
       method: req.method
     }
-  })
+  });
 }

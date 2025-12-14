@@ -1,4 +1,12 @@
 services:
+  # nginx-service:
+  #   container_name: nginx_container
+  #   build:
+  #     context: ../jobyte-nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "80:80"
+
   data-analysis-service:
     container_name: data_analysis_container
     build:

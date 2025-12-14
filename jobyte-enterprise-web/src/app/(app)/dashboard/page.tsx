@@ -51,8 +51,6 @@ const QUICK_STATS = [
 async function DashboardGlobalMetricsArea() {
   const profileSimple = await getCurrentProfileSimple();
 
-  console.log("profileSimple: ", profileSimple)
-
   return <DashboardGlobalMetrics profileSimple={profileSimple} />
 }
 
@@ -61,7 +59,7 @@ async function VacancyListWrapper({ searchParams }: { searchParams: Promise<{ pa
   return <VacancyList page={page} />;
 }
 
-export default async function Dashboard({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   return (
     <main className="min-h-screen">
       <section className="relative border-b bg-gradient-to-b from-card/80 to-background">
@@ -87,7 +85,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
             </div>
             
             <div className="flex items-center gap-3">
-              <Link href="/dashboard/vacancy/create">
+              <Link href="/dashboard/vacancy/create" prefetch={false}>
                 <Button className="gap-2">
                   <PlusIcon className="h-4 w-4" />
                   Nova Vaga
@@ -135,7 +133,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
                 Gerencie e acompanhe suas vagas publicadas
               </p>
             </div>
-            <Link href="/dashboard/vacancy/create" className="hidden sm:block">
+            <Link href="/dashboard/vacancy/create" className="hidden sm:block" prefetch={false}>
               <Button variant="outline" size="sm" className="gap-2">
                 <PlusIcon className="h-4 w-4" />
                 Criar Vaga
@@ -215,7 +213,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card className="group hover:shadow-md transition-all duration-300 hover:border-primary/20 cursor-pointer">
-            <Link href="/dashboard/vacancy/create">
+            <Link href="/dashboard/vacancy/create" prefetch={false}>
               <CardContent className="p-6 flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                   <PlusIcon className="h-6 w-6" />
@@ -229,7 +227,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </Card>
           
           <Card className="group hover:shadow-md transition-all duration-300 hover:border-primary/20 cursor-pointer">
-            <Link href="/profile">
+            <Link href="/profile" prefetch={false}>
               <CardContent className="p-6 flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                   <UsersIcon className="h-6 w-6" />
@@ -243,7 +241,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
           </Card>
           
           <Card className="group hover:shadow-md transition-all duration-300 hover:border-primary/20 cursor-pointer sm:col-span-2 lg:col-span-1">
-            <Link href="/settings">
+            <Link href="/settings" prefetch={false}>
               <CardContent className="p-6 flex items-center gap-4">
                 <div className="h-12 w-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-white transition-colors">
                   <BarChart3Icon className="h-6 w-6" />

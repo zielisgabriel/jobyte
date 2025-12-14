@@ -203,6 +203,15 @@ body {
   margin-bottom: 1rem;
 }
 
+.form-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form-group-half {
+  flex: 1;
+}
+
 .form-label {
   display: flex;
   align-items: center;

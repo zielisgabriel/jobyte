@@ -32,13 +32,13 @@ public class EnterpriseProfileEntity {
   @Column(name = "company_name", nullable = false)
   private String companyName;
 
-  @Column(name = "cnpj", nullable = true, unique = true)
+  @Column(name = "cnpj", nullable = false, unique = true)
   private String cnpj;
 
-  @Column(name = "address", nullable = true)
+  @Column(name = "address", nullable = false)
   private String address;
 
-  @Column(name = "phone", nullable = true)
+  @Column(name = "phone", nullable = false)
   private String phone;
 
   @Column(name = "created_at", nullable = false, updatable = false)

@@ -30,9 +30,5 @@ export async function fetchWithAuth({ path, init }: FetchWithAuthProps) {
     throw Error("Servidor fora do ar!");
   });
 
-  if (!apiResponse.ok) {
-    throw new Error(`Error on fetch: ${apiResponse.status}`);
-  }
-
   return apiResponse;
 }

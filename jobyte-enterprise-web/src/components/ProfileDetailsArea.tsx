@@ -1,4 +1,4 @@
-import { getProfileDetailsService } from "@/services/getProfileDetailsService";
+import { getProfileDetailsService } from "@/services/get-profile-details-service";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -18,8 +18,6 @@ import { ProfileDetails } from "@/types/ProfileDetails";
 
 export async function ProfileDetailsArea() {
   const profile: ProfileDetails = await getProfileDetailsService();
-
-  console.log(profile);
 
   return (
     <section className="space-y-6">

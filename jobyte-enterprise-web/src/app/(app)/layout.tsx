@@ -1,6 +1,5 @@
 import "@/css/globals.css";
-import { Header } from "@/components/Header";
-import { Toaster } from "@/components/ui/sonner";
+import { Header } from "@/components/header";
 
 export default function AppLayout({
   children,

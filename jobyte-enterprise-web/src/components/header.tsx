@@ -6,9 +6,25 @@ import { Skeleton } from "./ui/skeleton";
 import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
 import { ProfileSheet } from "./ProfileSheet";
 import { AuthArea } from "./AuthArea";
+import { auth } from "@/auth";
+import { Button } from "./ui/button";
+
+async function IncompleteProfileButton() {
+  return (
+    <Button asChild>
+      <Link href={"/fill-profile"}>
+        Complete seu perfil
+      </Link>
+    </Button>
+  );
+}
 
 async function ProfileArea() {
+  const session = await auth();
+  
   const profile = await getCurrentProfileSimple();
+
+  if (session && !profile) return <IncompleteProfileButton />
 
   return profile ? <ProfileSheet profile={profile} /> : <AuthArea />;
 }

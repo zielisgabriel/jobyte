@@ -42,7 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   providers: [
     Keycloak({
-      checks: ["nonce"],
+      checks: ["state"],
     }),
   ],
   callbacks: {

@@ -4,20 +4,38 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnterpriseProfile {
+  @Getter
   private UUID id;
+
+  @Getter
   private String keycloakUserId;
+
+  @Getter
+  @Setter
   private String companyName;
+
+  @Getter
   private String cnpj;
+
+  @Getter
+  @Setter
   private String address;
+
+  @Getter
+  @Setter
   private String phone;
+
+  @Getter
   private LocalDateTime createdAt;
+
+  @Getter
   private LocalDateTime updatedAt;
 
   public static EnterpriseProfile create(
@@ -39,14 +57,13 @@ public class EnterpriseProfile {
     );
   }
 
-  public void updateProfile(String companyName, String address, String phone) {
+  public void updateProfile(
+    String companyName,
+    String address,
+    String phone
+  ) {
     this.companyName = companyName;
     this.address = address;
     this.phone = phone;
-  }
-
-  public boolean hasCompleteProfile() {
-    return companyName != null && !companyName.isBlank()
-        && cnpj != null && !cnpj.isBlank();
   }
 }

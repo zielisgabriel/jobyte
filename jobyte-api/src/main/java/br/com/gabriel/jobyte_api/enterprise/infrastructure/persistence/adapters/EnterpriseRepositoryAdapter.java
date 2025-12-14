@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class EnterpriseRepositoryAdapter implements EnterpriseRepositoryPort {
+class EnterpriseRepositoryAdapter implements EnterpriseRepositoryPort {
   private final EnterpriseProfileJpaRepository jpaRepository;
 
   @Override
