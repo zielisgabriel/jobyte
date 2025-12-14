@@ -1,8 +1,17 @@
-import { fetchWithoutAuth } from "@/middlewares/fetchWithoutAuth";
+"use server";
 
-export async function getVacancyMetricsByIdService(id: string) {
-  return await fetchWithoutAuth({
-    path: `/api/metrics/vacancy/${id}`,
-    host: "http://localhost:5000"
+import { fetchClient } from "@/lib/fetch-client";
+import { VacancyMetrics } from "@/types/VacancyMetrics";
+
+export async function getVacancyMetricsByIdService(vacancyId: string): Promise<VacancyMetrics> {
+  const response = await fetchClient({
+    path: `/api/metrics/vacancy/${vacancyId}`,
+    host: process.env.PUBLIC_API_METRICS_URL,
+    init: {
+      method: "GET"
+    },
+    isAuth: false
   });
+
+  return await response.json();
 }
