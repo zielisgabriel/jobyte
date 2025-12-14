@@ -1,13 +1,13 @@
 "use server";
 
 import { ProfileEditFormData as UpdateProfileRequest } from "@/components/profile-edit-form";
-import { fetchWithAuth } from "@/middlewares/fetch-with-auth";
+import { fetchClient } from "@/lib/fetch-client";
 import { revalidateTag } from "next/cache";
 
 export async function updateProfileService(data: UpdateProfileRequest) {
   const { companyName, address, phone } = data;
 
-  const response = await fetchWithAuth({
+  const response = await fetchClient({
     path: "/api/enterprise/profile/update-details",
     init: {
       method: "PUT",
@@ -15,12 +15,10 @@ export async function updateProfileService(data: UpdateProfileRequest) {
         companyName,
         address,
         phone
-      }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  });
+      })
+    },
+    isAuth: true
+  })
 
   revalidateTag("profileDetails", "max");
 
