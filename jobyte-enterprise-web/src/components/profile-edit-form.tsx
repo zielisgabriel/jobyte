@@ -30,7 +30,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { convertFromMbToBytes } from "@/utils/convert-from-mb-to-bytes";
-import { CropImage } from "./CropImage";
+import { CropImage } from "./crop-image";
 import { useMutation } from "@tanstack/react-query";
 import { updateProfileService } from "@/services/update-profile-service";
 

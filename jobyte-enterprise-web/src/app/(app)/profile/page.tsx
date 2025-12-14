@@ -1,7 +1,7 @@
-import { BackNavButton } from "@/components/BackNavButton";
-import { ProfileDetailsArea } from "@/components/ProfileDetailsArea";
+import { BackNavButton } from "@/components/back-nav-button";
+import { ProfileDetailsArea } from "@/components/profile-details-area";
 import { Separator } from "@/components/ui/separator";
-import { VacancyList } from "@/components/VacancyList";
+import { VacancyList } from "@/components/vacancy-list";
 import { BriefcaseIcon } from "lucide-react";
 import { Suspense } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";

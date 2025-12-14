@@ -1,4 +1,4 @@
-import { HomeInfoCarousel } from "@/components/HomeInfoCarousel";
+import { HomeInfoCarousel } from "@/components/home-info-carousel";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";

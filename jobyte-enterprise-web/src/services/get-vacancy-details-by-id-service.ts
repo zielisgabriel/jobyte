@@ -1,4 +1,4 @@
-import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
+import { fetchWithAuth } from "@/middlewares/fetch-with-auth";
 
 export async function getVacancyDetailsByIdService(id: string) {
   return await fetchWithAuth({

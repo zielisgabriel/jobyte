@@ -1,7 +1,7 @@
 "use server";
 
-import { ProfileEditFormData as UpdateProfileRequest } from "@/components/ProfileEditForm";
-import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
+import { ProfileEditFormData as UpdateProfileRequest } from "@/components/profile-edit-form";
+import { fetchWithAuth } from "@/middlewares/fetch-with-auth";
 import { revalidateTag } from "next/cache";
 
 export async function updateProfileService(data: UpdateProfileRequest) {

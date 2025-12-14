@@ -1,7 +1,7 @@
-import { BackNavButton } from "@/components/BackNavButton";
+import { BackNavButton } from "@/components/back-nav-button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { VacancyDetails } from "@/components/VacancyDetails";
-import { VacancyMetricsComp } from "@/components/VacancyMetricsComp";
+import { VacancyDetails } from "@/components/vacancy-details";
+import { VacancyMetricsComp } from "@/components/vacancy-metrics-comp";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { BarChart3Icon } from "lucide-react";
 import { Suspense } from "react";

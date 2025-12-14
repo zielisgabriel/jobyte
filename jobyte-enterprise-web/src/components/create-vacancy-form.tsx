@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import { Vacancy } from "@/types/Vacancy";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { useProfileStore } from "@/hooks/useProfileStore";
 import { revalidateTag } from "next/cache";
 
 const createVacancyFormSchema = z.object({
@@ -45,7 +44,6 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
         description: "",
       },
     });
-  const { profileSimple } = useProfileStore();
   const router = useRouter();
 
   const title = watch("title");

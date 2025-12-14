@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BackNavButton } from "@/components/BackNavButton";
+import { BackNavButton } from "@/components/back-nav-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SearchXIcon, HomeIcon } from "lucide-react";

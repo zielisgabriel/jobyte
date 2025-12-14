@@ -1,7 +1,7 @@
 "use server";
 
 import { FillProfileFormData } from "@/app/(utils)/fill-profile/page";
-import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
+import { fetchClient } from "@/lib/fetch-client";
 import { revalidateTag } from "next/cache";
 
 export async function fillProfileService({
@@ -9,9 +9,10 @@ export async function fillProfileService({
   cnpj,
   companyName,
   phone
-}: FillProfileFormData) {
-  const response = await fetchWithAuth({
+}: FillProfileFormData): Promise<any> {
+  const response = await fetchClient({
     path: "/api/enterprise/profile/fill",
+    isAuth: true,
     init: {
       method: "POST",
       body: JSON.stringify({
@@ -21,8 +22,6 @@ export async function fillProfileService({
         phone
       })
     }
-  }).catch(err => {
-    throw new Error(err);
   });
 
   revalidateTag("profileSimple", "max");

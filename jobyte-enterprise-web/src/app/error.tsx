@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { BackNavButton } from "@/components/BackNavButton";
+import { BackNavButton } from "@/components/back-nav-button";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { AlertCircleIcon, MailIcon, HomeIcon, CopyIcon, RefreshCcwIcon } from "lucide-react";

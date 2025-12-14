@@ -1,12 +1,16 @@
 "use server";
 
-import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
-import { FetchProps } from "@/types/FetchProps";
+import { fetchClient } from "@/lib/fetch-client";
 import { ProfileSimple } from "@/types/ProfileSimple";
-import { redirect } from "next/navigation";
 
-export async function getProfileSimpleService() {
-  return await fetchWithAuth({
-    path: "/api/enterprise/profile/simple"
+export async function getProfileSimpleService(): Promise<ProfileSimple | null> {
+  const response = await fetchClient({
+    path: "/api/enterprise/profile/simple",
+    isAuth: true,
+    init: {
+      method: "GET"
+    }
   });
+
+  return response.json();
 }

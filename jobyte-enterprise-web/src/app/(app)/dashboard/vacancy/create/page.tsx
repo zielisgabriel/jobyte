@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { BackNavButton } from "@/components/BackNavButton";
-import { CreateVacancyForm } from "@/components/CreateVacancyForm";
-import { VacancyPreview } from "@/components/VacancyPreview";
+import { BackNavButton } from "@/components/back-nav-button";
+import { CreateVacancyForm } from "@/components/create-vacancy-form";
+import { VacancyPreview } from "@/components/vacancy-preview";
 import {
   Card,
   CardContent,

@@ -8,13 +8,13 @@ import {
   ArrowUpRightIcon,
   ClockIcon
 } from "lucide-react";
-import { VacancyList } from "@/components/VacancyList";
+import { VacancyList } from "@/components/vacancy-list";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { DashboardGlobalMetrics } from "@/components/DashboardGlobalMetrics";
+import { DashboardGlobalMetrics } from "@/components/dashboard-global-metrics";
 import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
 
 const QUICK_STATS = [

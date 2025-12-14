@@ -16,23 +16,10 @@ import {
 import dayjs from "dayjs";
 import { Separator } from "./ui/separator";
 import { getVacanciesService } from "@/services/get-vacancies-service";
-import { VacanciesResponse } from "@/types/VacanciesResponse";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "./ui/pagination";
 
 interface VacancyListProps {
   page?: string
-}
-
-async function getVacancies(page?: string): Promise<VacanciesResponse | null> {
-  const response = await getVacanciesService({
-    page
-  });
-
-  if (!response.ok) {
-    return null;
-  }
-
-  return response.json();
 }
 
 function getStatusConfig(status: string) {
@@ -65,9 +52,14 @@ function getStatusConfig(status: string) {
 }
 
 export async function VacancyList({ page }: VacancyListProps) {
-  const vacancies = await getVacancies(page);
+  const {
+    currentPage,
+    totalElements,
+    totalPages,
+    vacancies
+  } = await getVacanciesService({page});
 
-  if (vacancies?.totalElements == 0) {
+  if (totalElements == 0) {
     return (
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -89,7 +81,7 @@ export async function VacancyList({ page }: VacancyListProps) {
     );
   }
   
-  if (vacancies && (vacancies.currentPage > vacancies.totalPages)) {
+  if (currentPage > totalPages) {
     return (
       <Card className="border-dashed">
         <CardContent className="flex flex-col items-center justify-center py-16 text-center">
@@ -114,7 +106,7 @@ export async function VacancyList({ page }: VacancyListProps) {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {vacancies?.vacancies.map(vacancy => {
+        {vacancies.map(vacancy => {
           const statusConfig = getStatusConfig(vacancy.status);
           
           return (
@@ -179,17 +171,17 @@ export async function VacancyList({ page }: VacancyListProps) {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationLink href={`?page=${vacancies && vacancies?.currentPage - 1}`}>
+            <PaginationLink href={`?page=${currentPage - 1}`}>
               <ChevronLeftIcon />
             </PaginationLink>
           </PaginationItem>
 
           <PaginationItem>
             {Array.from({
-              length: vacancies && vacancies?.totalPages < 5 ? vacancies?.totalPages : 5
+              length: totalPages < 5 ? totalPages : 5
             }).map((_, i) => {
               const pageNum = i + 1;
-              const isCurrent = pageNum === vacancies?.currentPage;
+              const isCurrent = pageNum === currentPage;
 
               return (
                 <PaginationLink
@@ -204,7 +196,7 @@ export async function VacancyList({ page }: VacancyListProps) {
           </PaginationItem>
 
           <PaginationItem>
-            <PaginationLink href={`?page=${vacancies && vacancies?.currentPage + 1}`}>
+            <PaginationLink href={`?page=${currentPage + 1}`}>
               <ChevronRightIcon />
             </PaginationLink>
           </PaginationItem>

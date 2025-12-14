@@ -4,8 +4,8 @@ import { ChartConfig } from "./ui/chart";
 import { QuestionBeforeMetrics } from "@/types/QuestionBeforeMetrics";
 import { getVacancyMetricsByIdService } from "@/services/get-vacancy-metrics-by-id-service";
 import { getQuestionBeforeMetricsByVacancyIdService } from "@/services/get-question-before-metrics-by-vacancy-id-service";
-import { VacancyMetricsCharts } from "./VacancyMetricsCharts";
-import { VacancyLineChart } from "./VacancyLineChart";
+import { VacancyMetricsCharts } from "./vacancy-metrics-charts";
+import { VacancyLineChart } from "./vacancy-line-chart";
 import { 
   ActivityIcon, 
   CalendarIcon, 

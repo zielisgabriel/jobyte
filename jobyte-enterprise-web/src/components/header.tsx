@@ -3,30 +3,48 @@ import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { Suspense } from "react";
 import { Skeleton } from "./ui/skeleton";
-import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
-import { ProfileSheet } from "./ProfileSheet";
-import { AuthArea } from "./AuthArea";
-import { auth } from "@/auth";
+import { ProfileSheet } from "./profile-sheet";
+import { auth, signIn } from "@/auth";
+import { getProfileSimpleService } from "@/services/get-profile-simple-service";
+import { UnauthorizedError } from "@/errors/unauthorized-error";
+import { NotFoundError } from "@/errors/not-found-error";
+import { redirect } from "next/navigation";
 import { Button } from "./ui/button";
 
-async function IncompleteProfileButton() {
+export function SignIn() {
   return (
-    <Button asChild>
-      <Link href={"/fill-profile"}>
-        Complete seu perfil
-      </Link>
+    <Button
+      size="sm"
+      onClick={async () => await signIn("keycloak", {
+        redirectTo: "/dashboard"
+      })}
+    >
+      Entrar
     </Button>
   );
 }
 
 async function ProfileArea() {
-  const session = await auth();
-  
-  const profile = await getCurrentProfileSimple();
 
-  if (session && !profile) return <IncompleteProfileButton />
+  try {
+    const session = await auth();
 
-  return profile ? <ProfileSheet profile={profile} /> : <AuthArea />;
+    if (!session) return <SignIn />
+
+    const profile = await getProfileSimpleService();
+
+    if (profile) return <ProfileSheet profile={profile} />
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      await signIn("keycloak");
+    }
+
+    if (error instanceof NotFoundError) {
+      redirect("/fill-profile");
+    }
+
+    throw error;
+  }
 }
 
 export async function Header() {

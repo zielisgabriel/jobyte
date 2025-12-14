@@ -1,4 +1,4 @@
-import { fetchWithAuth } from "@/middlewares/fetchWithAuth";
+import { fetchWithAuth } from "@/middlewares/fetch-with-auth";
 import { ProfileDetails } from "@/types/ProfileDetails";
 import { cacheLife, cacheTag } from "next/cache";
 

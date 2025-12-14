@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/footer";
 import Link from "next/link";
 import { 
   BuildingIcon,

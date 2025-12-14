@@ -1,6 +1,6 @@
-import { BackNavButton } from "@/components/BackNavButton";
-import { ProfileEditForm } from "@/components/ProfileEditForm";
-import { ProfileEditSkeleton } from "@/components/ProfileEditSkeleton";
+import { BackNavButton } from "@/components/back-nav-button";
+import { ProfileEditForm } from "@/components/profile-edit-form";
+import { ProfileEditSkeleton } from "@/components/profile-edit-skeleton";
 import { getProfileDetailsService } from "@/services/get-profile-details-service";
 import { Suspense } from "react";
 
