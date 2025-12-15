@@ -1,5 +1,5 @@
 import { fetchClient } from "@/lib/fetch-client";
-import { Vacancy } from "@/types/Vacancy";
+import { Vacancy } from "@/types/vacancy";
 
 export async function getVacancyDetailsByIdService(id: string): Promise<Vacancy> {
   const response = await fetchClient({

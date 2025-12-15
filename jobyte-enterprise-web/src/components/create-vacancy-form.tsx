@@ -14,7 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Vacancy } from "@/types/Vacancy";
+import { Vacancy } from "@/types/vacancy";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { revalidateTag } from "next/cache";

@@ -1,7 +1,7 @@
 "use server";
 
 import { fetchClient } from "@/lib/fetch-client";
-import { QuestionBeforeMetrics } from "@/types/QuestionBeforeMetrics";
+import { QuestionBeforeMetrics } from "@/types/question-before-metrics";
 
 export async function getQuestionBeforeMetricsByVacancyIdService(vacancyId: string): Promise<QuestionBeforeMetrics> {
   const response = await fetchClient({

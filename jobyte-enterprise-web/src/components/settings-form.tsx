@@ -34,7 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Switch } from "./ui/switch";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
-import { ProfileDetails } from "@/types/ProfileDetails";
+import { ProfileDetails } from "@/types/profile-details";
 
 interface SettingsFormProps {
   profile: ProfileDetails;

@@ -1,7 +1,7 @@
 "use server";
 
 import { fetchClient } from "@/lib/fetch-client";
-import { ProfileSimple } from "@/types/ProfileSimple";
+import { ProfileSimple } from "@/types/profile-simple";
 
 export async function getProfileSimpleService(): Promise<ProfileSimple | null> {
   const response = await fetchClient({

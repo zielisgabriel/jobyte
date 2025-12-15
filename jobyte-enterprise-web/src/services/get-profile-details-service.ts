@@ -1,7 +1,7 @@
 "use server";
 
 import { fetchClient } from "@/lib/fetch-client";
-import { ProfileDetails } from "@/types/ProfileDetails";
+import { ProfileDetails } from "@/types/profile-details";
 import { cacheLife, cacheTag } from "next/cache";
 
 export async function getProfileDetailsService(): Promise<ProfileDetails | null> {

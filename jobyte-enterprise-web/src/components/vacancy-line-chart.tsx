@@ -2,7 +2,7 @@
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
-import { VacancyMetrics } from "@/types/VacancyMetrics";
+import { VacancyMetrics } from "@/types/vacancy-metrics";
 
 interface VacancyLineChartProps {
   vacancyMetrics: VacancyMetrics;

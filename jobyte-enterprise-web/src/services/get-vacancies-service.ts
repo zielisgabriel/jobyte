@@ -1,7 +1,7 @@
 "use server";
 
 import { fetchClient } from "@/lib/fetch-client";
-import { VacanciesResponse } from "@/types/VacanciesResponse";
+import { VacanciesResponse } from "@/types/vacancies-response";
 
 interface GetVacanciesServiceProps {
   page?: string

@@ -23,7 +23,7 @@ import { Button } from "./ui/button";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Label } from "./ui/label";
-import { ProfileDetails } from "@/types/ProfileDetails";
+import { ProfileDetails } from "@/types/profile-details";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";

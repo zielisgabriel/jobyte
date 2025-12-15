@@ -14,7 +14,7 @@ import {
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
 import dayjs from "dayjs";
-import { ProfileDetails } from "@/types/ProfileDetails";
+import { ProfileDetails } from "@/types/profile-details";
 
 export async function ProfileDetailsArea() {
   const profile: ProfileDetails = await getProfileDetailsService();

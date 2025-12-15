@@ -1,4 +1,4 @@
-import { Vacancy } from "@/types/Vacancy";
+import { Vacancy } from "@/types/vacancy";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { Badge } from "./ui/badge";

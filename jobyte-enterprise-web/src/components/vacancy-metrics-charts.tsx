@@ -1,7 +1,7 @@
 "use client";
 
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "./ui/chart";
-import { QuestionBeforeMetrics } from "@/types/QuestionBeforeMetrics";
+import { QuestionBeforeMetrics } from "@/types/question-before-metrics";
 import { Cell, Pie, PieChart, Sector, ResponsiveContainer } from "recharts";
 import { PieSectorDataItem } from "recharts/types/polar/Pie";
 import { ScrollArea } from "./ui/scroll-area";

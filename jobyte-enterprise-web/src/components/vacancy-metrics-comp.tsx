@@ -1,7 +1,7 @@
-import { VacancyMetrics } from "@/types/VacancyMetrics";
+import { VacancyMetrics } from "@/types/vacancy-metrics";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { ChartConfig } from "./ui/chart";
-import { QuestionBeforeMetrics } from "@/types/QuestionBeforeMetrics";
+import { QuestionBeforeMetrics } from "@/types/question-before-metrics";
 import { getVacancyMetricsByIdService } from "@/services/get-vacancy-metrics-by-id-service";
 import { getQuestionBeforeMetricsByVacancyIdService } from "@/services/get-question-before-metrics-by-vacancy-id-service";
 import { VacancyMetricsCharts } from "./vacancy-metrics-charts";

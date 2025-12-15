@@ -1,5 +1,5 @@
-import { Enterprise } from "./ProfileDetails";
-import { VacancyStatus } from "./VacancyStatus";
+import { Enterprise } from "./profile-details";
+import { VacancyStatus } from "./vacancy-status";
 
 export interface Vacancy {
   id: string;

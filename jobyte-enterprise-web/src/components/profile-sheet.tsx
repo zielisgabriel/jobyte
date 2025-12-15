@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileSimple } from "@/types/ProfileSimple";
+import { ProfileSimple } from "@/types/profile-simple";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Building2Icon, ChartAreaIcon, LogOutIcon, MenuIcon, SettingsIcon, UserRoundIcon, PlusIcon } from "lucide-react";

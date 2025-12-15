@@ -12,8 +12,8 @@ import {
 } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
-import { SelectionProcessMetrics } from "@/types/SelectionProcessMetrics";
-import { ProfileSimple } from "@/types/ProfileSimple";
+import { SelectionProcessMetrics } from "@/types/selection-process-metrics";
+import { ProfileSimple } from "@/types/profile-simple";
 
 const chartConfig: ChartConfig = {
   quantity: {
