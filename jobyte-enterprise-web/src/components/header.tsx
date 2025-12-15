@@ -4,32 +4,20 @@ import clsx from "clsx";
 import { Suspense } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { ProfileSheet } from "./profile-sheet";
-import { auth, signIn } from "@/auth";
+import { auth } from "@/auth";
 import { getProfileSimpleService } from "@/services/get-profile-simple-service";
 import { UnauthorizedError } from "@/errors/unauthorized-error";
 import { NotFoundError } from "@/errors/not-found-error";
 import { redirect } from "next/navigation";
-import { Button } from "./ui/button";
-
-export function SignIn() {
-  return (
-    <Button
-      size="sm"
-      onClick={async () => await signIn("keycloak", {
-        redirectTo: "/dashboard"
-      })}
-    >
-      Entrar
-    </Button>
-  );
-}
+import { signIn } from "next-auth/react";
+import { SignInButton } from "./sign-in-button";
 
 async function ProfileArea() {
 
   try {
     const session = await auth();
 
-    if (!session) return <SignIn />
+    if (!session) return <SignInButton />
 
     const profile = await getProfileSimpleService();
 
