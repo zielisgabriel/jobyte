@@ -21,6 +21,8 @@ export async function fetchClient({
 }: FetchClientProps) {
   const session = isAuth ? await auth() : null;
 
+  console.info(session);
+
   const authHeader: HeadersInit | undefined = isAuth ? { "Authorization": `Bearer ${session?.accessToken}`} : undefined;
 
   const response = await fetch(`${(host ?? process.env.PUBLIC_API_URL) + path}`, {

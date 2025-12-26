@@ -4,11 +4,5 @@ export const PRIVATE_PATHS = [
   "/profile",
   "/vacancy/create",
   "/vacancy/edit",
-];
-
-export const REQUIRES_COMPLETE_PROFILE = [
-  "/dashboard",
-  "/settings",
-  "/profile",
-  "/vacancy",
+  "/fill-profile"
 ];
