@@ -1,11 +1,10 @@
 package br.com.gabriel.jobyte_api.vacancy.application.usecases;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.response.VacancyListResponse;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.response.VacancyResponse;
 import br.com.gabriel.jobyte_api.vacancy.domain.entities.Vacancy;
@@ -30,7 +29,7 @@ public class ListOpenVacanciesUseCase {
     return new VacancyListResponse(vacancyResponses, page, totalPages, totalElements);
   }
 
-  public VacancyResponse getById(UUID id) {
+  public VacancyResponse getById(Long id) {
     Vacancy vacancy = vacancyRepository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Vaga", id));
     
