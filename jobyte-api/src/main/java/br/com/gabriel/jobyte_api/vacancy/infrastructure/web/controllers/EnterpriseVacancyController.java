@@ -1,7 +1,5 @@
 package br.com.gabriel.jobyte_api.vacancy.infrastructure.web.controllers;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gabriel.jobyte_api.enterprise.domain.ports.EnterpriseRepositoryPort;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.request.CreateVacancyRequest;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.request.UpdateVacancyRequest;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.response.VacancyListResponse;
@@ -39,7 +37,7 @@ public class EnterpriseVacancyController {
   public ResponseEntity<VacancyListResponse> listVacancies(
       JwtAuthenticationToken token,
       @RequestParam(defaultValue = "0") int page) {
-    UUID enterpriseId = getEnterpriseId(token);
+    Long enterpriseId = getEnterpriseId(token);
     VacancyListResponse response = listEnterpriseVacanciesUseCase.execute(enterpriseId, page);
     return ResponseEntity.ok(response);
   }
@@ -48,7 +46,7 @@ public class EnterpriseVacancyController {
   public ResponseEntity<VacancyResponse> createVacancy(
       JwtAuthenticationToken token,
       @Valid @RequestBody CreateVacancyRequest request) {
-    UUID enterpriseId = getEnterpriseId(token);
+    Long enterpriseId = getEnterpriseId(token);
     VacancyResponse response = createVacancyUseCase.execute(enterpriseId, request);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
   }
@@ -56,14 +54,14 @@ public class EnterpriseVacancyController {
   @PutMapping("/{id}")
   public ResponseEntity<VacancyResponse> updateVacancy(
       JwtAuthenticationToken token,
-      @PathVariable UUID id,
+      @PathVariable Long id,
       @Valid @RequestBody UpdateVacancyRequest request) {
-    UUID enterpriseId = getEnterpriseId(token);
+    Long enterpriseId = getEnterpriseId(token);
     VacancyResponse response = updateVacancyUseCase.execute(id, enterpriseId, request);
     return ResponseEntity.ok(response);
   }
 
-  private UUID getEnterpriseId(JwtAuthenticationToken token) {
+  private Long getEnterpriseId(JwtAuthenticationToken token) {
     String keycloakId = token.getName();
     return enterpriseRepository.findByKeycloakUserId(keycloakId)
       .orElseThrow(() -> new EntityNotFoundException("Perfil da empresa", keycloakId))
