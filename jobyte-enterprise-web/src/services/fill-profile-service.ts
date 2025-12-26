@@ -1,6 +1,6 @@
 "use server";
 
-import { FillProfileFormData } from "@/app/(utils)/fill-profile/page";
+import { FillProfileFormData } from "@/components/fill-profile-form";
 import { fetchClient } from "@/lib/fetch-client";
 import { revalidateTag } from "next/cache";
 
@@ -11,7 +11,7 @@ export async function fillProfileService({
   phone
 }: FillProfileFormData): Promise<any> {
   const response = await fetchClient({
-    path: "/api/enterprise/profile/fill",
+    path: "/api/enterprise/profile/fill-profile",
     isAuth: true,
     init: {
       method: "POST",
