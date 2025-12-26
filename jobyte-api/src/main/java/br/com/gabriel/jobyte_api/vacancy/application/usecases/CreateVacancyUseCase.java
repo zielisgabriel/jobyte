@@ -1,9 +1,8 @@
 package br.com.gabriel.jobyte_api.vacancy.application.usecases;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
+import br.com.gabriel.jobyte_api.shared.domain.provider.IdGenerator;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.request.CreateVacancyRequest;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.response.VacancyResponse;
 import br.com.gabriel.jobyte_api.vacancy.domain.entities.Vacancy;
@@ -14,9 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateVacancyUseCase {
   private final VacancyRepository vacancyRepository;
+  private final IdGenerator idGenerator;
 
-  public VacancyResponse execute(UUID enterpriseId, CreateVacancyRequest request) {
+  public VacancyResponse execute(Long enterpriseId, CreateVacancyRequest request) {
+    long vacancyId = this.idGenerator.nextId();
+
     Vacancy vacancy = Vacancy.create(
+      vacancyId,
       request.title(),
       request.description(),
       enterpriseId
