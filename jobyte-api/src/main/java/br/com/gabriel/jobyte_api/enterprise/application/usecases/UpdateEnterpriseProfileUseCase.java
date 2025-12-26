@@ -6,7 +6,7 @@ import br.com.gabriel.jobyte_api.enterprise.application.dtos.request.UpdateEnter
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseDetailsProfileResponse;
 import br.com.gabriel.jobyte_api.enterprise.domain.entities.EnterpriseProfile;
 import br.com.gabriel.jobyte_api.enterprise.domain.ports.EnterpriseRepositoryPort;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
