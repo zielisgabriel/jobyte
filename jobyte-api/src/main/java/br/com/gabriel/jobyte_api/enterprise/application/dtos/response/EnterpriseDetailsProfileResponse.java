@@ -2,7 +2,7 @@ package br.com.gabriel.jobyte_api.enterprise.application.dtos.response;
 
 import java.time.LocalDateTime;
 
-import br.com.gabriel.jobyte_api.enterprise.domain.entities.EnterpriseProfile;
+import br.com.gabriel.jobyte_api.enterprise.domain.valueobjects.EnterpriseDetailsValueObject;
 
 public record EnterpriseDetailsProfileResponse(
   Long id,
@@ -13,15 +13,15 @@ public record EnterpriseDetailsProfileResponse(
   LocalDateTime createdAt,
   LocalDateTime updatedAt
 ) {
-  public static EnterpriseDetailsProfileResponse fromDomain(EnterpriseProfile profile) {
+  public static EnterpriseDetailsProfileResponse fromValueObject(EnterpriseDetailsValueObject profile) {
     return new EnterpriseDetailsProfileResponse(
-      profile.getId(),
-      profile.getCompanyName(),
-      profile.getCnpj(),
-      profile.getAddress(),
-      profile.getPhone(),
-      profile.getCreatedAt(),
-      profile.getUpdatedAt()
+      profile.id(),
+      profile.companyName(),
+      profile.cnpj(),
+      profile.address(),
+      profile.phone(),
+      profile.createdAt(),
+      profile.updatedAt()
     );
   }
 }
