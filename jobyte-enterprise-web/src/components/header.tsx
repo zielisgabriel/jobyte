@@ -5,34 +5,17 @@ import { Suspense } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { ProfileSheet } from "./profile-sheet";
 import { auth } from "@/auth";
-import { getProfileSimpleService } from "@/services/get-profile-simple-service";
-import { UnauthorizedError } from "@/errors/unauthorized-error";
-import { NotFoundError } from "@/errors/not-found-error";
-import { redirect } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { SignInButton } from "./sign-in-button";
+import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
 
 async function ProfileArea() {
+  const session = await auth();
 
-  try {
-    const session = await auth();
+  if (!session) return <SignInButton />
 
-    if (!session) return <SignInButton />
+  const profile = await getCurrentProfileSimple();
 
-    const profile = await getProfileSimpleService();
-
-    if (profile) return <ProfileSheet profile={profile} />
-  } catch (error) {
-    if (error instanceof UnauthorizedError) {
-      await signIn("keycloak");
-    }
-
-    if (error instanceof NotFoundError) {
-      redirect("/fill-profile");
-    }
-
-    throw error;
-  }
+  if (profile) return <ProfileSheet profile={profile} />
 }
 
 export async function Header() {
