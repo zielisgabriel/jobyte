@@ -20,7 +20,7 @@ export default auth((req) => {
   const isPrivatePath = PRIVATE_PATHS.some((path) => pathname.startsWith(path));
   const isAuthPage = AUTH_PATHS.some((path) => pathname === path);
 
-    if (!isAuthenticated && isPrivatePath) {
+  if (!isAuthenticated && isPrivatePath) {
     const homeUrl = new URL("/home", req.url);
     return NextResponse.redirect(homeUrl);
   }
