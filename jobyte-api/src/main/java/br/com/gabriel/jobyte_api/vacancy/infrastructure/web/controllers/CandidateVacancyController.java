@@ -1,7 +1,5 @@
 package br.com.gabriel.jobyte_api.vacancy.infrastructure.web.controllers;
 
-import java.util.UUID;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +28,7 @@ public class CandidateVacancyController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<VacancyResponse> getVacancyById(@PathVariable UUID id) {
+  public ResponseEntity<VacancyResponse> getVacancyById(@PathVariable Long id) {
     VacancyResponse response = listOpenVacanciesUseCase.getById(id);
     return ResponseEntity.ok(response);
   }
