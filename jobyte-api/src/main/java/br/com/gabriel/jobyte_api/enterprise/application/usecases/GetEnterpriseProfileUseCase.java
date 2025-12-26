@@ -4,9 +4,10 @@ import org.springframework.stereotype.Service;
 
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseDetailsProfileResponse;
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseSimpleProfileResponse;
-import br.com.gabriel.jobyte_api.enterprise.domain.entities.EnterpriseProfile;
 import br.com.gabriel.jobyte_api.enterprise.domain.ports.EnterpriseRepositoryPort;
-import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.enterprise.domain.valueobjects.EnterpriseDetailsValueObject;
+import br.com.gabriel.jobyte_api.enterprise.domain.valueobjects.EnterpriseSimpleValueObject;
+import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -15,18 +16,16 @@ public class GetEnterpriseProfileUseCase {
   private final EnterpriseRepositoryPort enterpriseRepository;
 
   public EnterpriseSimpleProfileResponse getSimpleProfile(String keycloakUserId) {
-    EnterpriseProfile profile = this.enterpriseRepository
-      .findByKeycloakUserId(keycloakUserId)
-      .orElseThrow(() -> new EntityNotFoundException("Perfil da empresa", keycloakUserId));
+    EnterpriseSimpleValueObject enterpriseSimple = this.enterpriseRepository.findProfileSimpleByKeycloakUserId(keycloakUserId)
+      .orElseThrow(() -> new NotFoundException());
     
-      return EnterpriseSimpleProfileResponse.fromDomain(profile);
+    return EnterpriseSimpleProfileResponse.fromValueObject(enterpriseSimple);
   }
 
   public EnterpriseDetailsProfileResponse getDetailsProfile(String keycloakUserId) {
-    EnterpriseProfile profile = this.enterpriseRepository
-      .findByKeycloakUserId(keycloakUserId)
-      .orElseThrow(() -> new EntityNotFoundException("Perfil da empresa", keycloakUserId));
+    EnterpriseDetailsValueObject enterpriseDetails = this.enterpriseRepository.findProfileDetailsByKeycloakUserId(keycloakUserId)
+      .orElseThrow(() -> new NotFoundException());
 
-    return EnterpriseDetailsProfileResponse.fromDomain(profile);
+    return EnterpriseDetailsProfileResponse.fromValueObject(enterpriseDetails);
   }
 }
