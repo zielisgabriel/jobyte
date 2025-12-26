@@ -1,7 +1,6 @@
 package br.com.gabriel.jobyte_api.enterprise.infrastructure.persistence.adapters;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +16,7 @@ class EnterpriseRepositoryAdapter implements EnterpriseRepositoryPort {
   private final EnterpriseProfileJpaRepository jpaRepository;
 
   @Override
-  public Optional<EnterpriseProfile> findById(UUID id) {
+  public Optional<EnterpriseProfile> findById(Long id) {
     return jpaRepository.findById(id)
       .map(EnterpriseProfileMapper::toDomain);
   }
