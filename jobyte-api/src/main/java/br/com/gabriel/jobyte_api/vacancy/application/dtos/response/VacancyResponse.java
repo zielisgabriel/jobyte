@@ -1,16 +1,15 @@
 package br.com.gabriel.jobyte_api.vacancy.application.dtos.response;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import br.com.gabriel.jobyte_api.vacancy.domain.entities.Vacancy;
 import br.com.gabriel.jobyte_api.vacancy.domain.enums.VacancyStatus;
 
 public record VacancyResponse(
-  UUID id,
+  Long id,
   String title,
   String description,
-  UUID enterpriseId,
+  Long enterpriseId,
   VacancyStatus status,
   LocalDateTime createdAt,
   LocalDateTime updatedAt
