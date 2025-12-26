@@ -27,6 +27,6 @@ public class GetCandidateProfileUseCase {
   private CandidateProfile findProfileByKeycloakUserId(String keycloakUserId) {
     return candidateRepository
       .findByKeycloakUserId(keycloakUserId)
-      .orElseThrow(() -> new EntityNotFoundException("Perfil do candidato", keycloakUserId));
+      .orElseThrow(() -> new EntityNotFoundException());
   }
 }
