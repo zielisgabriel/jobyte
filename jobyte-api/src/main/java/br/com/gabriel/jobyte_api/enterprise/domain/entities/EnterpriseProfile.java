@@ -1,7 +1,6 @@
 package br.com.gabriel.jobyte_api.enterprise.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EnterpriseProfile {
   @Getter
-  private UUID id;
+  private Long id;
 
   @Getter
   private String keycloakUserId;
@@ -39,6 +38,7 @@ public class EnterpriseProfile {
   private LocalDateTime updatedAt;
 
   public static EnterpriseProfile create(
+    long id,
     String keycloakUserId,
     String companyName, 
     String cnpj,
@@ -46,7 +46,7 @@ public class EnterpriseProfile {
     String phone
   ) {
     return new EnterpriseProfile(
-      null,
+      id,
       keycloakUserId,
       companyName,
       cnpj,
