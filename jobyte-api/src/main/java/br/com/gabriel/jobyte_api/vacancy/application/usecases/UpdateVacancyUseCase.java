@@ -16,8 +16,8 @@ public class UpdateVacancyUseCase {
   private final VacancyRepository vacancyRepository;
 
   public VacancyResponse execute(Long vacancyId, Long enterpriseId, UpdateVacancyRequest request) {
-    Vacancy vacancy = vacancyRepository.findById(vacancyId)
-      .orElseThrow(() -> new EntityNotFoundException("Vaga", vacancyId));
+    Vacancy vacancy = this.vacancyRepository.findById(vacancyId)
+      .orElseThrow(() -> new EntityNotFoundException());
 
     if (!vacancy.belongsToEnterprise(enterpriseId)) {
       throw new BusinessException("Você não tem permissão para editar esta vaga");
