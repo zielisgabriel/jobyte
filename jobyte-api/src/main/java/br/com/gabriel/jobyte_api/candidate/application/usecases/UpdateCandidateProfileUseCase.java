@@ -17,7 +17,7 @@ public class UpdateCandidateProfileUseCase {
   public ProfileDetailsResponse execute(String keycloakUserId, UpdateProfileRequest request) {
     CandidateProfile profile = candidateRepository
       .findByKeycloakUserId(keycloakUserId)
-      .orElseThrow(() -> new EntityNotFoundException("Perfil do candidato", keycloakUserId));
+      .orElseThrow(() -> new EntityNotFoundException());
 
     profile.updateProfile(
       request.fullName(),
