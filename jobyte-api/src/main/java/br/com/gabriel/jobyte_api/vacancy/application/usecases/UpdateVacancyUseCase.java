@@ -1,11 +1,9 @@
 package br.com.gabriel.jobyte_api.vacancy.application.usecases;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.BusinessException;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.BusinessException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.request.UpdateVacancyRequest;
 import br.com.gabriel.jobyte_api.vacancy.application.dtos.response.VacancyResponse;
 import br.com.gabriel.jobyte_api.vacancy.domain.entities.Vacancy;
@@ -17,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class UpdateVacancyUseCase {
   private final VacancyRepository vacancyRepository;
 
-  public VacancyResponse execute(UUID vacancyId, UUID enterpriseId, UpdateVacancyRequest request) {
+  public VacancyResponse execute(Long vacancyId, Long enterpriseId, UpdateVacancyRequest request) {
     Vacancy vacancy = vacancyRepository.findById(vacancyId)
       .orElseThrow(() -> new EntityNotFoundException("Vaga", vacancyId));
 
