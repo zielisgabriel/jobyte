@@ -9,9 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.BusinessException;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.ValidationException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.BusinessException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.ValidationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
