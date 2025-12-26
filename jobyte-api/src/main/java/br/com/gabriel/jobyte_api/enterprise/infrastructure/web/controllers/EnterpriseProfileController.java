@@ -67,9 +67,9 @@ public class EnterpriseProfileController {
     return response;
   }
 
-  @PostMapping("/fill")
+  @PostMapping("/fill-profile")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public void fill(
+  public void fillProfile(
     JwtAuthenticationToken token,
     @Valid
     @RequestBody
