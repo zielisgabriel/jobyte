@@ -64,7 +64,7 @@ public class EnterpriseVacancyController {
   private Long getEnterpriseId(JwtAuthenticationToken token) {
     String keycloakId = token.getName();
     return enterpriseRepository.findByKeycloakUserId(keycloakId)
-      .orElseThrow(() -> new EntityNotFoundException("Perfil da empresa", keycloakId))
+      .orElseThrow(() -> new EntityNotFoundException())
       .getId();
   }
 }
