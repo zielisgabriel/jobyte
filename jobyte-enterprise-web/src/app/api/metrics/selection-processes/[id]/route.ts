@@ -1,4 +1,4 @@
-import { fetchWithoutAuth } from "@/middlewares/fetchWithoutAuth";
+import { fetchClient } from "@/lib/fetch-client";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -6,9 +6,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     id: enterpriseId
   } = await params;
 
-  return await fetchWithoutAuth({
+  return await fetchClient({
     path: `/api/metrics/selection-processes/${enterpriseId}`,
     host: "http://localhost:5000",
+    isAuth: false,
     init: {
       method: req.method
     }
