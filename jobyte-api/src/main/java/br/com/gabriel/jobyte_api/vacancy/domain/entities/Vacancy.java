@@ -1,7 +1,6 @@
 package br.com.gabriel.jobyte_api.vacancy.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import br.com.gabriel.jobyte_api.vacancy.domain.enums.VacancyStatus;
 import lombok.AllArgsConstructor;
@@ -10,17 +9,22 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Vacancy {
-  private UUID id;
+  private Long id;
   private String title;
   private String description;
-  private UUID enterpriseId;
+  private Long enterpriseId;
   private VacancyStatus status;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
 
-  public static Vacancy create(String title, String description, UUID enterpriseId) {
+  public static Vacancy create(
+    Long id,
+    String title,
+    String description,
+    Long enterpriseId
+  ) {
     return new Vacancy(
-      null, 
+      id,
       title, 
       description, 
       enterpriseId, 
@@ -59,7 +63,7 @@ public class Vacancy {
     return this.status == VacancyStatus.OPEN;
   }
 
-  public boolean belongsToEnterprise(UUID enterpriseId) {
+  public boolean belongsToEnterprise(Long enterpriseId) {
     return this.enterpriseId.equals(enterpriseId);
   }
 }
