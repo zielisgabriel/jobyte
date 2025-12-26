@@ -1,11 +1,9 @@
 package br.com.gabriel.jobyte_api.enterprise.application.dtos.response;
 
-import java.util.UUID;
-
 import br.com.gabriel.jobyte_api.enterprise.domain.entities.EnterpriseProfile;
 
 public record EnterpriseSimpleProfileResponse(
-  UUID id,
+  Long id,
   String companyName
 ) {
   public static EnterpriseSimpleProfileResponse fromDomain(EnterpriseProfile entity) {
