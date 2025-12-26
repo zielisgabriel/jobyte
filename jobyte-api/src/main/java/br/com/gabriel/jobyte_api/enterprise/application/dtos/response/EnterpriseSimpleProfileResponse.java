@@ -1,15 +1,15 @@
 package br.com.gabriel.jobyte_api.enterprise.application.dtos.response;
 
-import br.com.gabriel.jobyte_api.enterprise.domain.entities.EnterpriseProfile;
+import br.com.gabriel.jobyte_api.enterprise.domain.valueobjects.EnterpriseSimpleValueObject;
 
 public record EnterpriseSimpleProfileResponse(
   Long id,
   String companyName
 ) {
-  public static EnterpriseSimpleProfileResponse fromDomain(EnterpriseProfile entity) {
+  public static EnterpriseSimpleProfileResponse fromValueObject(EnterpriseSimpleValueObject profile) {
     return new EnterpriseSimpleProfileResponse(
-      entity.getId(),
-      entity.getCompanyName()
+      profile.id(),
+      profile.companyName()
     );
   }
 }
