@@ -1,12 +1,9 @@
 package br.com.gabriel.jobyte_api.enterprise.infrastructure.persistence.entities;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -22,9 +19,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "enterprise_profiles")
 public class EnterpriseProfileEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
   @Column(name = "id", updatable = false, nullable = false)
-  private UUID id;
+  private long id;
 
   @Column(name = "keycloak_user_id", nullable = false, unique = true)
   private String keycloakUserId;
