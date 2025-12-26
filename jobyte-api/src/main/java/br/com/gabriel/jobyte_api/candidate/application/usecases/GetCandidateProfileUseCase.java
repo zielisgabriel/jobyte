@@ -6,7 +6,7 @@ import br.com.gabriel.jobyte_api.candidate.application.dtos.response.ProfileDeta
 import br.com.gabriel.jobyte_api.candidate.application.dtos.response.ProfileSimpleResponse;
 import br.com.gabriel.jobyte_api.candidate.domain.entities.CandidateProfile;
 import br.com.gabriel.jobyte_api.candidate.domain.ports.CandidateRepositoryPort;
-import br.com.gabriel.jobyte_api.shared.domain.exceptions.EntityNotFoundException;
+import br.com.gabriel.jobyte_api.shared.domain.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
