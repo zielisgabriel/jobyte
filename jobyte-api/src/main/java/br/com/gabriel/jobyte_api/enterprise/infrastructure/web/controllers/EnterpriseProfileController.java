@@ -14,7 +14,6 @@ import br.com.gabriel.jobyte_api.enterprise.application.dtos.request.FillEnterpr
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.request.UpdateEnterpriseProfileRequest;
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseDetailsProfileResponse;
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseSimpleProfileResponse;
-import br.com.gabriel.jobyte_api.enterprise.application.usecases.ExistEnterpriseProfileUseCase;
 import br.com.gabriel.jobyte_api.enterprise.application.usecases.FillEnterpriseProfileUseCase;
 import br.com.gabriel.jobyte_api.enterprise.application.usecases.GetEnterpriseProfileUseCase;
 import br.com.gabriel.jobyte_api.enterprise.application.usecases.UpdateEnterpriseProfileUseCase;
@@ -25,18 +24,9 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/enterprise/profile")
 @RequiredArgsConstructor
 public class EnterpriseProfileController {
-  private final ExistEnterpriseProfileUseCase existEnterpriseProfileUseCase;
   private final GetEnterpriseProfileUseCase getEnterpriseProfileUseCase;
   private final UpdateEnterpriseProfileUseCase updateEnterpriseProfileUseCase;
   private final FillEnterpriseProfileUseCase fillEnterpriseProfileUseCase;
-
-  @ResponseStatus(code = HttpStatus.OK)
-  @GetMapping("/exist")
-  public boolean existProfile(JwtAuthenticationToken token) {
-    String keycloakUserId = token.getName();
-
-    return this.existEnterpriseProfileUseCase.execute(keycloakUserId);
-  }
 
   @GetMapping("/simple")
   @ResponseStatus(code = HttpStatus.OK)
@@ -58,13 +48,13 @@ public class EnterpriseProfileController {
 
   @PutMapping("/update-details")
   @ResponseStatus(code = HttpStatus.OK)
-  public EnterpriseDetailsProfileResponse updateProfile(
+  public void updateProfile(
       JwtAuthenticationToken token,
       @Valid @RequestBody UpdateEnterpriseProfileRequest request) {
     String keycloakUserId = token.getName();
-    EnterpriseDetailsProfileResponse response = this.updateEnterpriseProfileUseCase
+
+    this.updateEnterpriseProfileUseCase
       .execute(keycloakUserId, request);
-    return response;
   }
 
   @PostMapping("/fill-profile")
