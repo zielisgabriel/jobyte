@@ -30,8 +30,8 @@ public class ListOpenVacanciesUseCase {
   }
 
   public VacancyResponse getById(Long id) {
-    Vacancy vacancy = vacancyRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Vaga", id));
+    Vacancy vacancy = this.vacancyRepository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException());
     
     return VacancyResponse.fromDomain(vacancy);
   }
