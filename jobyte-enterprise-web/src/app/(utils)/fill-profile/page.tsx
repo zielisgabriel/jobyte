@@ -1,13 +1,14 @@
 import { RocketIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SignOutButton } from "@/components/sign-out-button";
+import { FillProfileForm } from "@/components/fill-profile-form";
 
 export default function FillProfilePage() {
   return (
     <main>
-      <header className="flex justify-between p-2 w-6xl mx-auto">
-        <h1 className="font-bold">
-          Jb.
+      <header className="flex justify-between items-center p-2 max-w-6xl mx-auto">
+        <h1 className="text-2xl font-black">
+          Jobyte.
         </h1>
         <SignOutButton />
       </header>
@@ -25,7 +26,7 @@ export default function FillProfilePage() {
           </CardHeader>
 
           <CardContent>
-            <FillProfilePage />
+            <FillProfileForm />
           </CardContent>
         </Card>
       </section>
