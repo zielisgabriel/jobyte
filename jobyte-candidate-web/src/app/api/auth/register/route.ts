@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
     })
 
     if (!response.ok) {
-      console.log(await response.json());
       return NextResponse.json({"message": "Registration failed"}, {status: response.status});
     }
   } catch (error: any) {
