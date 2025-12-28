@@ -13,11 +13,11 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Vacancy } from "@/types/vacancy";
+import { redirect } from "next/navigation";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { revalidateTag } from "next/cache";
+import { ProfileSimple } from "@/types/profile-simple";
+import { toast } from "sonner";
 
 const createVacancyFormSchema = z.object({
   title: z.string().trim().min(3, "O título deve ter pelo menos 3 caracteres"),
@@ -27,13 +27,14 @@ const createVacancyFormSchema = z.object({
     .min(10, "A descrição deve ter pelo menos 10 caracteres"),
 });
 
-type CreateVacancyFormData = z.infer<typeof createVacancyFormSchema>;
+export interface CreateVacancyFormData extends z.infer<typeof createVacancyFormSchema> {}
 
 interface CreateVacancyFormProps {
   onValuesChange?: (values: CreateVacancyFormData) => void;
+  profileSimple: ProfileSimple | null
 }
 
-export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
+export function CreateVacancyForm({ onValuesChange, profileSimple }: CreateVacancyFormProps) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { register, handleSubmit, formState, reset, watch } =
@@ -44,7 +45,6 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
         description: "",
       },
     });
-  const router = useRouter();
 
   const title = watch("title");
   const description = watch("description");
@@ -54,47 +54,37 @@ export function CreateVacancyForm({ onValuesChange }: CreateVacancyFormProps) {
   }, [title, description, onValuesChange]);
 
   async function onSubmit(data: CreateVacancyFormData) {
-    if (!profileSimple?.id) {
+    if (!profileSimple) {
       return;
     }
 
     setIsSubmitting(true);
     setSubmitError(null);
-
+    
     const response = await fetch("/api/enterprise/vacancy/create", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
-        ...data,
-        enterpriseId: profileSimple.id,
-      }),
+        data,
+        profileId: profileSimple.id
+      })
     });
 
-    let responseBody: unknown = null;
-    try {
-      responseBody = await response.json();
-    } catch {
-      setSubmitError("Erro ao processar resposta do servidor.");
-      setIsSubmitting(false);
+    if (response?.status === 403) {
+      const data = await response.json();
+      const message = data.message;
+      toast.error(message);
       return;
     }
 
-    if (!response.ok) {
-      setSubmitError(
-        (responseBody as { message?: string })?.message ??
-          "Não foi possível criar a vaga. Tente novamente."
-      );
+    if (response?.status !== 201) {
       setIsSubmitting(false);
+      toast.error("Houve um erro desconhecido!")
       return;
     }
-
-    const createdVacancy: Vacancy = responseBody as Vacancy;
 
     reset();
-    revalidateTag("vacancies", "default");
-    router.push(`/dashboard/vacancy/${createdVacancy.id}`);
+    toast.success("Vaga criada com sucesso!")
+    redirect("/dashboard")
   }
 
   function handleValidationError(errors: typeof formState.errors) {
