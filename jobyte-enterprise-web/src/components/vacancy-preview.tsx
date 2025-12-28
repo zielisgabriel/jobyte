@@ -1,6 +1,5 @@
 "use client";
 
-import { useContext } from "react";
 import {
   Building2Icon,
   EyeIcon,
@@ -11,15 +10,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
 import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
-import { useProfileStore } from "@/hooks/useProfileStore";
+import { ProfileSimple } from "@/types/profile-simple";
 
 interface VacancyPreviewProps {
+  profileSimple: ProfileSimple | null;
   title: string;
   description: string;
 }
 
-export function VacancyPreview({ title, description }: VacancyPreviewProps) {
-  const { profile } = useProfileStore();
+export function VacancyPreview({ profileSimple, title, description }: VacancyPreviewProps) {
   const currentDate = new Date().toLocaleDateString("pt-BR", {
     day: "2-digit",
     month: "2-digit",
@@ -57,7 +56,7 @@ export function VacancyPreview({ title, description }: VacancyPreviewProps) {
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Building2Icon className="h-4 w-4" />
-                {profile?.companyName || "Sua Empresa"}
+                {profileSimple?.companyName || "Sua Empresa"}
               </span>
               <span className="flex items-center gap-1.5">
                 <CalendarIcon className="h-4 w-4" />
