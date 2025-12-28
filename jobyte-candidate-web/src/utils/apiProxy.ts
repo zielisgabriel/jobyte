@@ -22,8 +22,6 @@ export async function apiProxy(req: NextRequest, apiPath: string): Promise<Respo
     }
   }
 
-  console.log("BFF: Chamando API com access_token:", accessToken ? "presente" : "ausente");
-
   const apiResponse = await fetch(`${process.env.PUBLIC_API_URL}/${apiPath}`, {
     method: req.method,
     headers: {
@@ -34,8 +32,6 @@ export async function apiProxy(req: NextRequest, apiPath: string): Promise<Respo
   });
 
   if (apiResponse.status === 401 && refreshTokenCookie) {
-    console.log("BFF: Access token expirado, tentando renovar...");
-
     try {
       const tokenData = await refreshToken(refreshTokenCookie);
       
