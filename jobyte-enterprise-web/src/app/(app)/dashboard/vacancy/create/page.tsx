@@ -1,20 +1,10 @@
-"use client";
-
-import { useState } from "react";
 import { BackNavButton } from "@/components/back-nav-button";
-import { CreateVacancyForm } from "@/components/create-vacancy-form";
-import { VacancyPreview } from "@/components/vacancy-preview";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { PlusCircleIcon, BriefcaseIcon } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
+import { CreateVacancySection } from "@/components/create-vacancy-section";
+import { getCurrentProfileSimple } from "@/utils/get-current-profile-simple";
 
-export default function CreateVacancyPage() {
-  const [formValues, setFormValues] = useState({ title: "", description: "" });
+export default async function CreateVacancyPage() {
+  const profileSimple = await getCurrentProfileSimple();
 
   return (
     <main className="min-h-screen">
@@ -41,32 +31,9 @@ export default function CreateVacancyPage() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
-        <div className="grid lg:grid-cols-2 gap-6">
-          <Card className="overflow-hidden">
-            <CardHeader className="border-b bg-muted/30">
-              <CardTitle className="flex items-center gap-2">
-                <BriefcaseIcon className="h-5 w-5 text-primary" />
-                Informações da Vaga
-              </CardTitle>
-              <CardDescription>
-                Descreva a vaga de forma clara para atrair os melhores
-                candidatos
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <CreateVacancyForm onValuesChange={setFormValues} />
-            </CardContent>
-          </Card>
-
-          <div className="hidden lg:block sticky top-6 h-fit">
-            <VacancyPreview
-              title={formValues.title}
-              description={formValues.description}
-            />
-          </div>
-        </div>
-      </div>
+      <CreateVacancySection
+        profileSimple={profileSimple}
+      />
     </main>
   );
 }
