@@ -42,7 +42,7 @@ public class EnterpriseVacancyController {
     return ResponseEntity.ok(response);
   }
 
-  @PostMapping
+  @PostMapping("/create")
   public ResponseEntity<VacancyResponse> createVacancy(
       JwtAuthenticationToken token,
       @Valid @RequestBody CreateVacancyRequest request) {
