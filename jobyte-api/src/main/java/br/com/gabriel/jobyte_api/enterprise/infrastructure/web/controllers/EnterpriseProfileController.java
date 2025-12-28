@@ -15,7 +15,8 @@ import br.com.gabriel.jobyte_api.enterprise.application.dtos.request.UpdateEnter
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseDetailsProfileResponse;
 import br.com.gabriel.jobyte_api.enterprise.application.dtos.response.EnterpriseSimpleProfileResponse;
 import br.com.gabriel.jobyte_api.enterprise.application.usecases.FillEnterpriseProfileUseCase;
-import br.com.gabriel.jobyte_api.enterprise.application.usecases.GetEnterpriseProfileUseCase;
+import br.com.gabriel.jobyte_api.enterprise.application.usecases.GetEnterpriseDetailsProfileUseCase;
+import br.com.gabriel.jobyte_api.enterprise.application.usecases.GetEnterpriseSimpleProfileUseCase;
 import br.com.gabriel.jobyte_api.enterprise.application.usecases.UpdateEnterpriseProfileUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/enterprise/profile")
 @RequiredArgsConstructor
 public class EnterpriseProfileController {
-  private final GetEnterpriseProfileUseCase getEnterpriseProfileUseCase;
+  private final GetEnterpriseDetailsProfileUseCase getEnterpriseDetailsProfileUseCase;
+  private final GetEnterpriseSimpleProfileUseCase getEnterpriseSimpleProfileUseCase;
   private final UpdateEnterpriseProfileUseCase updateEnterpriseProfileUseCase;
   private final FillEnterpriseProfileUseCase fillEnterpriseProfileUseCase;
 
@@ -32,8 +34,8 @@ public class EnterpriseProfileController {
   @ResponseStatus(code = HttpStatus.OK)
   public EnterpriseSimpleProfileResponse getSimpleProfile(JwtAuthenticationToken token) {
     String keycloakUserId = token.getName();
-    EnterpriseSimpleProfileResponse response = this.getEnterpriseProfileUseCase
-      .getSimpleProfile(keycloakUserId);
+    EnterpriseSimpleProfileResponse response = this.getEnterpriseSimpleProfileUseCase
+      .execute(keycloakUserId);
     return response;
   }
 
@@ -41,8 +43,8 @@ public class EnterpriseProfileController {
   @ResponseStatus(code = HttpStatus.OK)
   public EnterpriseDetailsProfileResponse getDetailsProfile(JwtAuthenticationToken token) {
     String keycloakUserId = token.getName();
-    EnterpriseDetailsProfileResponse response = this.getEnterpriseProfileUseCase
-      .getDetailsProfile(keycloakUserId);
+    EnterpriseDetailsProfileResponse response = this.getEnterpriseDetailsProfileUseCase
+      .execute(keycloakUserId);
     return response;
   }
 
