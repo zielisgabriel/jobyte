@@ -86,8 +86,6 @@ export function CandidateRegisterForm() {
   const phoneInputWatch = watch("phone");
 
   async function onSubmit(data: CandidateRegisterFormType) {
-    console.log(data);
-
     startTransition(async () => {
       try {
         const response = await fetch("/api/auth/register", {
@@ -97,8 +95,6 @@ export function CandidateRegisterForm() {
           },
           body: JSON.stringify(data)
         });
-
-        console.log(response);
 
         if (!response.ok) {
           const errorData = await response.json();
